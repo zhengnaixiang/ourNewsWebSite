@@ -278,13 +278,16 @@ label.on{
 }
 /*--banner--*/
 .banner{
-background: url(../images/banner-1.jpg) no-repeat 0px 0px;
+background: url(../images/banner-1.jpg) no-repeat 0px;
+max-width: 1140px;
+margin: 0 auto;
 background-size:cover;
 -webkit-background-size: cover;
 -o-background-size: cover;
 -ms-background-size: cover;
 -moz-background-size: cover;
 min-height: 600px;
+
 }
 .banner-1{
 background: url(../images/banner-1.jpg) no-repeat 0px 0px;
@@ -694,6 +697,7 @@ i.glyphicon.glyphicon-comment {
 }
 .technology {
     margin-top: 3em;
+    margin-top: 0px;
 }
 /*--welcome-starts--*/
 .w3agile-1{
