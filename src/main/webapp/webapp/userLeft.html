@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+    <title>用户中心左侧</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .tree li {
+            list-style-type: none;
+            cursor:pointer;
+        }
+        .tree-closed {
+            height : 40px;
+        }
+        .tree-expanded {
+            height : auto;
+        }
+    </style>
+
+</head>
+<body>
+<div class="col-sm-3 col-md-2 sidebar">
+    <div class="tree">
+        <ul style="padding-left:0px;" class="list-group">
+            <li class="list-group-item tree-closed" >
+                <a href="main.html"><i class="glyphicon glyphicon-dashboard"></i>首页</a>
+            </li>
+            <li class="list-group-item tree-closed">
+                <span><i class="glyphicon glyphicon-ok"></i>基本设置<span class="badge" style="float:right"></span></span>
+              <!--  <ul style="margin-top:10px;display:none;">
+                    <li style="height:30px;">
+                        <a href="allNews.html"><i class="glyphicon glyphicon-check"></i>所有新闻</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>撰写新闻</a>
+                    </li>
+                </ul>-->
+            </li>
+            <li class="list-group-item tree-closed">
+                <span><i class="glyphicon glyphicon-ok"></i>个人信息<span class="badge" style="float:right"></span></span>
+                <ul style="margin-top:10px;display:none;">
+                    <li style="height:30px;">
+                        <a href="allNews.html"><i class="glyphicon glyphicon-check"></i>信息修改</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>更改密码</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="list-group-item tree-closed">
+                <span><i class="glyphicon glyphicon-ok"></i>发布<span class="badge" style="float:right"></span></span>
+                <ul style="margin-top:10px;display:none;">
+                    <li style="height:30px;">
+                        <a href="allNews.html"><i class="glyphicon glyphicon-check"></i>发布文章</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>发布视频</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="list-group-item tree-closed">
+                <span><i class="glyphicon glyphicon-ok"></i>工具<span class="badge" style="float:right"></span></span>
+                <ul style="margin-top:10px;display:none;">
+                    <li style="height:30px;">
+                        <a href="allNews.html"><i class="glyphicon glyphicon-check"></i>内容管理</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>评论管理</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>粉丝管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="list-group-item tree-closed">
+                <span><i class="glyphicon glyphicon-ok"></i>分析<span class="badge" style="float:right"></span></span>
+                <ul style="margin-top:10px;display:none;">
+                    <li style="height:30px;">
+                        <a href="allNews.html"><i class="glyphicon glyphicon-check"></i>内容分析</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>粉丝分析</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="list-group-item tree-closed">
+                <span><i class="glyphicon glyphicon-ok"></i>收益<span class="badge" style="float:right"></span></span>
+                <ul style="margin-top:10px;display:none;">
+                    <li style="height:30px;">
+                        <a href="allNews.html"><i class="glyphicon glyphicon-check"></i>收益广场</a>
+                    </li>
+                    <li style="height:30px;">
+                        <a href="writeNews.html"><i class="glyphicon glyphicon-check"></i>财务设置</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="script/docs.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".list-group-item").click(function(){
+            // jquery对象的回调方法中的this关键字为DOM对象
+            // $(DOM) ==> JQuery
+            if ( $(this).find("ul") ) { // 3 li
+                $(this).toggleClass("tree-closed");
+                if ( $(this).hasClass("tree-closed") ) {
+                    $("ul", this).hide("fast");
+                } else {
+                    $("ul", this).show("fast");
+                }
+            }
+        });
+    });
+</script>
+</html>
