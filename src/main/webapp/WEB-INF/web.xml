@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
     <!-- 配置spring上下文参数 -->
-    <context-param>
+    <!--<context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring-service.xml</param-value>
     </context-param>
-    <!-- 配置侦听器 -->
+    &lt;!&ndash; 配置侦听器 &ndash;&gt;
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    <!-- 配置编码过滤器（只对post方法） -->
+    &lt;!&ndash; 配置编码过滤器（只对post方法） &ndash;&gt;
     <filter>
         <filter-name>charactorEncoding</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -22,7 +22,7 @@
         <filter-name>charactorEncoding</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!-- 配置springmvc核心控制器 -->
+    &lt;!&ndash; 配置springmvc核心控制器 &ndash;&gt;
     <servlet>
         <servlet-name>springmvc</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -35,5 +35,5 @@
     <servlet-mapping>
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/*</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 </web-app>
