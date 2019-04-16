@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qf.userInfo.mapper.UserInfoMapper">
+
+    <resultMap id="userInfoMap" type="com.qf.userInfo.pojo.UserInfo">
+        <id column="user_id" property="user_id"></id>
+        <result column="user_alias" property="user_alias"></result>
+        <result column="user_tel" property="user_tel"></result>
+        <result column="user_imageUrl" property="user_imageUrl"></result>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="user_power" property="user_power"></result>
+    </resultMap>
+    
+    <select id="checkRegisterBy" resultType="Integer" parameterType="com.qf.userInfo.pojo.UserInfo">
+        select count(*) from userinfo
+        <where>
+            <trim suffixOverrides="or">
+                <if test="#{user_alias} != null" >
+                    user_alias = #{user_alias} or
+                </if>
+                <if test="#{username} != null" >
+                    username = #{username} or
+                </if>
+                <if test="#{user_tel} != null" >
+                    user_tel = #{user_tel} or
+                </if>
+                <if test="#{user_power} != null" >
+                    user_power = #{user_power} or
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <select id="selectUserInfoIdBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
+        select * from userinfo
+        <where>
+            <trim suffixOverrides="or">
+                <if test="#{user_alias} != null" >
+                    user_alias = #{user_alias} or
+                </if>
+                <if test="#{username} != null" >
+                    username = #{username} or
+                </if>
+                <if test="#{user_tel} != null" >
+                    user_tel = #{user_tel} or
+                </if>
+                <if test="#{user_power} != null" >
+                    user_power = #{user_power} or
+                </if>
+            </trim>
+        </where>
+    </select>
+
+    <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
+        insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`)
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="#{user_alias} != null">
+                #{user_alias},
+            </if>
+            <if test="#{user_alias} == null">
+                default,
+            </if>
+            <if test="#{user_tel} != null">
+                #{user_tel},
+            </if>
+            <if test="#{user_tel} == null">
+                default,
+            </if>
+            <if test="#{user_imageUrl} != null">
+                #{user_imageUrl},
+            </if>
+            <if test="#{user_imageUrl} == null">
+                default,
+            </if>
+
+            #{username},
+
+            <if test="#{password} != null">
+                #{password},
+            </if>
+            <if test="#{password} == null">
+                default,
+            </if>
+        </trim>
+    </insert>
+
+</mapper>
