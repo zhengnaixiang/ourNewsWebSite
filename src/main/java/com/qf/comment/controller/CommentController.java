@@ -16,7 +16,7 @@ public class CommentController {
 
     @RequestMapping(value = "addCommentBy",method = RequestMethod.POST)
     public String addCommentBy(@RequestBody Comment comment){
-        System.out.println(comment);
+
         return commentService.addCommentBy(comment)?"true":"false";
     }
 

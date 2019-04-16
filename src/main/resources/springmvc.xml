@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
-      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+      http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.3.xsd">
     <!-- 1、配置自定控制器扫描路径 -->
     <!--这里配置的是controller的路径-->
     <context:component-scan base-package="com.qf.*.controller"></context:component-scan>
@@ -28,7 +32,7 @@
         <property name="suffix" value=".html"></property>
     </bean>
 
-    <!-- 使用thymeleaf解析 -->
+    <!--&lt;!&ndash; 使用thymeleaf解析 &ndash;&gt;-->
     <!--<bean id="templateResolver"-->
           <!--class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">-->
         <!--<property name="prefix" value="/" />-->

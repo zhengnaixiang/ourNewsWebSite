@@ -13,7 +13,6 @@ public class CommentServiceImpol implements CommentService {
     private CommentMapper commentMapper;
 
     public boolean addCommentBy(Comment comment){
-//        comment.setComment_date(new java.sql.Date(System.currentTimeMillis()));
         return commentMapper.addCommentBy(comment)>0;
     }
 }
