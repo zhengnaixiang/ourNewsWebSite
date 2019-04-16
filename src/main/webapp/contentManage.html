@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>内容管理</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .tree li {
+            list-style-type: none;
+            cursor:pointer;
+        }
+        table tbody tr:nth-child(odd){background:#F4F4F4;}
+        table tbody td:nth-child(even){color:#C00;}
+    </style>
+</head>
+<body>
+<div id="top"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div id="left"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline" role="form" style="float:left;">
+                        <div class="form-group has-feedback">
+                            <!--<div class="input-group">-->
+                            <!--<div class="input-group-addon">-->
+                            <!--<select id="search_id">-->
+                            <!--<option>1</option>-->
+                            <!--<option>2</option>-->
+                            <!--</select>-->
+                            <!--</div>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                            <!--<input class="form-control has-success" type="text" placeholder="搜索新闻" width="100">-->
+                            <!--</div>-->
+                            <div class="input-group">
+                                <div class="input-group-addon">标题</div>
+                                <input id="titleText" value="" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                            </div>
+                           <!-- <div class="input-group">
+                                <div class="input-group-addon">作者</div>
+                                <input id="writerText" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                            </div>-->
+                            <div class="input-group">
+                                <div class="input-group-addon">时间</div>
+                                <input id="dateText" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                    </form>
+                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+                    <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='writeNews.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>
+                    <br>
+                    <hr style="clear:both;">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered">
+                            <thead>
+                            <tr >
+                                <th width="30">ID</th>
+                                <th width="30"><input id="BigFlag" type="checkbox"></th>
+                                <th>标题</th>
+                                <th>时间</th>
+                                <th>所属类别</th>
+                                <th>点赞数</th>
+                                <th>评论数</th>
+                                <th width="200">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td><input class="ids" type="checkbox" value="id"/> </td>
+                                <td>京雄城际铁路北京段具备铺轨条件</td>
+                                <td>2019-04-13 00:44:00</td>
+                                <td>国内、时事、工业</td>
+                                <td>999</td>
+                                <td>888</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-xs" onclick="toReadNews()"><i class=" glyphicon glyphicon-check"></i>查看</button>
+                                    <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <tfoot >
+                        <tr >
+                            <td>
+                                <ul class="pagination" align="center">
+                                    <li class="disabled"><a href="#">上一页</a></li>
+                                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">下一页</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="script/docs.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#top").load("userHead.html");
+        $("#left").load("userLeft.html");
+
+        var total = $(".ids").length;
+        var count = 0;
+        var flag;
+        // 全选同步
+        $("#BigFlag").click(function () {
+            flag = $(this).prop("checked");
+            $(".ids").prop("checked", flag);
+            if (flag){
+                count = total;
+            } else {
+                count = 0;
+            }
+        });
+
+        // 多选操作
+        $(".ids").click(function () {
+            flag = $(this).prop("checked");
+            if (flag) {
+                if (++count == total) {
+                    $("#BigFlag").prop("checked", true);
+                }
+            } else {
+                count--;
+                $("#BigFlag").prop("checked", false);
+            }
+        });
+    });
+
+    //跳转到查看新闻界面
+    function toReadNews() {
+        window.location.href="readNews.html";
+    }
+</script>
+</html>

@@ -20,7 +20,9 @@
 <div id="top"></div>
 <div class="container-fluid">
     <div class="row">
+        <div id="left"></div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="content">
+            <h2 class="page-header">撰写新闻</h2>
             <div>
                 <h4>新闻标题:</h4>
                 <input type="text" id="headLine" style="width: 100%" height="50%" />
@@ -34,6 +36,10 @@
             </div>
             <div id="editor" style="margin-top: 15px"></div>
             <input type="text" id="keyword" style="width: 100%" height="50%" placeholder="输入内容回车添加标签" style=""/>
+            <div>
+                <h4>封面</h4>
+                <img src="images/sin2.jpg"/>
+            </div>
             <input type="button" id="submit" value="提交" style="width: 60px" style="margin-top: 20px" />
             <input type="button" id="reSet" value="重置" style="width: 60px" style="margin-top: 20px"/>
             <script>
@@ -90,6 +96,7 @@
 <script type="text/javascript">
     $(function () {
         $("#top").load("userHead.html");
+        $("#left").load("userLeft.html");
     });
 </script>
 </html>
