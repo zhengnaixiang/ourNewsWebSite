@@ -38,17 +38,17 @@
                             <!--<input class="form-control has-success" type="text" placeholder="搜索新闻" width="100">-->
                             <!--</div>-->
                             <div class="input-group">
-                                <div class="input-group-addon">标题</div>
+                                <div class="input-group-addon">标题/时间/类别/点赞数/评论数</div>
                                 <input id="titleText" value="" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
                            <!-- <div class="input-group">
                                 <div class="input-group-addon">作者</div>
                                 <input id="writerText" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>-->
-                            <div class="input-group">
+                            <!--<div class="input-group">
                                 <div class="input-group-addon">时间</div>
                                 <input id="dateText" class="form-control has-success" type="text" placeholder="请输入查询条件">
-                            </div>
+                            </div>-->
                         </div>
                         <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                     </form>
@@ -147,6 +147,26 @@
     //跳转到查看新闻界面
     function toReadNews() {
         window.location.href="readNews.html";
+    }
+
+    /*通过ajax，将该用户所撰写的新闻，返回到该页面*/
+    function getNewsContent() {
+        $.ajax({
+            type: 'GET',
+            url:  "getAuthorNewsByUserId?user_id="+user_id,
+            contentType: "application/json; charset=utf-8",
+            success: function(response){
+             if (response!=null){
+             //    返回的数据写入表格
+             } else{
+             //    返回的集合为空，说明该用户没有撰写过新闻
+             }
+            } ,
+            error:function (message) {
+                console.log(message);
+            },
+            dataType: 'json'
+        });
     }
 </script>
 </html>

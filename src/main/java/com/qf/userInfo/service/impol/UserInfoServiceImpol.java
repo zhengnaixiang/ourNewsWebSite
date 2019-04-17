@@ -11,18 +11,21 @@ import java.util.List;
 @Service
 public class UserInfoServiceImpol implements UserInfoService {
 
-    @Autowired
-    private UserInfoMapper userInfoMapper;
+   /* @Autowired
+    private UserInfoMapper userInfoMapper;*/
 
     public int checkRegisterBy(UserInfo userInfo) {
-        return userInfoMapper.checkRegisterBy(userInfo);
+      /*  return userInfoMapper.checkRegisterBy(userInfo);*/
+        return 0;
     }
 
     public boolean addUserInfo(UserInfo userInfo) {
-        return userInfoMapper.addUserInfo(userInfo)>0;
+      /*  return userInfoMapper.addUserInfo(userInfo)>0;*/
+        return false;
     }
 
     public List<UserInfo> selectUserInfoIdBy(UserInfo userInfo) {
-        return userInfoMapper.selectUserInfoIdBy(userInfo);
+       /* return userInfoMapper.selectUserInfoIdBy(userInfo);*/
+        return null;
     }
 }

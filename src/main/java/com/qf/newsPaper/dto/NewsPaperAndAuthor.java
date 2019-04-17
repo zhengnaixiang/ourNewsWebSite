@@ -12,7 +12,7 @@ public class NewsPaperAndAuthor {
     //    作者id
     int user_id;
     //    作者笔名
-    String alias;
+    String user_alias;
     //    新闻标题
     String np_title;
     //    新闻发布日期
@@ -29,5 +29,6 @@ public class NewsPaperAndAuthor {
     boolean np_status;
     //   用户的头像
     String user_imageUrl;
-
+    //新闻的类别名称
+    String class_name;
 }

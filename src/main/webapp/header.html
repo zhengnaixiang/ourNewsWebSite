@@ -38,7 +38,7 @@
                         <ul class="nav navbar-nav" id="firstAction">
                             <li><a href="index.html">主页</a></li>
                             <li><a href="guonei.html">国际</a></li>
-                            <li><a href="guonei.html">国内</a></li>
+                            <li><a href="#" onclick="turnToguonei(1)">国内</a></li>
                             <li><a href="guonei.html">体育</a></li>
                             <li><a href="guonei.html">科技</a></li>
                             <li><a href="guonei.html">明星</a></li>
@@ -52,11 +52,10 @@
         <div class="nav navbar-nav navbar-right social-icons wow fadeInRight animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
             <ul>
                 <li><a href="#"> </a></li>
-                <li><a href="#" class="pin"> </a></li>
-                <li><a href="#" class="in"> </a></li>
-                <li><a href="#" class="be"> </a></li>
-
-                <li><a href="#" class="vimeo"> </a></li>
+                <li><a href="login.html" class="pin"> </a></li>
+                <li><a href="login.html" class="in"> </a></li>
+                <li><a href="login.html" class="be"> </a></li>
+                <li><a href="login.html" class="vimeo"> </a></li>
             </ul>
         </div>
         <div class="clearfix"> </div>
@@ -79,6 +78,10 @@
             }
         }
     })
+    function turnToguonei(class_id) {
+        var url="guonei.html?class_id="+class_id;
+        window.location.href=url;
+    }
 </script>
 </body>
 </html>

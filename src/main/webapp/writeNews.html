@@ -98,5 +98,32 @@
         $("#top").load("userHead.html");
         $("#left").load("userLeft.html");
     });
+    
+    
+    /*用户写的新闻，提交后通过ajax写到后端，存入数据库*/
+    function publishNews() {
+        $.ajax({
+            type: 'POST',
+            url:  "publishNewsByUser",
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify({
+             "user_id":user_id,
+             "np_title":np_title,
+             "np_image":np_image,
+             "np_content":np_content
+            }) ,
+            success: function(response){
+              if (response==true){
+                  window.location.href="userMenu.html"
+              } else{
+                  alert("发布失败")
+              }
+            } ,
+            error:function (message) {
+                console.log(message);
+            },
+            dataType: 'json'
+        });
+    }
 </script>
 </html>

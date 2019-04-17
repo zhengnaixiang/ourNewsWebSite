@@ -1,6 +1,7 @@
 package com.qf.newsPaper.controller;
 
 import com.qf.newsPaper.service.NewsPaperService;
+import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -36,5 +37,45 @@ public class NewsPaperController {
     @RequestMapping(value = "updateNewsData",method = RequestMethod.POST)
     public String updateNewsData(@RequestBody NewsPaperData newsPaperData){
         return newsPaperService.updateNewsData(newsPaperData).toString();
+    }
+
+  /**
+   * 通过新闻的类别id，获取该类别下一定数量的排好序的新闻
+   * @param class_id
+   * @return
+   */
+    @RequestMapping(value = "getNewsByCategoryId",method = RequestMethod.GET)
+    public Object getNewsByCategoryId(@RequestParam int class_id) {
+      return newsPaperService.getNewsByCategoryId(class_id);
+    }
+
+  /**
+   * 接收用户发布新闻的数据，将其保存到数据库
+   * @param newsAndOwner
+   * @return
+   */
+    @RequestMapping(value = "publishNewsByUser",method = RequestMethod.POST)
+    public String publishNewsByUser(@RequestBody NewsAndOwner newsAndOwner){
+      return newsPaperService.publishNewsByUser(newsAndOwner).toString();
+    }
+
+  /**
+   * 通过用户id，获取到该用户所撰写的新闻集合。
+   * @param user_id 用户id
+   * @return 返回新闻的集合
+   */
+    @RequestMapping(value = "getAuthorNewsByUserId",method = RequestMethod.GET)
+    public Object getAuthorNewsByUserId(@RequestParam int user_id){
+      return newsPaperService.getAuthorNewsByUserId(user_id);
+    }
+
+  /**
+   * 根据用户传入进来的新闻集合id，进行删除新闻的操作
+   * @param newsPaperData 将集合包装成的对象
+   * @return 返回是否删除成功的结果
+   */
+  @RequestMapping(value = "updateNewsStatusToZero",method = RequestMethod.POST)
+    public String updateNewsStatusToZero(@RequestBody NewsPaperData newsPaperData){
+      return newsPaperService.updateNewsStatusToZero(newsPaperData).toString();
     }
 }
