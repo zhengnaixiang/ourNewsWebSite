@@ -9,24 +9,27 @@
 	<link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
 	<!-- Custom Theme files -->
 	<!--<link href='http://fonts.useso.com/css?family=Raleway:400,600,700' rel='stylesheet' type='text/css'>-->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<script src="js/jquery/jquery-2.1.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="script/docs.min.js"></script>
-<script type="text/javascript">
-    $(function () {
-        // 页眉
-        $(".header").load("header.html");
-        // $(".footer").load("footer.html");
-        // 热门
-        $(".col-md-3").load("popular.html");
-        acquireNews();
-        getCommentList();
-    });
-    function testGo() {
+	<link href="css/style.css" rel='stylesheet' type='text/css' />
+	<script src="js/jquery/jquery-2.1.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="script/docs.min.js"></script>
+	<script type="text/javascript">
+        $(function () {
+            // 页眉
+            $(".header").load("header.html");
+            // // 页尾
+            // $(".footer").load("footer.html");
+            // 热门
+            $(".col-md-3").load("popular.html");
+
+            acquireNews();
+            getCommentList();
+        });
+
         /*通过ajax获取数据内容给予前端的展示*/
         function acquireNews() {
             var np_id=window.location.search.split("=")[1];
+            console.log(np_id);
             $.ajax({
                 type: 'GET',
                 url:  "acquireNewsByNewsId?np_id="+np_id,
@@ -42,9 +45,10 @@
                         "<!--<h5 class=\"top\">What turn out consetetur sadipscing elit</h5>-->" +
                         "<p class=\"sub\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+response.np_content+"</p>" +
                         "<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-comment\"></span><span id=\"newsLiking\">"+response.np_likes+"</span></a><a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\">"+response.np_reading+"</span></a></p>" +
-                        "<div style=\"float: right\"><img src='"+response.user_imageUrl+"' class=\"img-circle\" width=\"35px\" height=\"35px\" ><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div>" +
+                        "<div style=\"float: right\"><a href='authorHomepage.html?user_id="+response.user_id+"'><img src='"+response.user_imageUrl+"' class=\"img-circle\" width=\"35px\" href=\"35px\"/></a><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div>" +
                         "</div>" +
                         "</div>");
+
                 } ,
                 error:function (message) {
                     console.log(message);
@@ -52,10 +56,13 @@
                 dataType: 'json'
             });
         }
+
         /* 根 */
         //获取评论内容
         function getCommentList() {
+
         }
+
         //发送评论
         function sendComment() {
             var emailText = $("#email").val().trim();
@@ -67,6 +74,7 @@
             } else {
                 var np_idText = $("#np_id").val();
                 var contentText = $("#content").val();
+
                 //确定评论合规开始发送
                 if (true) {
                     $.ajax({
@@ -89,209 +97,90 @@
                 }
             }
         }
+
         //获取权限
         function getUserPower(emailText) {
             console.log("开始验证权限");
             $.ajax({
                 type: 'POST',
-                url: 'addCommentBy',
                 url: 'getUserPower',
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({
-                    "np_id":2,
-                    "user_id":2,
-                    "comment_content":"老子天下无敌!"
-                    data:JSON.stringify({
-                        "username":emailText
-                    }),
-                    dataType: 'json',
-                    success: function (Response) {
-                        if (Response) {
-                            alert("发表成功")
-                        } else {
-                            alert("发表失败")
-                            if (Response == 0) {
-                                alert("该邮箱地址不可用")
-                            } else if (Response == '1') {
-                                commentByGuess(emailText);// alert("旧游客身份");
-                            } else if (Response != '-1') {
-                                alert("该邮箱地址已注册，请登录")
-                            }
-                        },
-                        error: function () {
-                            alert("出现错误");
-                        },
-                        dataType: 'json'
-                        error: function (response) {
-                            console.error(response);
-                        }
-                    });
-        }
-            //得到邮箱对应的账号id
-            function commentByGuess(emailText) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'getUserId',
-                    contentType: "application/json; charset=utf-8",
-                    data:JSON.stringify({
-                        "username":emailText
-                    }),
-                    dataType: 'json',
-                    success: function (user_id) {
-                        if (user_id > 0) {
-                            $("#user_id").val(user_id);
-                            //
-                            sendComment();
-                        }
-                    },
-                    error: function (response) {
-                        console.error(response);
+                data:JSON.stringify({
+                    "username":emailText
+                }),
+                dataType: 'json',
+                success: function (Response) {
+                    if (Response == 0) {
+                        alert("该邮箱地址不可用")
+                    } else if (Response == '1') {
+                        commentByGuess(emailText);// alert("旧游客身份");
+                    } else if (Response != '-1') {
+                        alert("该邮箱地址已注册，请登录")
                     }
-                })
-            }
-</script>
+                },
+                error: function (response) {
+                    console.error(response);
+                }
+            });
+        }
+
+        //得到邮箱对应的账号id
+        function commentByGuess(emailText) {
+            $.ajax({
+                type: 'POST',
+                url: 'getUserId',
+                contentType: "application/json; charset=utf-8",
+                data:JSON.stringify({
+                    "username":emailText
+                }),
+                dataType: 'json',
+                success: function (user_id) {
+                    if (user_id > 0) {
+                        $("#user_id").val(user_id);
+                        //
+                        sendComment();
+                    }
+                },
+                error: function (response) {
+                    console.error(response);
+                }
+            })
+        }
+	</script>
 </head>
 <body>
-<!--<input type="button" value="test" onclick="testGo()">-->
 <div class="header" id="ban">
 
 </div>
-<!--start-main-->
-<div class="header-bottom">
-	<div class="container">
-		<div class="logo">
-			<h1><a href="index.html">STYLE BLOG</a></h1>
-			<p><label class="of"></label>LET'S MAKE A PERFECT STYLE<label class="on"></label></p>
-		</div>
-	</div>
-</div>
-<!-- banner -->
-
-<div class="banner-1">
-
-</div>
-
 <!-- technology-left -->
 <div class="technology">
 	<div class="container">
 		<div class="col-md-9 technology-left">
 			<div class="agileinfo">
 				<div id="rows">
-					<h2 class="w3" id="headLine">近50件敦煌壁画艺术精品首次亮相云南</h2>
-					<div class="single" id="newsContent">
-						<img src="images/5cafc4c3a310e7f83eeff498.jpg" class="img-responsive" alt="">
-						<div class="b-bottom">
-							<!--<h5 class="top">What turn out consetetur sadipscing elit</h5>-->
-							<p class="sub">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp4月11日，观众观赏敦煌壁画。昨日，《敦煌穿越千年的永恒——敦煌壁画艺术精品高校公益巡展》亮相云南大学，近50件精美的敦煌石窟壁画、雕塑、藏经洞文献和绢纸画复制品一一展出，让远在中国西南的云南民众在家门口就能观赏敦煌艺术精品。中新社记者 任东 摄</p>
-							<p id="newsDate">2019-04-12 <a class="span_link" href="#"><span class="glyphicon glyphicon-comment"></span><span id="newsLiking">0</span></a><a class="span_link" href="#"><span class="glyphicon glyphicon-eye-open"></span><span id="newsReading">56</span></a></p>
-							<div style="float: right"><img src="images/sin1.jpg"  class="img-circle" width="35px" height="35px" ><span style="font-size: initial">张三</span><span class="caret"></span></div>
-						</div>
-					</div>
-				</div>
 
-
-				<div class="response">
-					<h4>评论区</h4>
-
-					<div class="media response-info">
-						<div class="media-left response-text-left">
-							<a href="#">
-								<img src="images/sin1.jpg" class="img-responsive" alt="">
-							</a>
-						</div>
-						<div class="media-body response-text-right">
-							<p>很漂亮啊</p>
-							<ul>
-								<li>2019-04-12 06:48</li>
-								<li><a href="#">回复</a></li>
-							</ul>
-							<div class="media response-info">
-								<div class="media-left response-text-left">
-									<a href="#">
-										<img src="images/sin2.jpg" class="img-responsive" alt="">
-									</a>
-								</div>
-								<div class="media-body response-text-right">
-									<p>漂亮是漂亮，就是不知道会不会被破坏.</p>
-									<ul>
-										<li>2019-04-12 06:49</li>
-										<li><a href="#">回复</a></li>
-									</ul>
-								</div>
-								<div class="clearfix"> </div>
-							</div>
-						</div>
-						<div class="clearfix"> </div>
-					</div>
+					<a href="authorHomepage.html?user_id="><img src="" class="img-circle" width="35px" href="35px"/></a>
 
 				</div>
 				<div class="coment-form">
 					<h4>留下你的评论</h4>
-					<form action="#" method="post">
-						<input type="text" value="呢称 " name="name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-						<input type="email" value="邮箱" name="email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}" required="">
-						<input type="text" value="个人主页" name="websie" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Website';}" required="">
-						<textarea onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '说点什么...';}" required="">说点什么...</textarea>
-						<input type="submit" value="发表评论">
-						<form>
-							<input type="hidden" id="user_id" value="">
-							<input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
-							<textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>
-							<input type="button" value="发表评论" onclick="sendComment()">
-						</form>
+					<form>
+						<input type="hidden" id="user_id" value="">
+						<input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
+						<textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>
+						<input type="button" value="发表评论" onclick="sendComment()">
+					</form>
 				</div>
 				<div class="clearfix"></div>
-				@@ -141,49 +178,5 @@ <h4>留下你的评论</h4>
-				<!-- technology-right -->
 			</div>
 		</div>
-		<div class="footer">
-
-			<div class="copyright">
-				<div class="container">
-					<p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
-				</div>
-			</div>
+		<!-- technology-right -->
+		<div class="col-md-3 technology-right">
+			<!--热门-->
 		</div>
+		<div class="clearfix"></div>
+		<!-- technology-right -->
+	</div>
+</div>
 </body>
-
-<script src="js/jquery/jquery-2.1.1.min.js"></script>
-<script src="script/docs.min.js"></script>
-<script type="text/javascript">
-    /*获取一个新闻的id*/
-    var np_id=window.location.search.split("=")[1];
-    /*通过ajax获取数据内容给予前端的展示*/
-    function acquireNews(np_id) {
-        $.ajax({
-            type: 'GET',
-            url:  "acquireNewsByNewsId?np_id="+np_id,
-            contentType: "application/json; charset=utf-8",
-            success: function(response){
-                $("#rows").empty();
-                $("#rows").append("<h2 class=\"w3\">'"+response.np_title+"'</h2>\n" +
-                    "\t\t\t\t<div class=\"single\" id=\"newsContent\">\n" +
-                    "\t\t\t\t\t<img src='"+response.np_image+"' class=\"img-responsive\" alt=\"\">\n" +
-                    "\t\t\t\t\t<div class=\"b-bottom\">\n" +
-                    "\t\t\t\t\t\t<!--<h5 class=\"top\">What turn out consetetur sadipscing elit</h5>-->\n" +
-                    "\t\t\t\t\t\t<p class=\"sub\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+response.np_content+"</p>\n" +
-                    "\t\t\t\t\t\t<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-comment\"></span><span id=\"newsLiking\">"+response.np_likes+"</span></a><a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\">"+response.np_reading+"</span></a></p>\n" +
-                    "\t\t\t\t\t\t<a href='#' onclick='turnToAuthorPage("+response.user_id+")><div style=\"float: right\"><img src='"+response.user_imageUrl+"'  class=\"img-circle\" width=\"35px\" height=\"35px\" ><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div></a>\n" +
-                    "\t\t\t\t\t</div>\n" +
-                    "\t\t\t\t</div>");
-            } ,
-            error:function (message) {
-                console.log(message);
-            },
-            dataType: 'json'
-        });
-    }
-    /*调用函数，将数据获取并展示到此页面*/
-    acquireNews(np_id);
-
-    /*点击作者的头像或者姓名，跳转到该作者的个人主页*/
-    function turnToAuthorPage(user_id) {
-        var url="authorHomepage.html?user_id="+user_id;
-        window.location.href=url;
-    }
-</script>
 </html>
