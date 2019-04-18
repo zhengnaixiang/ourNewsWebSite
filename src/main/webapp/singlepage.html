@@ -275,7 +275,7 @@
                     "\t\t\t\t\t\t<!--<h5 class=\"top\">What turn out consetetur sadipscing elit</h5>-->\n" +
                     "\t\t\t\t\t\t<p class=\"sub\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+response.np_content+"</p>\n" +
                     "\t\t\t\t\t\t<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-comment\"></span><span id=\"newsLiking\">"+response.np_likes+"</span></a><a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\">"+response.np_reading+"</span></a></p>\n" +
-                    "\t\t\t\t\t\t<div style=\"float: right\"><img src='"+response.user_imageUrl+"'  class=\"img-circle\" width=\"35px\" height=\"35px\" ><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div>\n" +
+                    "\t\t\t\t\t\t<a href='#' onclick='turnToAuthorPage("+response.user_id+")><div style=\"float: right\"><img src='"+response.user_imageUrl+"'  class=\"img-circle\" width=\"35px\" height=\"35px\" ><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div></a>\n" +
                     "\t\t\t\t\t</div>\n" +
                     "\t\t\t\t</div>");
             } ,
@@ -287,5 +287,11 @@
     }
     /*调用函数，将数据获取并展示到此页面*/
     acquireNews(np_id);
+
+    /*点击作者的头像或者姓名，跳转到该作者的个人主页*/
+    function turnToAuthorPage(user_id) {
+        var url="authorHomepage.html?user_id="+user_id;
+        window.location.href=url;
+    }
 </script>
 </html>
