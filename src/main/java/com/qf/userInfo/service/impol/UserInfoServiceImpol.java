@@ -1,9 +1,12 @@
 package com.qf.userInfo.service.impol;
 
+import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.userInfo.mapper.UserInfoMapper;
 import com.qf.userInfo.pojo.UserInfo;
 import com.qf.userInfo.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +14,10 @@ import java.util.List;
 @Service
 public class UserInfoServiceImpol implements UserInfoService {
 
-    @Autowired
-    private UserInfoMapper userInfoMapper;
+   /* @Autowired
+    private UserInfoMapper userInfoMapper;*/
+    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
+    private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
 
     public int checkRegisterBy(UserInfo userInfo) {
         return userInfoMapper.checkRegisterBy(userInfo);
