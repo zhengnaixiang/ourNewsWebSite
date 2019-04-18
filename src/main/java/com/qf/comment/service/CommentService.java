@@ -5,9 +5,9 @@ import com.qf.comment.vo.CommentVo;
 
 public interface CommentService {
     /**
-     * 添加对文章评论或者对评论回复
-     * @param commentVo
+     * 添加普通评论
+     * @param comment
      * @return
      */
-    boolean addGuestComment(CommentVo commentVo);
+    boolean addComment(Comment comment);
 }

@@ -22,9 +22,24 @@ public interface UserInfoService {
     boolean addUserInfo(UserInfo userInfo);
 
     /**
-     * 找到对应的用户信息(精确查找)
+     * 登录验证
      * @param userInfo
      * @return
      */
-    List<UserInfo> selectUserInfoIdBy(UserInfo userInfo);
+    UserInfo checkSingIn(UserInfo userInfo);
+
+    /**
+     * 获取用户id
+     * @param userInfo
+     * @return
+     */
+    int getUserId(UserInfo userInfo);
+
+    /**
+     * 获取用户权限
+     * 用户不存在时新建并返回游客用户权限 1，创建失败返回 -1
+     * @param userInfo
+     * @return
+     */
+    int getUserPower(UserInfo userInfo);
 }

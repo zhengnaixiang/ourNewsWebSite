@@ -11,21 +11,39 @@ import java.util.List;
 @Service
 public class UserInfoServiceImpol implements UserInfoService {
 
-   /* @Autowired
-    private UserInfoMapper userInfoMapper;*/
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     public int checkRegisterBy(UserInfo userInfo) {
-      /*  return userInfoMapper.checkRegisterBy(userInfo);*/
-        return 0;
+        return userInfoMapper.checkRegisterBy(userInfo);
     }
 
     public boolean addUserInfo(UserInfo userInfo) {
-      /*  return userInfoMapper.addUserInfo(userInfo)>0;*/
-        return false;
+        return userInfoMapper.addUserInfo(userInfo)>0;
     }
 
-    public List<UserInfo> selectUserInfoIdBy(UserInfo userInfo) {
-       /* return userInfoMapper.selectUserInfoIdBy(userInfo);*/
-        return null;
+    public UserInfo checkSingIn(UserInfo userInfo) {
+        return userInfoMapper.checkSingIn(userInfo);
+    }
+
+    public int getUserId(UserInfo userInfo) {
+        return userInfoMapper.selectUserInfoBy(userInfo).get(0).getUser_id();
+    }
+
+
+    public int getUserPower(UserInfo userInfo) {
+        List<UserInfo> userInfos = userInfoMapper.selectUserInfoBy(userInfo);
+        if (userInfos == null || userInfos.isEmpty()) {
+            //数据库不存在，即访客是新游客
+            userInfo.setUser_power(1);
+            //创建游客用户
+            if (addUserInfo(userInfo)) {
+                userInfos = userInfoMapper.selectUserInfoBy(userInfo);
+            } else {
+//                System.out.println("创建游客失败");
+                return -1;
+            }
+        }
+        return userInfos.get(0).getUser_power();
     }
 }
