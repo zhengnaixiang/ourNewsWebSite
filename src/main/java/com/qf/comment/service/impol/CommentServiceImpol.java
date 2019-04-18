@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpol implements CommentService {
 
@@ -27,5 +29,9 @@ public class CommentServiceImpol implements CommentService {
 
     public boolean addComment(Comment comment) {
         return commentMapper.addCommentBy(comment) > 0;
+    }
+
+    public List<Comment> getAllCommentByNpId(int np_id) {
+        return commentMapper.getAllCommentByNpId(np_id);
     }
 }

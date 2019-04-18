@@ -22,14 +22,13 @@
             // 热门
             $(".col-md-3").load("popular.html");
 
-            acquireNews();
-            getCommentList();
+            var np_id=window.location.search.split("=")[1];
+            acquireNews(np_id);
+            getCommentList(np_id);
         });
 
         /*通过ajax获取数据内容给予前端的展示*/
-        function acquireNews() {
-            var np_id=window.location.search.split("=")[1];
-            console.log(np_id);
+        function acquireNews(np_id) {
             $.ajax({
                 type: 'GET',
                 url:  "acquireNewsByNewsId?np_id="+np_id,
@@ -59,8 +58,60 @@
 
         /* 根 */
         //获取评论内容
-        function getCommentList() {
-
+        function getCommentList(np_id) {
+            $.ajax({
+                type: 'GET',
+                url: 'getCommentByNpId?np_id='+np_id,
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                success: function (commentList) {
+                    $("#commentShow").empty();
+                    console.log(commentList);
+                    $(commentList).each(function (index, item) {
+                        console.log(item);
+                        $("#commentShow").append(
+                            "<div class=\"media-left response-text-left\">" +
+                            "<a href='authorHomepage.html?user_id="+item.user_id+"'>" +
+                            "<img src='images/head/headImage-"+item.user_id+".jpg' class=\"img-responsive\" alt=\"\">" +
+                            "</a>" +
+                            "</div>" +
+                            "<div class=\"media-body response-text-right\">" +
+                            "<p>"+item.comment_content+"</p>" +
+                            "<ul>" +
+                            "<li>"+item.comment_date+"</li>" +
+                            "<li><a href=\"#\">回复</a></li>" +
+                            "</ul>" +
+                                "<div id='respon'></div>"+
+                            "</div>" +
+                            "</div>" +
+                            "<div class=\"clearfix\"> </div>"
+                        );
+                        if (item.commentList != null) {
+                            $(item.commentList).each(function (index2, item2) {
+                                $("#respon:last").append(
+                                    "<div class=\"media response-info\">" +
+                                    "<div class=\"media-left response-text-left\">" +
+                                    "<a href='authorHomepage.html?user_id="+item2.user_id+"'>" +
+                                    "<img src='images/head/headImage-"+item2.user_id+".jpg' class=\"img-responsive\" alt=\"\">" +
+                                    "</a>" +
+                                    "</div>" +
+                                    "<div class=\"media-body response-text-right\">" +
+                                    "<p>"+item2.comment_content+"</p>" +
+                                    "<ul>" +
+                                    "<li>"+item2.comment_date+"</li>" +
+                                    "</ul>" +
+                                    "</div>" +
+                                    "<div class=\"clearfix\"> </div>"
+                                );
+                            })
+                        }
+                    });
+                    
+                },
+                error: function (response) {
+                    console.error(response);
+                }
+            });
         }
 
         //发送评论
@@ -82,7 +133,7 @@
                         url: 'addComment',
                         contentType: "application/json; charset=utf-8",
                         data:JSON.stringify({
-                            // "user_id":user_id, //用户id用session里获取以保证安全性
+                            // "user_id":user_id, //前端页面不需提交用户id，用户id由服务器从session里获取
                             "np_id":np_idText,
                             "comment_content":contentText
                         }),
@@ -158,6 +209,42 @@
         <div class="col-md-9 technology-left">
             <div class="agileinfo">
                 <div id="rows">
+                    <!--内容-->
+                </div>
+                <div class="response">
+                    <h4>评论区</h4>
+                    <div class="media response-info" id="commentShow">
+                        <div class="media-left response-text-left">
+                            <a href='authorHomepage.html?user_id='+user_id+>
+                                <img src='images\head\headimage-"+user_id+".jpg' class="img-responsive" alt="">
+                            </a>
+                        </div>
+                        <div class="media-body response-text-right">
+                            <p>"+comment.comment_content+"</p>
+                            <ul>
+                                <li>"+comment.comment_date+"</li>
+                                <li><a href="#">回复</a></li>
+                            </ul>
+                            <div class="media response-info">
+                                <!--子-->
+                                <div class="media-left response-text-left">
+                                    <a href='authorHomepage.html?user_id='+user_id+>
+                                        <img src='images\head\headimage-"+user_id+".jpg' class="img-responsive" alt="">
+                                    </a>
+                                </div>
+                                <div class="media-body response-text-right">
+                                    <p>"+comment.comment_content+"</p>
+                                    <ul>
+                                        <li>"+comment.comment_date+"</li>
+                                        <li><a href="#">回复</a></li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"> </div>
+                                <!--子-->
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
 
                 </div>
                 <div class="coment-form">

@@ -56,9 +56,9 @@ public class UserInfoController {
      * @param httpSession
      * @return
      */
-    @RequestMapping(value = "signIn",method = RequestMethod.POST)
-    public String signin(@RequestBody UserInfo userInfo, HttpSession httpSession){
-        userInfo = userInfoService.checkSingIn(userInfo);
+    @RequestMapping(value = "loginTo",method = RequestMethod.POST)
+    public String login(@RequestBody UserInfo userInfo, HttpSession httpSession){
+        userInfo = userInfoService.checklogin(userInfo);
         if (userInfo != null && userInfo.getUser_power()>1) {
             httpSession.setAttribute("userInfo",userInfo);
             return "true";

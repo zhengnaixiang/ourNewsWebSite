@@ -28,23 +28,23 @@ public class UserInfoServiceImpol implements UserInfoService {
         return userInfoMapper.addUserInfo(userInfo)>0;
     }
 
-    public UserInfo checkSingIn(UserInfo userInfo) {
-        return userInfoMapper.checkSingIn(userInfo);
+    public UserInfo checklogin(UserInfo userInfo) {
+        return userInfoMapper.checklogin(userInfo);
     }
 
     public int getUserId(UserInfo userInfo) {
-        return userInfoMapper.selectUserInfoIdBy(userInfo).get(0).getUser_id();
+        return userInfoMapper.selectUserInfoBy(userInfo).get(0).getUser_id();
     }
 
 
     public int getUserPower(UserInfo userInfo) {
-        List<UserInfo> userInfos = userInfoMapper.selectUserInfoIdBy(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.selectUserInfoBy(userInfo);
         if (userInfos == null || userInfos.isEmpty()) {
             //数据库不存在，即访客是新游客
             userInfo.setUser_power(1);
             //创建游客用户
             if (addUserInfo(userInfo)) {
-                userInfos = userInfoMapper.selectUserInfoIdBy(userInfo);
+                userInfos = userInfoMapper.selectUserInfoBy(userInfo);
             } else {
 //                System.out.println("创建游客失败");
                 return -1;
@@ -52,7 +52,8 @@ public class UserInfoServiceImpol implements UserInfoService {
         }
         return userInfos.get(0).getUser_power();
     }
-    public List<UserInfo> selectUserInfoIdBy(UserInfo userInfo) {
-        return userInfoMapper.selectUserInfoIdBy(userInfo);
+
+    public List<UserInfo> selectUserInfoBy(UserInfo userInfo) {
+        return userInfoMapper.selectUserInfoBy(userInfo);
     }
 }

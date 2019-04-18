@@ -26,7 +26,7 @@ public interface UserInfoService {
      * @param userInfo
      * @return
      */
-    UserInfo checkSingIn(UserInfo userInfo);
+    UserInfo checklogin(UserInfo userInfo);
 
     /**
      * 获取用户id

@@ -1,15 +1,19 @@
 package com.qf.comment.pojo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 public class Comment {
     int comment_id;
     int parent_id;
     int np_id;
-    Date comment_date;
+    String comment_date;
+
     String comment_content;
     int user_id;
     boolean status;
+    List<Comment> commentList;
 
     @Override
     public String toString() {
@@ -21,7 +25,16 @@ public class Comment {
                 ", comment_content='" + comment_content + '\'' +
                 ", user_id=" + user_id +
                 ", status=" + status +
+                ", commentList=" + commentList +
                 '}';
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 
     public int getComment_id() {
@@ -48,11 +61,11 @@ public class Comment {
         this.np_id = np_id;
     }
 
-    public Date getComment_date() {
+    public String getComment_date() {
         return comment_date;
     }
 
-    public void setComment_date(Date comment_date) {
+    public void setComment_date(String comment_date) {
         this.comment_date = comment_date;
     }
 

@@ -3,9 +3,35 @@
         PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qf.comment.mapper.CommentMapper">
+
+    <resultMap id="commentMap" type="com.qf.comment.pojo.Comment">
+        <id column="comment_id" property="comment_id"></id>
+        <result column="parent_id" property="parent_id"></result>
+        <result column="np_id" property="np_id"></result>
+        <result column="comment_date" property="comment_date"></result>
+        <result column="comment_content" property="comment_content"></result>
+        <result column="user_id" property="user_id"></result>
+        <result column="status" property="status"></result>
+        <collection property="commentList" ofType="com.qf.comment.pojo.Comment">
+            <id column="c2_id" property="comment_id"></id>
+            <result column="c2_pid" property="parent_id"></result>
+            <result column="c2_npid" property="np_id"></result>
+            <result column="c2_date" property="comment_date"></result>
+            <result column="c2_content" property="comment_content"></result>
+            <result column="c2_uid" property="user_id"></result>
+            <result column="c2_status" property="status"></result>
+        </collection>
+    </resultMap>
+
     <insert id="addCommentBy" parameterType="com.qf.comment.pojo.Comment">
       insert into comment(parent_id,np_id,comment_content,user_id)
       values(#{parent_id},#{np_id},#{comment_content},#{user_id})
     </insert>
+
+    <select id="getAllCommentByNpId" resultMap="commentMap" parameterType="Integer">
+        select c1.*,c2.comment_id c2_id,c2.parent_id c2_pid,c2.np_id c2_npid,c2.comment_date c2_date,c2.comment_content c2_content,c2.user_id c2_uid,c2.`status` c2_status
+        from comment c1 left join comment c2 on c2.parent_id=c1.comment_id
+        where c1.np_id=#{np_id} and c1.parent_id=0 and c1.`status`=1 and IFNULL(c2.`status`,1) = 1
+    </select>
 
 </mapper>

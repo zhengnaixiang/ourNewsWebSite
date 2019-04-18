@@ -27,14 +27,13 @@
                 <if test="#{user_tel} != null" >
                     user_tel = #{user_tel} or
                 </if>
-                <if test="#{user_power} != null" >
-                    user_power = #{user_power} or
-                </if>
+--                 游客不算被注册，过滤掉
+                user_power != 1
             </trim>
         </where>
     </select>
 
-    <select id="selectUserInfoIdBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
+    <select id="selectUserInfoBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
         select * from userinfo
         <where>
             <trim suffixOverrides="or">
@@ -47,44 +46,51 @@
                 <if test="#{user_tel} != null" >
                     user_tel = #{user_tel} or
                 </if>
-                <if test="#{user_power} != null" >
-                    user_power = #{user_power} or
-                </if>
             </trim>
         </where>
     </select>
 
+    <!--必须有账号名称和权限值，其他选填-->
     <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
-        insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`)
+        insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`,user_power)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            <if test="#{user_alias} != null">
+            <if test="user_alias != null">
                 #{user_alias},
             </if>
-            <if test="#{user_alias} == null">
+            <if test="user_alias == null">
                 default,
             </if>
-            <if test="#{user_tel} != null">
+            <if test="user_tel != null">
                 #{user_tel},
             </if>
-            <if test="#{user_tel} == null">
+            <if test="user_tel == null">
                 default,
             </if>
-            <if test="#{user_imageUrl} != null">
+            <if test="user_imageUrl != null">
                 #{user_imageUrl},
             </if>
-            <if test="#{user_imageUrl} == null">
+            <if test="user_imageUrl == null">
                 default,
             </if>
 
             #{username},
 
-            <if test="#{password} != null">
+            <if test="password != null">
                 #{password},
             </if>
-            <if test="#{password} == null">
+            <if test="password == null">
                 default,
             </if>
+
+            #{user_power},
+
         </trim>
     </insert>
+
+    <!--支持账号或者手机号码登录-->
+    <select id="checklogin" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
+        select * from userinfo where username = #{username} and `password` = #{password}
+    </select>
+
 
 </mapper>

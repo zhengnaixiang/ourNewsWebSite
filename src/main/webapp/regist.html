@@ -2,21 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>注册</title>
     <script src="jquery/jquery-2.1.1.min.js"></script>
     <script src="js/md5.js"></script>
     <script>
-        function login() {
+        function register() {
+            var aliasText = $("#alias").val();
             var usernameText = $("#username").val();
             var passwordText = $("#password").val();
             passwordText = hex_md5(usernameText+passwordText);
+            var telephone = $("#telephone").val();
             $.ajax({
                 type: 'POST',
-                url: 'loginTo',
+                url: 'register',
                 contentType: "application/json; charset=utf-8",
                 data:JSON.stringify({
+                    "user_alias":aliasText,
                     "username":usernameText,
-                    "password":passwordText
+                    "password":passwordText,
+                    "user_tel":telephone
                 }),
                 dataType: 'json',
                 success: function (Response) {
@@ -31,12 +35,18 @@
 </head>
 <body>
 <div>
+    呢称
+    <input type="text" id="alias"><br/>
     账号
     <input type="text" id="username"><br/>
     密码
     <input type="password" id="password"><br/>
-    <input type="button" value="登录" onclick="login()">
-    <a href="regist.html"><input type="button" value="注册页面"></a>
+    手机号码
+    <input type="text" id="telephone"><br/>
+    头像
+    <input type="text"/><br/>
+    <input type="button" value="注册" onclick="register()">
+    <a href="login.htmlsignin.html"><input type="button" value="登录页面"/></a>
 </div>
 </body>
 </html>
