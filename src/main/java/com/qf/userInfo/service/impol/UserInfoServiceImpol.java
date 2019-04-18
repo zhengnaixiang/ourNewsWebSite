@@ -27,23 +27,26 @@ public class UserInfoServiceImpol implements UserInfoService {
     }
 
     public int getUserId(UserInfo userInfo) {
-        return userInfoMapper.selectUserInfoBy(userInfo).get(0).getUser_id();
+        return userInfoMapper.selectUserInfoIdBy(userInfo).get(0).getUser_id();
     }
 
 
     public int getUserPower(UserInfo userInfo) {
-        List<UserInfo> userInfos = userInfoMapper.selectUserInfoBy(userInfo);
+        List<UserInfo> userInfos = userInfoMapper.selectUserInfoIdBy(userInfo);
         if (userInfos == null || userInfos.isEmpty()) {
             //数据库不存在，即访客是新游客
             userInfo.setUser_power(1);
             //创建游客用户
             if (addUserInfo(userInfo)) {
-                userInfos = userInfoMapper.selectUserInfoBy(userInfo);
+                userInfos = userInfoMapper.selectUserInfoIdBy(userInfo);
             } else {
 //                System.out.println("创建游客失败");
                 return -1;
             }
         }
         return userInfos.get(0).getUser_power();
+    }
+    public List<UserInfo> selectUserInfoIdBy(UserInfo userInfo) {
+        return userInfoMapper.selectUserInfoIdBy(userInfo);
     }
 }
