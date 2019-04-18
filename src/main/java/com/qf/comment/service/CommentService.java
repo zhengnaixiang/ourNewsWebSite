@@ -10,11 +10,5 @@ public interface CommentService {
      * @return
      */
     boolean addComment(Comment comment);
-    /**
-     * 添加对文章评论或者对评论回复
-     * @param commentVo
-     * return
-     */
-    boolean addGuestComment(CommentVo commentVo);
 
 }

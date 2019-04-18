@@ -19,6 +19,7 @@ public class UserInfoServiceImpol implements UserInfoService {
     private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
     private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
 
+
     public int checkRegisterBy(UserInfo userInfo) {
         return userInfoMapper.checkRegisterBy(userInfo);
     }

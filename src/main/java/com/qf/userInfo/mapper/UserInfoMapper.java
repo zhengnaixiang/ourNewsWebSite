@@ -1,6 +1,7 @@
 package com.qf.userInfo.mapper;
 
 import com.qf.userInfo.pojo.UserInfo;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
