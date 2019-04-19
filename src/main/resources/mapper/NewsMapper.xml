@@ -15,8 +15,6 @@
         <result column="class_name" property="class_name"></result>
     </resultMap>
 
-
-
     <!--点击新闻，将新闻页面所需东西返回给前端-->
     <select id="acquireNewsByNewsId" parameterType="int" resultType="com.qf.newsPaper.dto.NewsPaperAndAuthor">
     SELECT newp.*,userin.user_imageUrl from newpaper newp,userinfo userin
