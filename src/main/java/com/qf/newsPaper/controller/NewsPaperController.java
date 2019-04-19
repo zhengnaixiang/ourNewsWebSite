@@ -1,12 +1,19 @@
 package com.qf.newsPaper.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.qf.newsPaper.dto.NewsPaperAndCategory;
 import com.qf.newsPaper.service.NewsPaperService;
+import com.qf.newsPaper.vo.AuthorNews;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.qf.userInfo.pojo.UserInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * 此类用于将新闻的相关数据写到前端
@@ -55,18 +62,23 @@ public class NewsPaperController {
    * @return
    */
     @RequestMapping(value = "publishNewsByUser",method = RequestMethod.POST)
-    public String publishNewsByUser(@RequestBody NewsAndOwner newsAndOwner){
+    public String publishNewsByUser(HttpSession session, @RequestBody NewsAndOwner newsAndOwner){
+      UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+      newsAndOwner.setUser_id(userInfo.getUser_id());
       return newsPaperService.publishNewsByUser(newsAndOwner).toString();
     }
 
   /**
-   * 通过用户id，获取到该用户所撰写的新闻集合。
-   * @param user_id 用户id
+   * 通过用户id，获取到该用户所撰写的新闻集合,进行分页展示
+   * @param authorNews 包含用户id与当前页数，以及每页展示的数量
    * @return 返回新闻的集合
    */
-    @RequestMapping(value = "getAuthorNewsByUserId",method = RequestMethod.GET)
-    public Object getAuthorNewsByUserId(@RequestParam int user_id){
-      return newsPaperService.getAuthorNewsByUserId(user_id);
+    @RequestMapping(value = "getAuthorNewsByUserId",method = RequestMethod.POST)
+    public Object getAuthorNewsByUserId(@RequestBody AuthorNews authorNews){
+      PageHelper.startPage(authorNews.getCurrentPage(), authorNews.getPageSize());
+      List<NewsPaperAndCategory> list = newsPaperService.getAuthorNewsByUserId(authorNews.getUser_id());
+      PageInfo<NewsPaperAndCategory> commentDtoPageInfo = new PageInfo<NewsPaperAndCategory>(list);
+      return commentDtoPageInfo;
     }
 
   /**
@@ -77,5 +89,18 @@ public class NewsPaperController {
   @RequestMapping(value = "updateNewsStatusToZero",method = RequestMethod.POST)
     public String updateNewsStatusToZero(@RequestBody NewsPaperData newsPaperData){
       return newsPaperService.updateNewsStatusToZero(newsPaperData).toString();
+    }
+
+  /**
+   * 根据用户的id，获取该用户所撰写的新闻，并按照阅读量和喜爱量进行降序输出
+   * @param authorNews
+   * @return
+   */
+  @RequestMapping(value = "getTheHotNews",method = RequestMethod.POST)
+    public Object getTheHotNews(@RequestBody AuthorNews authorNews){
+    PageHelper.startPage(authorNews.getCurrentPage(), authorNews.getPageSize());
+    List<NewsPaperAndCategory> list = newsPaperService.theHotNewsByUser(authorNews.getUser_id());
+    PageInfo<NewsPaperAndCategory> commentDtoPageInfo = new PageInfo<NewsPaperAndCategory>(list);
+    return commentDtoPageInfo;
     }
 }
