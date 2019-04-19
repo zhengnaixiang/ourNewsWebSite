@@ -54,4 +54,11 @@ public interface NewsMapper {
      * @return 返回一个影响行数
      */
     public int updateNewsStatusToZero(NewsPaperData newsPaperData);
+
+    /**
+     * 根据用户id获取该用户所撰写的新闻，并进行按阅读量和喜爱量降序输出
+     * @param user_id
+     * @return
+     */
+    public List<NewsPaperAndCategory> theHotNewsByUser(int user_id);
 }

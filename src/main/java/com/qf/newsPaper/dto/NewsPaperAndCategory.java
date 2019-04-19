@@ -1,5 +1,8 @@
 package com.qf.newsPaper.dto;
 
+import lombok.Data;
+
+@Data
 public class NewsPaperAndCategory {
 //  新闻的id
     int np_id;
@@ -13,4 +16,8 @@ public class NewsPaperAndCategory {
     int np_reading;
 //    新闻的类别名称
     String class_name;
+//    新闻的封面
+    String np_image;
+//    新闻的内容
+    String np_content;
 }
