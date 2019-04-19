@@ -18,6 +18,8 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    private List<Comment> commentList;
+
     /**
      * 发表评论
      * 发表评论者id从session里获取,防止前端欺骗
@@ -39,7 +41,25 @@ public class CommentController {
      */
     @RequestMapping(value = "getCommentByNpId",method = RequestMethod.GET)
     public Object getAllCommentByNpId(@RequestParam int np_id){
-        List<Comment> commentList = commentService.getAllCommentByNpId(np_id);
+        commentList = commentService.getAllCommentByNpId(np_id);
         return commentList;
+    }
+
+    /**
+     * 根据当前用户id获取可见评论
+     * @param np_id
+     * @param user_id
+     * @return
+     */
+    @RequestMapping(value = "getAllCommentByUserId",method = RequestMethod.GET)
+    public Object getAllCommentByUserId(@RequestParam int np_id, int user_id){
+        commentList = commentService.getAllCommentByUserId(np_id,user_id);
+        return commentList;
+    }
+
+    @RequestMapping(value = "deleteCommentFromClient",method = RequestMethod.GET)
+    public int deleteCommentFromClient(@RequestParam int np_id, int user_id){
+        commentList = commentService.getAllCommentByUserId(np_id,user_id);
+        return 0;
     }
 }

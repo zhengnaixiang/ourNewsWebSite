@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
-    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="js/jquery/jquery-2.1.1.min.js"></script>
     <script src="js/md5.js"></script>
     <script>
         function login() {
             var usernameText = $("#username").val();
             var passwordText = $("#password").val();
-            passwordText = hex_md5(usernameText+passwordText);
+            $("#password").val(hex_md5(usernameText+passwordText));//表象加密动作
             $.ajax({
                 type: 'POST',
                 url: 'loginTo',
                 contentType: "application/json; charset=utf-8",
                 data:JSON.stringify({
                     "username":usernameText,
-                    "password":passwordText
+                    "password":$("#password").val()
                 }),
                 dataType: 'json',
                 success: function (Response) {

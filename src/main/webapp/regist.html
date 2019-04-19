@@ -1,17 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
-    <script src="jquery/jquery-2.1.1.min.js"></script>
-    <script src="js/md5.js"></script>
-    <script>
-        function register() {
-            var aliasText = $("#alias").val();
-            var usernameText = $("#username").val();
-            var passwordText = $("#password").val();
-            passwordText = hex_md5(usernameText+passwordText);
-            var telephone = $("#telephone").val();
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>吊炸天新闻网注册页面</title>
+  <meta name="Keywords" content="www.google.com.hk">
+  <meta name="Description" content="www.google.com.hk">
+
+  <!-- Bootstrap -->
+  <link href="bootstrap/door/bootstrap.min.css" rel="stylesheet">
+  <link href="bootstrap/door/main.css" rel="stylesheet">
+  <link href="bootstrap/door/enter.css" rel="stylesheet">
+  <link href="css/drag.css" rel="stylesheet" type="text/css">
+  <script src="js/drag.js"></script>
+  <script src="js/jquery/jquery-2.1.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jquery.particleground.min.js"></script>
+  <script src="js/md5.js"></script>
+</head>
+<body>
+
+<div id="particles">
+  <canvas class="pg-canvas" width="1920" height="911" style="display: block;"></canvas>
+  <div class="intro" style="margin-top: -256.5px;">
+    <div class="container">
+      <div class="row" style="padding:30px 0;">
+        <div class="col-md-3 col-centered tac"> <img src="images/registerLogo.png" alt="logo"> </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-8 col-centered">
+          <form class="nice-validator n-default" novalidate>
+            <div class="form-group">
+              <input type="text" class="form-control" id="alias" name="alias" placeholder="呢称" autocomplete="off" aria-required="true" data-tip="英文字母数字或下划线">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="account" name="account" placeholder="邮箱地址" autocomplete="off" aria-required="true" data-tip="英文字母数字或下划线">
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="password" name="password" placeholder="密码" aria-required="true" data-tip="请设置您的密码（6-16个字符）">
+            </div>
+            <!--<div class="form-group">-->
+              <!--<div id="drag">-->
+                <!--//滑动验证-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group">-->
+              <!--<input type="password" class="form-control" id="repeat_password" name="repeat_password" placeholder="再次输入密码" aria-required="true" data-tip="请再输入一次密码">-->
+            <!--</div>-->
+            <div id="validator-tips" class="validator-tips"></div>
+
+            <div class="checkbox">
+
+              <!--<label>-->
+              <!--<input type="checkbox" name="ag">-->
+              <!--同意 </label>-->
+              <!--<a href="javascript:void(0)" id="userAgreement" style="text-decoration:none">用户协议</a> </div>-->
+              <div class="form-center-button">
+                <button type="button" id="submit_button" class="btn btn-primary btn-current" onclick="register()">注册</button>
+                <a href="#" class="btn btn-default">取消</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--<div class="modal fade" id="myModal" tabindex="-1" style="text-align: left" role="dialog">-->
+    <!--<div class="modal-dialog" role="document">-->
+    <!--<div class="modal-content">-->
+    <!--<div class="modal-header">-->
+    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>-->
+    <!--<h4 class="modal-title">用户协议</h4>-->
+    <!--<p>null!!!</p>-->
+    <!--</div>-->
+    <!--<div class="modal-body" id="agreementContent"></div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <link rel="stylesheet" href="bootstrap/door/jquery.validator.css">
+    <script src="js/zh-CN.js"></script><script src="js/jquery.validator.min.js"></script>
+  </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var intro = $('.intro');
+        $('#particles').particleground({
+            dotColor: 'rgba(52, 152, 219, 0.36)',
+            lineColor: 'rgba(52, 152, 219, 0.86)',
+            density: 130000,
+            proximity: 500,
+            lineWidth: 0.2
+        });
+        intro.css({
+            'margin-top': -(intro.height() / 2 + 100)
+        });
+    });
+    function register() {
+        var aliasText = $("#alias").val();
+        var usernameText = $("#account").val();
+        var passwordText = $("#password").val();
+        $("#password").val(hex_md5(usernameText+passwordText));//表象加密动作
+        var telephone = $("#telephone").val();
+        if (true) {
             $.ajax({
                 type: 'POST',
                 url: 'register',
@@ -19,34 +112,22 @@
                 data:JSON.stringify({
                     "user_alias":aliasText,
                     "username":usernameText,
-                    "password":passwordText,
+                    "password":$("#password").val(),
                     "user_tel":telephone
                 }),
                 dataType: 'json',
                 success: function (Response) {
-                   alert(Response)
+                    alert(Response)
                 },
                 error: function (response) {
                     console.error(response);
                 }
             });
         }
-    </script>
-</head>
-<body>
-<div>
-    呢称
-    <input type="text" id="alias"><br/>
-    账号
-    <input type="text" id="username"><br/>
-    密码
-    <input type="password" id="password"><br/>
-    手机号码
-    <input type="text" id="telephone"><br/>
-    头像
-    <input type="text"/><br/>
-    <input type="button" value="注册" onclick="register()">
-    <a href="login.htmlsignin.html"><input type="button" value="登录页面"/></a>
+        //滑动验证
+        // $("#drag").drag();
+    }
+</script>
 </div>
 </body>
 </html>

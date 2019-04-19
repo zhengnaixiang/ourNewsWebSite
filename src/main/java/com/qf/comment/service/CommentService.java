@@ -19,4 +19,12 @@ public interface CommentService {
      * @return
      */
     List<Comment> getAllCommentByNpId(int np_id);
+
+    /**
+     * 获取新闻内容下方当前登录用户可见评论
+     * @param np_id
+     * @param user_id
+     * @return
+     */
+    List<Comment> getAllCommentByUserId(int np_id, int user_id);
 }

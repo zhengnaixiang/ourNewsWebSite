@@ -15,20 +15,21 @@
     <script src="script/docs.min.js"></script>
     <script type="text/javascript">
         $(function () {
+            //最先加载新闻内容,用户及评论自动加载
+            acquireNews();
+            // giveStatus();
+            //getCommentList()
+
             // 页眉
             $(".header").load("header.html");
-            // // 页尾
-            // $(".footer").load("footer.html");
             // 热门
             $(".col-md-3").load("popular.html");
-
-            var np_id=window.location.search.split("=")[1];
-            acquireNews(np_id);
-            getCommentList(np_id);
         });
 
+        var np_id=window.location.search.split("=")[1];
+
         /*通过ajax获取数据内容给予前端的展示*/
-        function acquireNews(np_id) {
+        function acquireNews() {
             $.ajax({
                 type: 'GET',
                 url:  "acquireNewsByNewsId?np_id="+np_id,
@@ -47,7 +48,8 @@
                         "<div style=\"float: right\"><a href='authorHomepage.html?user_id="+response.user_id+"'><img src='"+response.user_imageUrl+"' class=\"img-circle\" width=\"35px\" href=\"35px\"/></a><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div>" +
                         "</div>" +
                         "</div>");
-
+                    // 完成新闻内容加载后继而加载用户状态
+                    giveStatus();
                 } ,
                 error:function (message) {
                     console.log(message);
@@ -56,46 +58,80 @@
             });
         }
 
-        /* 根 */
-        //获取评论内容
-        function getCommentList(np_id) {
+        //从session获取用户信息
+        function giveStatus() {
             $.ajax({
                 type: 'GET',
-                url: 'getCommentByNpId?np_id='+np_id,
+                url:  'giveStatus',
+                dataType: 'json',
+                success: function(response){
+                    if (response) {
+                        $("#user_id").val(response.user_id);
+                        $("#email").val(response.username).hide();
+                    }
+                    // 得到用户结果后再解析评论
+                    getCommentList();
+                } ,
+                error:function (message) {
+                    // console.log(message);
+                    // 用户模块出错依然加载评论
+                    getCommentList();
+                }
+            });
+        }
+
+        /* 根 */
+        //获取评论内容
+        function getCommentList() {
+            var user_id = $("#user_id").val();
+            var requestUrl = 'getCommentByNpId?np_id='+np_id;
+            if (user_id >1) {
+                requestUrl = 'getAllCommentByUserId?np_id='+np_id+"&user_id="+user_id;
+            }
+            $.ajax({
+                type: 'GET',
+                url: requestUrl,
                 contentType: "application/json; charset=utf-8",
                 dataType: 'json',
                 success: function (commentList) {
                     $("#commentShow").empty();
-                    console.log(commentList);
                     $(commentList).each(function (index, item) {
-                        console.log(item);
+                        if (item.user_imageUrl == null) {
+                            item.user_imageUrl = 'images/head/headImage-0.jpg'
+                        }
+                        if (item.user_alias == null) {
+                            item.user_alias = '游客'
+                        }
                         $("#commentShow").append(
                             "<div class=\"media-left response-text-left\">" +
+                            // "<input class='user_alias' value='"+item.user_alias+"' "+
                             "<a href='authorHomepage.html?user_id="+item.user_id+"'>" +
-                            "<img src='images/head/headImage-"+item.user_id+".jpg' class=\"img-responsive\" alt=\"\">" +
+                            "<img src='"+item.user_imageUrl+"' class=\"img-responsive\" alt=\"\">" +
                             "</a>" +
                             "</div>" +
                             "<div class=\"media-body response-text-right\">" +
+                            "<h5>"+item.user_alias+"</h5>" +
                             "<p>"+item.comment_content+"</p>" +
                             "<ul>" +
                             "<li>"+item.comment_date+"</li>" +
-                            "<li><a href=\"#\">回复</a></li>" +
+                            "<li onclick='target("+item.comment_id+")'>回复</li>" +
                             "</ul>" +
-                                "<div id='respon'></div>"+
+                            "<div class='respon'></div>"+
                             "</div>" +
                             "</div>" +
                             "<div class=\"clearfix\"> </div>"
                         );
                         if (item.commentList != null) {
                             $(item.commentList).each(function (index2, item2) {
-                                $("#respon:last").append(
+                                $(".respon:last").append(
                                     "<div class=\"media response-info\">" +
                                     "<div class=\"media-left response-text-left\">" +
                                     "<a href='authorHomepage.html?user_id="+item2.user_id+"'>" +
-                                    "<img src='images/head/headImage-"+item2.user_id+".jpg' class=\"img-responsive\" alt=\"\">" +
+                                    "<img src='"+item2.user_imageUrl+"' class=\"img-responsive\" alt=\"\">" +
                                     "</a>" +
                                     "</div>" +
                                     "<div class=\"media-body response-text-right\">" +
+                                    "<h5>"+item.user_alias+"</h5>" +
                                     "<p>"+item2.comment_content+"</p>" +
                                     "<ul>" +
                                     "<li>"+item2.comment_date+"</li>" +
@@ -106,7 +142,7 @@
                             })
                         }
                     });
-                    
+
                 },
                 error: function (response) {
                     console.error(response);
@@ -119,11 +155,13 @@
             var emailText = $("#email").val().trim();
             var user_id = $("#user_id").val();
             if (user_id == null || user_id == '' || user_id == '0') {
-                if (emailText != null && emailText != '') {
+                //如果email窗口被隐藏即用户已经登录，不需要判断权限。
+                if (emailText != null && !$("#email").is(':hidden')) {
                     getUserPower(emailText);
                 }
             } else {
                 var np_idText = $("#np_id").val();
+                var targetText = $("#target").val();
                 var contentText = $("#content").val();
 
                 //确定评论合规开始发送
@@ -134,6 +172,7 @@
                         contentType: "application/json; charset=utf-8",
                         data:JSON.stringify({
                             // "user_id":user_id, //前端页面不需提交用户id，用户id由服务器从session里获取
+                            "parent_id":targetText,
                             "np_id":np_idText,
                             "comment_content":contentText
                         }),
@@ -151,7 +190,6 @@
 
         //获取权限
         function getUserPower(emailText) {
-            console.log("开始验证权限");
             $.ajax({
                 type: 'POST',
                 url: 'getUserPower',
@@ -197,6 +235,11 @@
                 }
             })
         }
+
+        function target(target_userId) {
+            $("#target").val(target_userId);
+            // $("#targetAlias").val(targetAlias)
+        }
     </script>
 </head>
 <body>
@@ -214,35 +257,7 @@
                 <div class="response">
                     <h4>评论区</h4>
                     <div class="media response-info" id="commentShow">
-                        <div class="media-left response-text-left">
-                            <a href='authorHomepage.html?user_id='+user_id+>
-                                <img src='images\head\headimage-"+user_id+".jpg' class="img-responsive" alt="">
-                            </a>
-                        </div>
-                        <div class="media-body response-text-right">
-                            <p>"+comment.comment_content+"</p>
-                            <ul>
-                                <li>"+comment.comment_date+"</li>
-                                <li><a href="#">回复</a></li>
-                            </ul>
-                            <div class="media response-info">
-                                <!--子-->
-                                <div class="media-left response-text-left">
-                                    <a href='authorHomepage.html?user_id='+user_id+>
-                                        <img src='images\head\headimage-"+user_id+".jpg' class="img-responsive" alt="">
-                                    </a>
-                                </div>
-                                <div class="media-body response-text-right">
-                                    <p>"+comment.comment_content+"</p>
-                                    <ul>
-                                        <li>"+comment.comment_date+"</li>
-                                        <li><a href="#">回复</a></li>
-                                    </ul>
-                                </div>
-                                <div class="clearfix"> </div>
-                                <!--子-->
-                            </div>
-                        </div>
+                        <!--评论内容-->
                         <div class="clearfix"> </div>
                     </div>
 
@@ -251,6 +266,8 @@
                     <h4>留下你的评论</h4>
                     <form>
                         <input type="hidden" id="user_id" value="">
+                        <input type="hidden" id="target" value="">
+                        <!--<input type="text" id="targetAlias" value="">-->
                         <input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
                         <textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>
                         <input type="button" value="发表评论" onclick="sendComment()">

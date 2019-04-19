@@ -57,7 +57,7 @@ public class UserInfoController {
      * @return
      */
     @RequestMapping(value = "loginTo",method = RequestMethod.POST)
-    public String login(@RequestBody UserInfo userInfo, HttpSession httpSession){
+    public String loginTo(@RequestBody UserInfo userInfo, HttpSession httpSession){
         userInfo = userInfoService.checklogin(userInfo);
         if (userInfo != null && userInfo.getUser_power()>1) {
             httpSession.setAttribute("userInfo",userInfo);
@@ -65,6 +65,17 @@ public class UserInfoController {
         } else {
             return "false";
         }
+    }
+
+    /**
+     * 客户端要求从session获取userInfo
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping(value = "giveStatus")
+    public Object giveStatus(HttpSession httpSession){
+        Object userInfo = httpSession.getAttribute("userInfo");
+        return userInfo != null ? userInfo : "false";
     }
 
     /**

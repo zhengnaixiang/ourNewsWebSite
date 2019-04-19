@@ -34,4 +34,8 @@ public class CommentServiceImpol implements CommentService {
     public List<Comment> getAllCommentByNpId(int np_id) {
         return commentMapper.getAllCommentByNpId(np_id);
     }
+
+    public List<Comment> getAllCommentByUserId(int np_id, int user_id) {
+        return commentMapper.getAllCommentByUserId(np_id,user_id);
+    }
 }

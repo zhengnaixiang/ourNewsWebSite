@@ -9,10 +9,11 @@ public class Comment {
     int parent_id;
     int np_id;
     String comment_date;
-
     String comment_content;
     int user_id;
     boolean status;
+    String user_alias;
+    String user_imageUrl;
     List<Comment> commentList;
 
     @Override
@@ -21,12 +22,30 @@ public class Comment {
                 "comment_id=" + comment_id +
                 ", parent_id=" + parent_id +
                 ", np_id=" + np_id +
-                ", comment_date=" + comment_date +
+                ", comment_date='" + comment_date + '\'' +
                 ", comment_content='" + comment_content + '\'' +
                 ", user_id=" + user_id +
                 ", status=" + status +
+                ", user_alias='" + user_alias + '\'' +
+                ", user_imageUrl='" + user_imageUrl + '\'' +
                 ", commentList=" + commentList +
                 '}';
+    }
+
+    public String getUser_alias() {
+        return user_alias;
+    }
+
+    public void setUser_alias(String user_alias) {
+        this.user_alias = user_alias;
+    }
+
+    public String getUser_imageUrl() {
+        return user_imageUrl;
+    }
+
+    public void setUser_imageUrl(String user_imageUrl) {
+        this.user_imageUrl = user_imageUrl;
     }
 
     public List<Comment> getCommentList() {
