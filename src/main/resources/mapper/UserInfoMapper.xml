@@ -27,9 +27,6 @@
                 <if test="#{user_tel} != null" >
                     user_tel = #{user_tel} or
                 </if>
-                <if test="#{user_power} != null" >
-                    user_power = #{user_power} or
-                </if>
             </trim>
         </where>
     </select>
@@ -75,16 +72,23 @@
             <if test="#{user_imageUrl} == null">
                 default,
             </if>
-
-            #{username},
-
+                #{username},
             <if test="#{password} != null">
                 #{password},
             </if>
             <if test="#{password} == null">
                 default,
             </if>
+            <if test="#{user_power} != null">
+                #{user_power},
+            </if>
+            <if test="#{user_power} == null">
+                default,
+            </if>
         </trim>
     </insert>
 
+    <select id="checkSingIn" resultType="com.qf.userInfo.pojo.UserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
+        SELECT * from userinfo where user_power != 0 and username = #{username} and password = #{password}
+    </select>
 </mapper>

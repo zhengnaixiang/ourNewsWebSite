@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:52 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>吊炸天 - 注册</title>
+    <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+    <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+</head>
+
+<body class="gray-bg">
+
+    <div class="middle-box text-center loginscreen   animated fadeInDown">
+        <div>
+            <div>
+
+                <h1 class="logo-name">HI</h1>
+
+            </div>
+            <h3>欢迎注册</h3>
+            <p>创建一个新账户</p>
+            <form class="m-t" role="form" onsubmit="return false" id="myform" method="post">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="username" onblur="checkU(this)" id="username" placeholder="请输入用户名" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" name="password" onblur="isSame(this)" id="password" placeholder="请输入密码" required="">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="rePassword" onblur="isSame(this)" placeholder="请再次输入密码" required="">
+                </div>
+                <div class="form-group text-left">
+                    <div class="checkbox i-checks">
+                        <label class="no-padding">
+                            <input type="checkbox"><i></i> 我同意注册协议</label>
+                    </div>
+                </div>
+                <button onclick="subm()" type="submit" class="btn btn-primary block full-width m-b">注 册</button>
+
+                <p class="text-muted text-center"><small>已经有账户了？</small><a href="login.html">点此登录</a>
+                </p>
+
+            </form>
+        </div>
+    </div>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="jquery/md5.js"></script>
+    <script src="js/icheck.min.js"></script>
+    <script>
+        $(document).ready(function(){$(".i-checks").iCheck({checkboxClass:"icheckbox_square-green",radioClass:"iradio_square-green",})});
+    </script>
+    <script>
+        var count = 0;
+        function isSame(obj) {
+            var parentElement = obj.parentElement;
+            $("#password").val($("#password").val().trim());
+            var passwordtxt = $("#password").val().toString();
+            $("#rePassword").val($("#rePassword").val().trim());
+            var rePasswordtxt = $("#rePassword").val().toString();;
+            if(count > 0) {
+                if(parentElement.children[1] != null)
+                    if("error" == parentElement.children[1].className && parentElement.children[1].textContent != "")
+                        return;
+                    else parentElement.children[1].remove();
+                if(passwordtxt != rePasswordtxt){
+                    $("<span>两次密码不一致</span>").insertAfter(obj);
+                }else {
+                    $("#password").parent().find("span").remove()
+                    $("#rePassword").parent().find("span").remove()
+                }
+            }
+            count++;
+
+        }
+        function checkU(obj) {
+            var parentElement = obj.parentElement;
+            obj.value = obj.value.trim();
+            var value = obj.value.toString();
+            $.ajax({
+                    type: 'POST',
+                    url: 'checkRegisterBy',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "username":value
+                    }),
+                    success: function (response) {
+                        console.log(response);
+                        if(parentElement.children[1] != null)
+                            if("error" == parentElement.children[1].className && parentElement.children[1].textContent != "")
+                                return;
+                            else parentElement.children[1].remove();
+                        if(!response) {
+                                $("<span>用户名已被注册</span>").insertAfter(obj);
+                        }
+                    },
+                    error: function (response) {
+                        console.error(response);
+                    },
+                    dataType: 'json'
+                });
+        }
+        function subm() {
+            $("#sub").blur();
+            // $("#sub").unbind();
+            var flag = true;
+            // if ($("label[class='error']").length > 0) {
+            //     if ($("label[class='error']").text() != null && $("label[class='error']").text() != "") {
+            //         for(var index = 0;index<$("label[class='error']").length;index++)
+            //             if (flag) {
+            //                 debugger;
+            //                 if ($("label[class='error']:eq(" + index + ")").text() != null && $("label[class='error']:eq(" + index + ")").text() != "") {
+            //                     alert($("label[class='error']:eq(" + index + ")").text());
+            //                     flag = false;
+            //                     break;
+            //                 }
+            //             }
+            //     }
+            // }
+            if ($("input+span").length > 0) {
+                if(flag) {
+                    alert($("input+span:first").html());
+                    flag = false;
+                }
+            }
+            $("input").each(function () {
+                if(flag) {
+                    if ($(this).val() == null || $(this).val() == ""){
+                        // alert($(this).attr("placeholder"));
+                        flag=false;
+                    }
+                }
+            });
+            if(flag) {
+                var usernameText = $("#username").val();
+                var passwordText = $("#password").val();
+                passwordText = (hex_md5(usernameText+passwordText));
+                $.ajax({
+                    type: 'POST',
+                    url: 'register',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "username":usernameText,
+                        "password":passwordText
+                    }),
+                    success: function (response) {
+                        console.log(response);
+                        if(response) {
+                            window.location.href="login.html"
+                        }else {
+                            alert("操作失败")
+                        }
+                    },
+                    error: function (response) {
+                        console.error(response);
+                    },
+                    dataType: 'json'
+                });
+            }
+        }
+    </script>
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:52 GMT -->
+</html>
