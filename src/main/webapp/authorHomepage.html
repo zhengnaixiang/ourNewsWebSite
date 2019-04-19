@@ -2,43 +2,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="x-dns-prefetch-control" content="on">
-    <link rel="dns-prefetch" href="//s3.pstatp.com/">
-    <link rel="dns-prefetch" href="//s3a.pstatp.com/">
-    <link rel="dns-prefetch" href="//s3b.pstatp.com">
-    <link rel="dns-prefetch" href="//p1.pstatp.com/">
-    <link rel="dns-prefetch" href="//p3.pstatp.com/">
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="renderer" content="webkit">
-
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
-
-    <meta name="baidu-site-verification" content="T239HZAbh7">
-
-    <meta name="360-site-verification" content="b96e1758dfc9156a410a4fb9520c5956">
-    <meta name='360_ssp_verify' content='2ae4ad39552c45425bddb738efda3dbb'>
-    <meta name="google-site-verification" content="3PYTTW0s7IAfkReV8wAECfjIdKY-bQeSkVTyJNZpBKE">
-    <meta name="shenma-site-verification" content="34c05607e2a9430ad4249ed48faaf7cb_1432711730">
-    <meta name="baidu_union_verify" content="b88dd3920f970845bad8ad9f90d687f7">
-    <meta name="domain_verify" content="pmrgi33nmfuw4ir2ej2g65lunfqw6ltdn5wselbcm52wszbchirdqyztge3tenrsgq3dknjume2tayrvmqytemlfmiydimddgu4gcnzcfqrhi2lnmvjwc5tfei5dcnbwhazdcobuhe2dqobrpu">
-
-    <!--<title>央视新闻的头条主页 - 今日头条(www.toutiao.com)</title>-->
-    <meta name="keywords" content="今日头条，头条，头条网，头条新闻，今日头条官网">
-    <meta name="description" content="《今日头条》(www.toutiao.com)是一款基于数据挖掘的推荐引擎产品，它为用户推荐有价值的、个性化的信息，提供连接人与信息的新型服务，是国内移动互联网领域成长最快的产品服务之一。">
-
-    <meta name="format-detection" content="telephone=no">
-    <link rel="shortcut icon" href="//s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/image/favicon_5995b44.ico" type="image/x-icon">
-    <link rel="stylesheet" href="//s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/style/lib/layout_f4855e3.css">
+    <title>用户个人主页</title>
     <!--[if lt IE 9]>
-    <script src="//s3a.pstatp.com/toutiao/resource/ntoutiao_web/static/js/lib/es5-shim_110642e.js"></script>
     <![endif]-->
+    <!--这三句话保证了样式的完整性-->
     <script src="//s3.pstatp.com/toutiao/resource/ntoutiao_web/static/js/common/lib_d2cb17c.js" crossorigin="anonymous"></script>
-
     <link rel="stylesheet" href="//s3b.pstatp.com/toutiao/resource/ntoutiao_web/page/profile/profile_ca978ee.css" />
     <script src="//s3.pstatp.com/toutiao/resource/ntoutiao_web/page/profile/index_9cb669f.js"></script>
+
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
     <!-- Custom Theme files -->
     <link href='css/font.css' rel='stylesheet' type='text/css'>
@@ -48,160 +20,54 @@
     <!-- animation-effect -->
     <link href="css/animate.min.css" rel="stylesheet">
     <script src="js/wow.min.js"></script>
-    <script>
-        var _czc = _czc || [];
-    </script>
-
-
 </head>
-
 <body style="min-width: 768px; overflow-x: hidden;">
-<div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='a5f2cda1cb5e97a9863802d0b271c876' /></div>
-
-<a href="/articles_news_society/" style="display:none;"></a>
-
 <div class="y-wrap">
-
     <!-- 公共头部 -->
     <div id="header">
-       <!-- <div riot-tag="wtopbar" style="height: 34px; background: #222;"></div>
-
-        <div class="middlebar">
-            <div class="y-box middlebar-inner">
-                <div class="y-left logo-box">
-                    <a class="logo-link" href="/" ga_event="go_home">
-                    </a>
-                </div>
-                <div class="y-right">
-                    <div riot-tag="wsearch" style="margin-top: 9px; width: 340px;"></div>
-                </div>
-            </div>
-        </div>-->
     </div>
-
-    <div riot-tag="login"></div>
-    <div id="toast"></div>
-
-
     <!--最重要的主题部分-->
     <div id="wrapper">
-        <div riot-tag="yheader"></div>
         <div class="left">
-            <div riot-tag="tab"></div>
+            <!--这是左边版面的文章和视频-->
+            <div riot-tag="tab">
+
+            </div>
+            <!--左边版面用来-->
             <div riot-tag="feedBox"></div>
         </div>
         <div class="right">
+            <!--右边的数据关注量-->
             <div riot-tag="statistics"></div>
+            <!--右边的作者阅读量最高的新闻排行-->
             <div riot-tag="recent"></div>
         </div>
-        <!--<div riot-tag="top"></div>-->
     </div>
+    <!--公共底部-->
     <div class="footer-push"></div>
     <div riot-tag="ugcBox"></div>
 </div>
 
 <script>
-    window.globals = window.globals || {};
-
-    window.taAnalysis && taAnalysis.setup({
-        c: 'user_page'
-    });
-    window.taAnalysis && taAnalysis.send('pageview', {});
-
-    utils.on(document.getElementsByTagName('body')[0], 'click', function(e) {
-        var target = utils.getTarget(e),
-            ga_event,
-            ga_category,
-            ga_label,
-            ga_value;
-
-        while(target && target.nodeName.toUpperCase() !== 'BODY') {
-            ga_event = utils.getAttribute(target, 'ga_event');
-            ga_category = utils.getAttribute(target, 'ga_category') || 'user_page';
-            ga_label = utils.getAttribute(target, 'ga_label');
-            ga_value = utils.getAttribute(target, 'ga_value') || 1;
-
-            ga_event && window._czc && _czc.push(["_trackEvent", ga_category, ga_event, ga_label, ga_value]);
-            ga_event && taAnalysis && taAnalysis.send('event', { ev: ga_event });
-            target = target.parentNode;
-        }
-    });
-
     riot.observable(window);
-</script>
-<script src='//s2.pstatp.com/growth/confucius/confs/toutiao.web.toutiao_pc-pc-fe_switch.js?t=04180953'></script>
-<script>
-    var PAGE_SWITCH = window['toutiao.web.toutiao_pc/pc/fe_switch'] || {};
 </script>
 
 <!-- 公共尾部 -->
 <div id="footer">
-   <!-- <div>
-        <span class="fitem">© 2019 今日头条 </span>
-        <a class="fitem" href="http://www.12377.cn/" target="_blank">中国互联网举报中心</a>
-        <a class="fitem" href="http://www.miibeian.gov.cn/" target="_blank">京ICP证140141号</a>
-        <a class="fitem" href="http://www.miibeian.gov.cn/" target="_blank">京ICP备12025439号-3</a>
-        <a class="fitem" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002002023" target="_blank" ga_event="click_about">
-            <img src="//s3.pstatp.com/toutiao/resource/ntoutiao_web/static/image/gongan_d0289dc.png">京公网安备 11000002002023号
-        </a>
-    </div>
-    <div>
-        <a class="fitem" href="/license/" class="icp" target="_blank">网络文化经营许可证</a>
-        <a class="fitem" href="/a3642705768/" target="_blank">跟帖评论自律管理承诺书</a>
-        <span class="fitem">违法和不良信息举报电话：010-58341833</span>
-        <span class="fitem">公司名称：北京字节跳动科技有限公司</span>
-    </div>-->
 </div>
-
-
 <script type="text/javascript">
     var userInfo = {
-        id: 4492956276,
-        name: '央视新闻',
-        avatarUrl: '//p1.pstatp.com/thumb/6ee30000539441f6c83a',
-        isPgc: true,
-        isBanned: false,
-        isOwner: false,
-        mediaId: 4492956276,
-        type: '7'
     };
-
     var userData={
-        id:75718573027,
-        name:'齐木科技',
-        avatarUrl:'//p9.pstatp.com/thumb/aae8000fb3be193dce56',
-        isPgc:true
     };
-
     var media = {
-        id:'4492956276',
-        like:false
     };
-
-
     var header={
-      /*  bg_img:'images/headLine.jpg',*/
-        avtar_img:'//p1.pstatp.com/thumb/6ee30000539441f6c83a',
-        name:'央视新闻',
-        dv:true,
-        pgc:true,
-        pgc_icon:true,
-        abstract:'',
-        media_id:'4492956276',
-        like:media.like,
-        liked:false,
-        isSelf:userInfo.isOwner,
-        home_url:'/c/user/4492956276/',
-        right_knight_sign_status: '',
-        kbanquan_sign_status: '',
-        ugcUser: false,
-        ugcContentUser: false,
-        supportPublish: utils.isFileSupport()
     };
 
     var tab={
         tabs:[{
-            text:'视频',
+            text:'新闻',
             code:'b'
         }],
         active:'a',
@@ -214,39 +80,10 @@
             }
         }
     };
-    if(userInfo.isPgc){
-        tab.tabs.unshift({
-            text:'文章',
-            code:'a'
-        });
-    }
-    if(userInfo.isOwner){
-        tab.tabs.push({
-            text:'收藏',
-            code:'c'
-        });
-    }
-
-    _type = 'recommend';
-
-    if (userInfo.mediaId != 0 && location.hash == '') {
-        location.hash = 'mid=' + userInfo.mediaId;
-    }
-
-    if (userInfo.type === '3') {
-        utils.addClass(document.querySelector('[riot-tag=statistics]'), 'hide');
-    }
 </script>
 <script>
-    tac='i)69x0ynuirs!i#w6as"0,<8~z|\x7f@QGNCJF[\\^D\\KFYSk~^WSZhg,(lfi~ah`{md"inb|1d<,%Dscafgd"in,8[xtm}nLzNEGQMKAdGG^NTY\x1ckgd"inb<b|1d<g,&TboLr{m,(\x02)!jx-2n&vr$testxg,%@tug{mn ,%vrfkbm[!cb|'
-</script>
 
-
-<script>
-    riot.mount('wtopbar', {
-        home: false,
-        userInfo: userData
-    });
+    /*用户个人主页的右边部分*/
     riot.mount('login');
     riot.mount('wsearch');
     riot.mount('yheader',header);
@@ -262,7 +99,6 @@
     riot.mount('top');
 
     function initTab() {
-
         var defaultTabCode = '';
         var codeMap = {
             article: 'a',
@@ -284,7 +120,6 @@
                 }
             });
         }
-
         // url 中 tab 指定的不存在时，回退为第一个
         var codes = _.pluck(tab.tabs, 'code');
         (_.indexOf(codes, defaultTabCode) === -1) && (defaultTabCode = tab.tabs[0].code);
@@ -345,31 +180,6 @@
         }
     });
 </script>
-<script>
-    var getSearchParams = function() {
-        var search = location.search.slice(1),
-            params = {},
-            searchArr = search.split('&');
-
-        for (var i = 0, len = searchArr.length; i < len; i++) {
-            var item = searchArr[i],
-                tmp;
-
-            if (item.replace(/^\s+|\s+$/g, '') === "") continue;
-
-            tmp = item.split('=');
-            params[tmp[0]] = tmp[1];
-        }
-
-        return params;
-    }
-    var searchParams = getSearchParams();
-    if (searchParams.media_source_desc) {
-        window._czc && _czc.push(['_trackEvent', 'profile', 'media_source_desc', searchParams.media_source_desc, 1, ''])
-    }
-</script>
-<!-- <script src="//mp.toutiao.com/static/v2/resource/resfallback/sso-toutiao.min.js"></script> -->
-
 <script src="//s95.cnzz.com/z_stat.php?id=1259612802&web_id=1259612802" language="JavaScript"></script>
 <script src="js/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript">
