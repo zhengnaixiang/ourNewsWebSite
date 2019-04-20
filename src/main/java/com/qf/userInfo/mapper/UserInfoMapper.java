@@ -14,8 +14,11 @@ public interface UserInfoMapper {
      */
     int addUserInfo(UserInfo userInfo);
 
-//    List<UserInfo> selectUserInfoBy(UserInfo userInfo);
-
+    /**
+     * 登录验证
+     * @param userInfo
+     * @return
+     */
     UserInfo checklogin(UserInfo userInfo);
 
 

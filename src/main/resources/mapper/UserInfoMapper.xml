@@ -27,19 +27,37 @@
                 <if test="#{user_tel} != null" >
                     user_tel = #{user_tel}
                 </if>
---                 游客不算被注册，过滤掉
-                user_power != 1
             </trim>
         </where>
     </select>
+
 
     <select id="selectUserInfoByName" resultMap="userInfoMap" parameterType="java.lang.String">
         select * from userinfo where username = #{username} limit 1
     </select>
 
-    <!--必须有账号名称和权限值，其他选填-->
+    <select id="selectUserInfoIdBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
+        select * from userinfo
+        <where>
+            <trim suffixOverrides="or">
+                <if test="#{user_alias} != null" >
+                    user_alias = #{user_alias} or
+                </if>
+                <if test="#{username} != null" >
+                    username = #{username} or
+                </if>
+                <if test="#{user_tel} != null" >
+                    user_tel = #{user_tel} or
+                </if>
+                <if test="#{user_power} != null" >
+                    user_power = #{user_power} or
+                </if>
+            </trim>
+        </where>
+    </select>
+
     <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
-        insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`,user_power)
+        insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
             <choose>
                 <when test="user_alias != null and user_alias != ''">
@@ -121,5 +139,9 @@
     <delete id="deleteActivationByUserId" parameterType="Integer">
         delete from activation_userinfo where user_id = #{user_id}
     </delete>
+
+    <select id="checkSingIn" resultType="com.qf.userInfo.pojo.UserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
+        SELECT * from userinfo where user_power != 0 and username = #{username} and password = #{password}
+    </select>
 
 </mapper>

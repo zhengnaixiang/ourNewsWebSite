@@ -14,6 +14,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpol implements CommentService {
 
@@ -24,30 +26,16 @@ public class CommentServiceImpol implements CommentService {
 
     private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
     private static CommentMapper commentMapper=context .getBean(CommentMapper.class);
-    private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
-
-
-    public boolean addGuestComment(CommentVo commentVo) {
-        //添加匿名评论
-        UserInfo u1 = new UserInfo();
-        u1.setUsername(commentVo.getEmail());
-        u1.setUser_alias("游客");
-        //帮其注册一个空密码账号，以后注册了可继承现在的评论
-        if (userInfoMapper.addUserInfo(u1) == 0) {
-            //注册失败
-            return false;
-        } else {
-            int user_id = userInfoMapper.selectUserInfoIdBy(u1).get(0).getUser_id();
-            Comment comment = new Comment();
-            comment.setUser_id(user_id);
-            comment.setNp_id(commentVo.getNp_id());
-            comment.setParent_id(commentVo.getParent_id());
-            comment.setComment_content(commentVo.getContent());
-            return commentMapper.addCommentBy(comment)>0;
-        }
-    }
 
     public boolean addComment(Comment comment) {
         return commentMapper.addCommentBy(comment) > 0;
+    }
+
+    public List<Comment> getAllCommentByNpId(int np_id) {
+        return commentMapper.getAllCommentByNpId(np_id);
+    }
+
+    public List<Comment> getAllCommentByUserId(int np_id, int user_id) {
+        return commentMapper.getAllCommentByUserId(np_id,user_id);
     }
 }

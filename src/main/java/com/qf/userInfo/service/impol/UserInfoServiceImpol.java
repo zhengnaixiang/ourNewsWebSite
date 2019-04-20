@@ -1,16 +1,14 @@
 package com.qf.userInfo.service.impol;
 
-import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.userInfo.mapper.UserInfoMapper;
 import com.qf.userInfo.pojo.Activation;
 import com.qf.userInfo.pojo.UserInfo;
 import com.qf.userInfo.service.UserInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Random;
 
 @Service
@@ -51,6 +49,7 @@ public class UserInfoServiceImpol implements UserInfoService {
         return userInfoMapper.checklogin(userInfo);
     }
 
+
     public int getUserId(String username) {
         return userInfoMapper.selectUserInfoByName(username).getUser_id();
     }
@@ -77,7 +76,7 @@ public class UserInfoServiceImpol implements UserInfoService {
         return userInfo.getUser_power();
     }
 
-    public boolean ToActivation(int user_id, int key) {
+    public boolean ToActivation(@Param("user_id")int user_id, @Param("activation_key")int key) {
         if (userInfoMapper.checkActivation(user_id,key)>0) {
             // 激活信息正确。更新用户权限至2
             UserInfo uTemp = new UserInfo();
@@ -91,5 +90,4 @@ public class UserInfoServiceImpol implements UserInfoService {
         }
         return false;
     }
-
 }
