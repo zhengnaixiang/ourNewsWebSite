@@ -47,6 +47,15 @@ public class NewsPaperServiceImpl implements NewsPaperService {
     }
 
     /**
+     * 获取该类别的新闻，并按照热度进行降序输出
+     * @param class_id
+     * @return
+     */
+    public List<NewsPaperAndAuthor> getHotNewsByCategoryId(int class_id) {
+        return newsMapper.getHotNewsByCategoryId(class_id);
+    }
+
+    /**
      * 接收用户发布新闻的数据，并将其保存到数据库
      * @param newsAndOwner 用户id，和一些新闻的内容
      * @return 是否添加成功的状态值

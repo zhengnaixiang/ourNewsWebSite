@@ -35,6 +35,13 @@ public interface NewsMapper {
     public List<NewsPaperAndAuthor> getNewsByCategoryId(int class_id);
 
     /**
+     * 获取相应类别的新闻，并按照热度进行输出
+     * @param class_id
+     * @return
+     */
+    public List<NewsPaperAndAuthor> getHotNewsByCategoryId(int class_id);
+
+    /**
      * 接收用户发布新闻的数据，并将其保存到数据库
      * @param newsAndOwner 用户id，和一些新闻的内容
      * @return 影响行数

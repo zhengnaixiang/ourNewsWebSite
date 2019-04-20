@@ -1,210 +1,129 @@
-
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="utf-8">
 <head>
-    <meta charset="utf-8">
-
-    <title>粉丝管理界面</title>
-    <!--保持界面布局的外部链接语句-->
-    <link type="text/css" rel="stylesheet" charset="utf-8" href="//img.t.sinajs.cn/t6/style/css/module/base/frame.css?version=201904191146" putoff="style/css/module/combination/extra.css?version=201904191146" />
-
-    <!--这里注释掉的只是页面的基本样式-->
-    <!-- $CONFIG -->
-    <script type="text/javascript">
-        var $CONFIG = {};
-       /* $CONFIG['watermark']='u/5374120439';
-        $CONFIG['domain']='100505';
-        $CONFIG['lang']='zh-cn';*/
-     /*   $CONFIG['avatar_large']='//tvax4.sinaimg.cn/crop.0.0.996.996.180/005RHgdVly8focvylxviqj30ro0rojso.jpg';
-        $CONFIG['timeDiff']=(new Date() - 1555645600000);*/
-       /* $CONFIG['servertime']='1555645600';*/
-      /*  $CONFIG['location']='page_100505_myfollow';*/
-      /*  $CONFIG['pageid']='';
-        $CONFIG['title_value']='小蚂蚁一谢德辉的微博_微博';*/
-        /*$CONFIG['$webim']='1';
-        $CONFIG['miyou']='1';
-        $CONFIG['brand']='0';*/
-      /*  $CONFIG['bigpipe']='true';*/
-        $CONFIG['bpType']='page';
-        $CONFIG['cssPath']='//img.t.sinajs.cn/t6/';
-        $CONFIG['imgPath']='//img.t.sinajs.cn/t6/';
-      /*  $CONFIG['jsPath']='//js.t.sinajs.cn/t6/';*/
-        $CONFIG['mJsPath']=["\/\/js{n}.t.sinajs.cn\/t6\/",1,2];
-      /*  $CONFIG['mCssPath']=["\/\/img{n}.t.sinajs.cn\/t6\/",1,2];*/
-   /*     $CONFIG['version']='201904191146';*/
-   /*     $CONFIG['g_mathematician']='1';*/
-       /* $CONFIG['isAuto']='0';
-        $CONFIG['timeweibo']='1';
-        $CONFIG['isVmember']='0';
-        $CONFIG['isKrMember']='0';
-        $CONFIG['pid']='100505';*/
-    </script>
-    <!-- / $CONFIG -->
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        .tree li {
+            list-style-type: none;
+            cursor:pointer;
+        }
+        table tbody tr:nth-child(odd){background:#F4F4F4;}
+        table tbody td:nth-child(even){color:#C00;}
+    </style>
 </head>
-<body class="B_page S_page">
-<div class="WB_miniblog">
-    <div class="WB_miniblog_fb">
-        <!--这是头部的标签信息-->
-        <div id="top"></div>
-        <!--<div id="pl_common_top">
-        </div>-->
-        <!--中间部分的重要标签信息-->
-        <div class="WB_main clearfix" id="plc_frame">
-        </div>
+<body>
+<div id="top"></div>
+<div class="container-fluid">
+    <div class="row">
         <div id="left"></div>
-        <!--这是底部的标签信息-->
-        <div id="footer"></div>
-       <!-- <div class="WB_footer S_bg2" id="pl_common_footer">
-        </div>-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
+                </div>
+                <div class="panel-body">
+                    <form class="form-inline" role="form" style="float:left;">
+                        <div class="form-group has-feedback">
+                            <!--  <div class="input-group">
+                                  <div class="input-group-addon">标题</div>
+                                  <input id="titleText" value="" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                              </div>-->
+                            <div class="input-group">
+                                <div class="input-group-addon">ID</div>
+                                <input id="numberText" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-addon">名称</div>
+                                <input id="nameText" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                    </form>
+                    <button type="button" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+                    <br>
+                    <hr style="clear:both;">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered">
+                            <thead>
+                            <tr >
+                                <th width="30">ID</th>
+                                <th width="30"><input id="BigFlag" type="checkbox"></th>
+                                <th>名称</th>
+                                <th width="130">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>id</td>
+                                <td><input class="ids" type="checkbox" value="id"/></td>
+                                <td>admin</td>
+                                <td>
+<!--                                    <button type="button" class="btn btn-success btn-xs"><i class=" glyphicon glyphicon-pencil"></i>编辑</button>-->
+                                    <button type="button" class="btn btn-danger btn-xs"><i class=" glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <tfoot >
+                        <tr >
+                            <td>
+                                <ul class="pagination" align="center">
+                                    <li class="disabled"><a href="#">上一页</a></li>
+                                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#">下一页</a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<div id="pl_common_base"></div>
-<div id="pl_common_forword"></div>
-<div id="pl_common_dynamicskin"></div>
-<div id="pl_lib"></div>
-<div id="pl_common_webim"></div>
 </body>
-<script>
-    var FM=function(a,b,c){function bN(b,c){a.clear&&(bN=a.clear)(b,c)}function bM(b,c,d){a.start&&(bM=a.start)(b,c,d)}function bL(a){return a===null?"":Object.prototype.toString.call(a).slice(8,-1).toLowerCase()}function bK(){bv(function(){bH();for(var a in J){if(I[a]){bB(P,I[a]);delete I[a]}J[a]()}J={}})}function bJ(a){function v(){if(k.indexOf(bI)!=0)throw"view: csstextkey must have *"+bI+"* as prefix.";T(k)||bo(j,k)}function u(){function d(){--a<=0&&t()}j&&cssloadCssText();var a,b,c=-1;g=[].concat(g||[]);i=[].concat(i||[]);if(a=g.length){h(t,K);while(b=g[++c])T(b)?d():bk(b,d,i[c])}else t()}function t(){if(!t.r){t.r=1;bB(M,a);a[P]?r():s()}}function s(){function b(b){r();b||a[P]||bH()}d?bv(function(){bF(d,function(f){if(!a[P]&&f&&e!=c){bG(f,d);f.innerHTML=e||"";br(b);delete a.html}else b(!0)})}):b(!0)}function r(){bB(N,a);a[P]?p():q()}function q(){function a(){bA(f,p,m)}f?l?h(a,l):a():p()}function p(){if(!a[P]){if(b){bN(b,d);bM(b,d,a)}bD(o,a)}bB(O,a)}a=a||{};var b=a.ns,d=a.domid,e=a.html,f=a.js,g=a.css,i=a.cssid,j=a.csstext,k=a.csstextkey=a.csstextkey||bI+"_"+x(),l=a.jsDely||0,m=a.jsDefer,n=a.renderDely||0,o=d||b;if(!!o){bC(o,a);bB(L,a);n?h(u,n):u()}}function bH(){for(var a in J)bF(a,J[a])}function bG(a,b){var c,d,e;for(c in H)if((d=H[c].domid)&&(d===b||(e=p(d))&&bw(a,e))){bN(H[c].ns,d);delete H[c]}}function bF(a,b){var c,d;if(d=J[a]){d!=b&&d();delete J[a]}!(c=p(a))||bE(c)?J[a]=b:b(c)}function bE(a){var b,c,d;for(c in I)if(!(d=I[c])[N]&&(b=d.domid)&&(b=p(b))&&bw(b,a))return!0}function bD(a,b){if(I[a]==b){H[a]=I[a];delete I[a]}}function bC(a,b){I[a]&&bB(P,I[a]);I[a]=b}function bB(a,b){b[a]=r();G(a,b)}function bA(a,d,e){var f=d,i;if(by&&by!==a)bz.push(arguments);else{if(!by&&e){by=a;d=function(a,d){by=c;while(i=bz.shift()){bA.apply(b,i);if(i[2])break}f(a,d)}}bx&&(a=bx(a));if(!Y(a,d)){var k=bd("script"),l=!1,m,n;bh(k,"src",a);bh(k,"charset","UTF-8");m=k.onerror=k.onload=k.onreadystatechange=function(){if(!l&&(!k.readyState||/loaded|complete/.test(k.readyState))){l=!0;j(n);k.onerror=k.onload=k.onreadystatechange=null;g.removeChild(k);Z(a)}};n=h(m,3e4);g.insertBefore(k,g.firstChild)}}}function bv(a){bs.push(a);bt||bu()}function bu(){if(bs.length>0){bt=1;bs.shift()();br(bu)}else bt=0}function bq(){var a={},b,c,d;for(c in H)if(b=H[c].css||H[c].csstextkey){b=[].concat(b);for(d=b.length;--d>-1;)b[d]&&(a[b[d]]=1)}U(a);bn(a)}function bp(a){return a}function bo(a,b){var c,d;if(!Y(b)){c=x();d=bd("style");bh(d,"type","text/css");bh(d,"id",c);g.appendChild(d);try{d.styleSheet.cssText=a}catch(f){d.appendChild(e.createTextNode(a))}bi[b]=c}}function bn(a){var b={},c;for(c in a)b[bp(c)]=1;for(c in bi)if(!b[c]){bm(c);$(c)}}function bm(a){var b=bi[a],c,d,e=p(b);if(e){if(m&&b in bj){d=b&&bj[b];if(d&&(c=A(a,d))>-1){(e.styleSheet||e.sheet).removeImport(c);d.splice(c,1)}}else R(e);delete bi[a]}}function bl(a){var b,c;if(m){for(b in bj)if(bj[b].length<31){c=p(b);break}if(!c){b=x();c=bd("style");bh(c,"type","text/css");bh(c,"id",b);g.appendChild(c);bj[b]=[]}(c.styleSheet||c.sheet).addImport(a);bj[b].push(a)}else{b=x();var d=bd("link");bh(d,"rel","stylesheet");bh(d,"type","text/css");bh(d,"href",a);bh(d,"id",b);g.appendChild(d)}bi[a]=b}function bk(a,c,d){function j(){if(parseInt(b.getComputedStyle?getComputedStyle(e,null)[f]:e.currentStyle&&e.currentStyle[f])===42)i();else if(--g>0)h(j,10);else{i();bm(a);bl(a)}}function i(){bg(e);Z(a)}a=bp(a);var e,f="height",g=3e3;if(!Y(a,c)){bl(a);e=bd("div");e.id=d;bf(e);h(j,50)}}function bh(a,b,c){return a.setAttribute(b,c)}function bg(a){be&&be.removeChild(a)}function bf(a){if(!be){(be=bd("div")).style.cssText="position:absolute;top:-9999px;";g.appendChild(be)}be.appendChild(a)}function bd(a){return e.createElement(a)}function bc(a,b){b&&(b[ba]=b[2]-b[1]+2);return function(c){return!c||/^https?\:\/\//.test(c.toLowerCase())?c:(b?_[c]||(_[c]=bb(b,c)):a)+c}}function bb(a,b){b=b.replace(/\?.*$/,"");var c=0,d=0,e,f;while(e=b.charCodeAt(c++))d+=e;return a[0].replace("{n}",d%a[ba]||"")}function $(a){W[a]&&delete W[a];a in V&&delete V[a]}function Z(a,b){V[a]=b;G(X+a,b);F(X+a)}function Y(a,b){if(a in V){b&&b(a,V[a]);return!0}b&&E(X+a,function(c,d){b(a,d)});if(W[a])return!0;W[a]=1}function U(a){var b={},c,d,e;for(d in S){c=S[d].ins;for(e in c)if(a[e]){b[d]=!0;break}}for(d in S)if(!b[d]){R(S[d].el);delete S[d]}}function T(a){for(var b in S)if(S[b].ins[a])return!0}function R(a){a&&a.parentNode.removeChild(a)}function Q(a){try{return[].slice.call(a)}catch(b){var c,d=0,e=[];while(c=a[d])e[d++]=c;return e}}function G(a,b){var d=D(a);b=[].concat(b||[]);for(var e=d.length-1;e>-1;e--)try{d[e]&&d[e].apply(c,b)}catch(f){a!=n&&G(n,["[error][notice]["+a+"]",f])}}function F(a,b){var c=D(a),d,e;if(b)(d=A(b,c))>-1&&(e=1);else{d=0;e=c.length}e&&c.splice(d,e)}function E(a,b){D(a).unshift(b)}function D(a){return C[a]||(C[a]=[])}function A(a,b){if(b.indexOf)return b.indexOf(a);for(var c=0,d=b.length;c<d;++c)if(b[c]===a)return c;return-1}function z(a){return a[y]||(a[y]=x())}function x(){return w+v++}function u(a){t.push(a)}function r(){return Date.now?Date.now():+(new Date)}function q(a,b){return(b||e).getElementsByTagName(a)}function p(a){return e.getElementById(a)}function o(){}if(a)return a;!!b.sessionStorage&&!!b.history.pushState&&b.scrollTo(0,0);a=a||{v:2,t:r()};var d=navigator.userAgent,e=b.document,f=e.documentElement,g=e.head||q("head")[0]||f,h=b.setTimeout,i=b.location,j=b.clearTimeout,k=b.decodeURI,l=e.addEventListener,m=/msie (\d+\.\d+)/i.test(d)?e.documentMode||+RegExp.$1:0,n="log",s="_I",t=a[s]=a[s]||[];a.init=function(a){a=a||{};var b="linkFilter",c="history",d="iLoader";b in a||(a[b]=!0);c in a||(a[c]=!0);d in a||(a[d]=!0);var e;while(e=t.shift())e(a)};var v=1,w="FM_"+r(),y="__FM_ID",B="_N",C=a[B]=a[B]||{},H={},I={},J={},K=5e3,L="plViewReady",M="plCssReady",N="plRenderReady",O="plJsReady",P="plAbort",S={};u(function(){var a=Q(q("link")).concat(Q(q("style"))),b,c,d;for(var e=0;d=a[e++];)if(b=d.getAttribute("includes")){c=z(d);b=b.split("|");var f={};for(var g=0;b[g];)f[b[g++]]=1;S[c]={el:d,ins:f}}});var V={},W={},X=x(),_={},ba="MODN",be,bi={},bj={};u(function(a){bp=bc(a.cssPath||"",a.mCssPath)});var br=function(){var a=b.requestAnimationFrame||b.webkitRequestAnimationFrame||b.mozRequestAnimationFrame||b.oRequestAnimationFrame||b.msRequestAnimationFrame,c=function(a){return h(a,2)};a&&a(function(){c=a});return function(a){return c(function(){a()})}}(),bs=[],bt=0,bw=f.contains?function(a,b){a=a===e?f:a;b=b.parentNode;return a===b||!!(b&&a.contains&&a.contains(b))}:f.compareDocumentPosition?function(a,b){return!!(a.compareDocumentPosition(b)&16)}:function(a,b){while(b=b.parentNode)if(b===a)return!0;return!1},bx,by,bz=[];u(function(a){bx=bc(a.jsPath||"",a.mJsPath)});var bI="csstext:";u(function(a){var b=a.cssTimeOut;bL(b)==="number"&&(K=b)});E("vf",bK);E("vd",bq);var bO="_NC",bP=G;G=function(b,c){bP(b,c);a[bO]&&a[bO].push(arguments)};a[bO]=[];a.view=bJ;a.getViews=function(){return H};return a}(FM,window);!function(){function e(a){return"js_"+a.replace(/^\/?(.*)\.css\??.*$/i,"$1").replace(/\//g,"_").replace(/^https:/,'http:');}function d(a){var b;if(a&&((b=a.match(c("pl")))||(b=a.match(c("trustPagelet")))))return b[1].replace(/\//g,".")}function c(a){return new RegExp("^.*?\\/("+a+"\\/.*?)(_[a-z\\d]{16})?\\.js\\??.*$")}var a=$CONFIG,b=FM.view;FM.init({jsPath:a.jsPath,cssPath:a.cssPath,mJsPath:a.mJsPath});FM.view=function(a){a=a||{};var c=a.js,f="domid",g="ns",h,i;c=c&&[].concat(c);a[f]=a[f]||a.pid;a.js=c=c&&c[0];g in a||(a[g]=d(c));a.css=h=[].concat(a.css||[]);a.cssid=i=[].concat(a.cssid||[]);for(var j=i.length,k=h.length;j<k;++j)i[j]=e(h[j]);b(a)}}()
-</script>
-
-<!--保留整个界面样式的重要标签-->
-<script>
-    FM.view({"ns":"page.pl.frame.index","domid":"plc_frame",
-    "css":[],"js":"page/js/pl/frame/index.js","html":"<div class=\"WB_frame\">\r\n   " +
-        "     <textarea node-type=\"skin_style\" style=\"display: none\" readonly>\/\/img.t.sinajs.cn\/t6\/skin\/skin048\/skin.css?version=201904191146<\/textarea>\r\n     " +
-        "   \t<div class=\"WB_frame_a\">\r\n      " +
-        "      \t<div id=\"Pl_Official_Headerv6__1\"><\/div>\r\n           " +
-        "         \t<div id=\"Pl_Official_Nav__2\" name=\"place\" anchor=\"-50\"><\/div>\r\n  " +
-        "  \t    <\/div>\r\n    \t\t<div id=\"plc_main\"><\/div>\r\n\t<\/div>"})
-</script>
-
-
-<script>
-    FM.view({"ns":"","domid":"plc_main","css":[],"html":"\t\t<div class=\"WB_frame_b\" fixed-box=\"true\" fixed-random=\"false\">" +
-            "\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationLeftNav__83\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Core_T4Generaltext__84\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Core_Ut1UserList__85\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationReAddGrp__86\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationMuteUser__87\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Core_T1SingleColumn__88\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t<\/div>\r\n\t<div class=\"WB_frame_c\" fixed-box=\"true\">" +
-            "\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationBlacklist__89\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationFans__90\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationIntelligentGroup__91\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationManageInterested__92\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationSilentFollow__93\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationSubscription__94\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationMyfollow__95\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationMyRecomm__96\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationInterested__97\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationGroupList__98\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t\t\t<div id=\"Pl_Official_RelationQuietuser__99\" anchor=\"-50\">" +
-            "<\/div>\r\n\t\t\t<\/div>\r\n\t"})
-</script>
-
-
-<script>
-    FM.view({"ns":"pl.relation.myFollow.index","domid":"Pl_Official_RelationMyfollow__95",
-        "css":["style/css/module/pagecard/PCD_connectlist.css?version=201904191146"],
-        "js":"page/js/pl/relation/myFollow/index.js?version=201904191146"})
-</script>
-
-
-<!--粉丝列表数据存放地-->
-<script>
-    FM.view({"ns":"pl.relation.fans.index","domid":"Pl_Official_RelationFans__90",
-        "css":["style/css/module/pagecard/PCD_connectlist.css?version=201904191146"],
-        "js":"page/js/pl/relation/fans/index.js?version=201904191146","html":"" +
-            "<div class=\"WB_cardwrap S_bg2\">\n    <!--列表模块-->\n    " +
-            "<div class=\"PCD_connectlist\">\n     " +
-            "   <div class=\"WB_innerwrap\">\n            <!--筛选tab-->\n        " +
-            "    <div class=\"WB_tab_b\">\n          " +
-            "      <div class=\"opt_choose\">\n             " +
-            "       <div class=\"inner S_line2 clearfix\">\n             " +
-            "           <ul class=\"tab_ul W_fl\">\n                  " +
-            "          <!--当前态-->\n                  " +
-            "          <li class=\"tab_li\"><a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&f=1\" class=\"tab_item S_line1 tab_cur\">" +
-            "<span class=\"W_f14 S_txt1\">粉丝<\/span>" +
-            "<em class=\"attach S_txt1\" node-type=\"count\">81<\/em>" +
-            "<span class=\"ani_border S_line1\"><\/span><\/a><\/li>\n             " +
-            "               <!--\/当前态-->\n               " +
-            "             <li class=\"tab_li\" style=\"display:none;\">" +
-            "<a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&type=trash\" class=\"tab_item S_line1 \">" +
-            "<span class=\"W_f14 S_txt1\">垃圾箱<\/span><em class=\"attach S_txt1\" >0<\/em>" +
-            "<span class=\"ani_border S_line1\"><\/span><\/a><\/li>\n             " +
-            "           <\/ul>\n                    <\/div>\n                <\/div>\n         " +
-            "       <div class=\"opt_bar clearfix\" style=\"\">\n                          " +
-            "              <div class=\"W_fl\">\n             " +
-
-            " <em ><\/em>\n                       " +
-            " <\/a>\n                      " +
-            "  <div class=\"layer_menu_list\" style=\"z-index:100;position:absolute;display:none;\" node-type=\"fans_layer\">\n                            <ul>\n                                " +
-            "<li class=\"cur\"><a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&f=1\">全部关注<\/a><\/li>\n                                <li >" +
-            "<a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&f=2\">互相关注<\/a><\/li>\n                                <li >" +
-            "<a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&f=3\">我未关注<\/a><\/li>\n                                " +
-            "<li class=\"line\"><\/li>\n                            <\/ul>\n                            " +
-            "<ul >\n                                " +
-            "<li class=\"cur\">" +
-            "<a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&t=1\">按关注时间排序<\/a><\/li>\n                                <li >" +
-            "<a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&t=4\">按最近联系人排序<\/a><\/li>\n                                <li >" +
-            "<a bpfilter=\"page\" href=\"\/5374120439\/fans?pids=Pl_Official_RelationFans__90&relate=fans&t=5\">按粉丝数排序<\/a><\/li>\n                            <\/ul>\n                        <\/div>\n                    <\/div>\n                                                            " +
-            "<div class=\"W_fr\" node-type=\"search\">\n                        " +
-            "<div class=\"search_box\">\n                            " +
-            "<span class=\"pos\"><a href=\"javascript:void(0);\" node-type=\"submit\" title=\"搜索\" ><\/a><\/span><\/span>\n                        <\/div>\n                    <\/div>\n                                    <\/div>\n            <\/div>\n            <!--\/筛选tab-->\n                        " +
-            "<!--粉丝列表-->\n            <div class=\"follow_box\">\n                " +
-            "<div class=\"follow_inner\">\n                    \n                    " +
-            "<ul class=\"follow_list\">\n                                                               \n                                 " +
-
-            "<li class=\"follow_item S_line2\" node-type=\"userItem\" action-data=\"uid=6778205800&fnick=用户6778205800\">\n\n                            <dl class=\"clearfix\">\n                                " +
-            "<dt class=\"mod_pic\">\n                                    " +
-
-            "<a  target=\"_blank\" title=\"用户6778205800\" href=\"\/u\/6778205800?refer_flag=1005050005_\">\n                                        " +
-            "<img usercard=\"id=6778205800&refer_flag=1005050005_\" width=\"50\" height=\"50\" alt=\"用户6778205800\" src=\"\/\/tvax3.sinaimg.cn\/crop.0.0.199.199.50\/007oIEY0gy1fxtejgffxij305k05kq2w.jpg\">\n                                    " +
-            "<\/a>\n                                " +
-            "<\/dt>\n                                " +
-            "<dd class=\"mod_info S_line1\">\n                                    " +
-            "<div class=\"info_name W_fb W_f14\">\n                                                                               " +
-
-            //    第一个用户盒子
-            " <a target=\"_blank\" usercard=\"id=6778205800&refer_flag=1005050005_\" title=\"用户6778205800\" alt=\"用户6778205800\" href=\"\/u\/6778205800?refer_flag=1005050005_\" class=\"S_txt1\">用户6778205800<\/a>\n                                                                                \n                                    \t                                                                                                                        " +
-            "<a><i class=\"W_icon icon_female\"><\/i><\/a>                                   \t                                        <\/div>\n                                    " +
-            "<div class=\"info_connect\">\n                                        " +
-            "<span class=\"conn_type\">关注 <em class=\"count\"><a target=\"_blank\" href=\"\/6778205800\/follow\" >2294<\/a><\/em><\/span>\n                                        " +
-            "<span class=\"conn_type W_vline S_line1\">粉丝<em class=\"count\"><a target=\"_blank\" href=\"\/6778205800\/fans?current=fans\" >105<\/a><\/em><\/span>\n                                        " +
-            "<span class=\"conn_type W_vline S_line1\">微博<em class=\"count\"><a target=\"_blank\" href=\"\/u\/6778205800\" >2<\/a><\/em><\/span>\n                                    <\/div>\n\n                                     " +
-            "<div class=\"PCD_user_b S_bg1\" node-type=\"follow_recommend_box\" style=\"display:none\"><\/div>\n\n  " +
-            "<div class=\"info_add\"><em class=\"tit S_txt2\">地址<\/em>海外 美国<\/div>\n    \n   \n   \n \n   " +
-            "<div class=\"info_from\">通过<a href=\"http:\/\/app.weibo.com\/t\/feed\/6vtZb0\" class=\"S_link2\">微博 weibo.com<\/a>关注<\/div>\n \n <\/dd>\n" +
-            "<dd class=\"opt_box\" node-type=\"opt_box\">\n " +
-            "<span node-type=\"fans_recommend_follow\" action-data=\"f=1&uid=6778205800&location=myfans_v6&refer_sort=followed&refer_flag=1005050005_&refer_from=myfans_v6&template=8&nogroup=1&isrecommend=1&special_focus=1&special_group_id=3777523718488925&fnick=用户6778205800&is_special=0&redirect_url=%2Fp%2F1005055374120439%2Fmyfollow%3Fgid%3D3777523718488925%23place\">\n\n\n " +
-            "<a href=\"javascript:;\" class=\"W_btn_b\" action-type=\"follow\"  action-data=\"refer_sort=followlist&refer_flag=followlist&uid=6778205800&fnick=用户6778205800&f=1\">\n " +
-            "<em class=\"W_ficon ficon_right S_ficon\">Y<\/em><em class=\"W_vline S_line1\"><\/em><em class=\"W_ficon ficon_add\">+<\/em>关注 <\/a>\n<a href=\"javascript:void(0);\" class=\"W_btn_b W_btn_pf_menu\" action-type=\"follow_recommend_arr\" action-data=\"uid=6778205800&refer_from=myfans_v6\">" +
-            "<em suda-uatrack=\"key=weibo_pc_PostFollow_FollowList&value=FanListHost_Click_UnfoldTri\" class=\"W_ficon ficon_arrow_down_lite S_ficon\">g<\/em><\/a>\n <\/span>\n  " +
-            " <a href=\"javascript:;\" class=\"W_btn_b W_btn_pf_menu\" action-type=\"opt_box_more\"><em class=\"W_ficon ficon_menu S_ficon\">=<\/em><\/a>\n  <div action-type=\"opt_box_more\" node-type=\"layer_menu_list\" class=\"layer_menu_list\" style=\"position: absolute; top: 28px; right: 0px; z-index: 99;display:none;\">\n<ul>\n" +
-            "<li class=\"item\"><a href=\"javascript:;\"  action-type=\"webim.conversation\"  action-data=\"uid=6778205800&nick=用户6778205800\" class=\"tlink\" suda-uatrack=\"key=tblog_profile_v6&value=private_letter\">私信<\/a><\/li>\n" +
-            "<li class=\"item\"><a suda-data=\"key=tblog_otherprofile_v5&value=whisper\" href=\"javascript:void(0);\"  action-type=\"addQuietFollow\"  action-data=\"fuid=6778205800&fname=用户6778205800&action=add\" class=\"tlink\" suda-uatrack=\"key=tblog_profile_v6&value=silently_concern\">悄悄关注<\/a><\/li>\n" +
-            "<li class=\"item\">" +
-            "<a action-data=\"title=%E6%8A%8A%E7%94%A8%E6%88%B76778205800%E6%8E%A8%E8%8D%90%E7%BB%99%E6%9C%8B%E5%8F%8B&content=%E5%BF%AB%E6%9D%A5%E7%9C%8B%E7%9C%8B%E7%94%A8%E6%88%B76778205800%20%E7%9A%84%E5%BE%AE%E5%8D%9Ahttps:\/\/weibo.com\/u\/6778205800\" href=\"javascript:void(0);\"  action-type=\"widget_publish\"  class=\"tlink\" suda-uatrack=\"key=tblog_profile_v6&value=suggest_to_friends\">分享到微博<\/a><\/li>\n  " +
-            "<\/ul>\n " +
-
-            " <ul>\n <li class=\"item\"><a suda-data=\"key=tblog_otherprofile_v5&value=remove_fans\" href=\"javascript:void(0);\"  action-type=\"removeFan\"  class=\"tlink\" action-data=\"uid=6778205800&fname=用户6778205800&fnick=用户6778205800\" suda-uatrack=\"key=tblog_profile_v6&value=remove_fans\">移除粉丝<\/a><\/li>\n                                                                                                                                        " +
-            "<li class=\"item\"><a suda-data=\"key=tblog_otherprofile_v5&value=join_blacklist\" href=\"javascript:void(0);\"  action-type=\"block\"  class=\"tlink\" suda-uatrack=\"key=tblog_profile_v6&value=in_black_list\">加入黑名单<\/a><\/li>\n                                                                                                                                        " +
-            "<li class=\"item\"><a suda-data=\"key=tblog_otherprofile_v5&value=report\" href=\"javascript:void(0);\"  onclick=\"javascript:window.open('http:\/\/service.account.weibo.com\/reportspam?rid=aVyqHC&from=10106&type=3&url=%2F5374120439%2Ffans&bottomnav=1&wvr=5', 'newwindow', 'height=700, width=550, toolbar =yes, menubar=no, scrollbars=yes, resizable=yes, location=no, status=no');\"  class=\"tlink\" suda-uatrack=\"key=tblog_profile_v6&value=report\">投诉她<\/a><\/li>\n                                                                                    " +
-            "<\/ul>\n  " +
-            "<\/div>\n  <\/dd>\n  " +
-            "<\/dl>\n " +
-            "<\/li>\n\n" +
-            " <div class=\"info_name W_fb W_f14\">\n" +
-             "<\/div>\n <\/div>\n <div class=\"WB_cardpage S_line1\" >\r\n   " +
-           "   <!--\/列表模块-->\n<\/div>\n"})</script>
-
 <script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="script/docs.min.js"></script>
 <script type="text/javascript">
     $(function () {
         $("#top").load("userHead.html");
         $("#left").load("userLeft.html");
-    })
+
+        var total = $(".ids").length;
+        var count = 0;
+        var flag;
+        // 全选同步
+        $("#BigFlag").click(function () {
+            flag = $(this).prop("checked");
+            $(".ids").prop("checked", flag);
+            if (flag){
+                count = total;
+            } else {
+                count = 0;
+            }
+        });
+
+        // 多选操作
+        $(".ids").click(function () {
+            flag = $(this).prop("checked");
+            if (flag) {
+                if (++count == total) {
+                    $("#BigFlag").prop("checked", true);
+                }
+            } else {
+                count--;
+                $("#BigFlag").prop("checked", false);
+            }
+        });
+    });
 </script>
 </html>
-

@@ -8,6 +8,7 @@
     <resultMap id="newsPaperMap" type="com.qf.newsPaper.dto.NewsPaperAndAuthor">
         <id column="np_id" property="np_id"></id>
         <result column="user_alias" property="user_alias"></result>
+        <result column="user_id" property="user_id"></result>
         <result column="np_title" property="np_title"></result>
         <result column="np_date" property="np_date"></result>
         <result column="np_image" property="np_image"></result>
@@ -35,11 +36,20 @@
         where  np_id=#{np_id}
     </update>
 
-    <!--通过点击类别，获取类别id，得到一定数量的相关类新闻并进行排序，展示到前端页面-->
+    <!--通过点击类别，获取类别id，得到一定数量的相关类新闻并进行按时间排序，展示到前端页面-->
     <select id="getNewsByCategoryId" parameterType="int" resultMap="newsPaperMap">
-     SELECT newp.np_id,newp.user_alias,newp.np_title,newp.np_date,newp.np_image,newp.np_content,
+    SELECT newp.np_id,newp.user_id,newp.user_alias,newp.np_title,newp.np_date,newp.np_image,newp.np_content,
     class.class_name from newpaper newp,classes class WHERE newp.classes=class.class_id AND newp.np_status=1
-    and class.class_id=#{class_id} ORDER BY newp.np_date DES
+    and class.class_id=#{class_id} ORDER BY newp.np_date DESC
+    </select>
+
+    <!--点击新闻类别，按照热度进行排序并输出-->
+    <select id="getHotNewsByCategoryId" parameterType="int" resultMap="newsPaperMap">
+    SELECT newp.np_id,newp.user_id,newp.user_alias,newp.np_title,newp.np_date,newp.np_image,newp.np_content,
+    class.class_name
+    from newpaper newp,classes class
+     WHERE newp.classes=class.class_id AND newp.np_status=1
+    and class.class_id=#{class_id} ORDER BY newp.np_reading DESC,newp.np_likes DESC
     </select>
 
     <!--接收用户发布的新闻，并将它保存到数据库-->

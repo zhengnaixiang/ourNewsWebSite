@@ -6,6 +6,13 @@ import java.util.List;
 
 public interface UserInfoService {
     /**
+     * 找到对应的用户信息(精确查找)
+     * 登录验证
+     * @param userInfo
+     * @return
+     */
+    List<UserInfo> selectUserInfoIdBy(UserInfo userInfo);
+    /**
      * 注册信息是否已存在
      * 返回值0即未注册
      * @param userInfo
@@ -26,7 +33,7 @@ public interface UserInfoService {
      * @param userInfo
      * @return
      */
-    UserInfo checklogin(UserInfo userInfo);
+    UserInfo checkSingIn(UserInfo userInfo);
 
     /**
      * 获取用户id

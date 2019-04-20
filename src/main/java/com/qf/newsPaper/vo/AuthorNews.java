@@ -10,4 +10,6 @@ public class AuthorNews {
     int currentPage;
     /*每页展示的新闻数据*/
     int pageSize;
+    /*新闻的类别id*/
+    int class_id;
 }

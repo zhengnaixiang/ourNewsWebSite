@@ -2,6 +2,7 @@ package com.qf.newsPaper.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qf.newsPaper.dto.NewsPaperAndAuthor;
 import com.qf.newsPaper.dto.NewsPaperAndCategory;
 import com.qf.newsPaper.service.NewsPaperService;
 import com.qf.newsPaper.vo.AuthorNews;
@@ -48,12 +49,28 @@ public class NewsPaperController {
 
   /**
    * 通过新闻的类别id，获取该类别下一定数量的排好序的新闻
-   * @param class_id
+   * @param
    * @return
    */
-    @RequestMapping(value = "getNewsByCategoryId",method = RequestMethod.GET)
-    public Object getNewsByCategoryId(@RequestParam int class_id) {
-      return newsPaperService.getNewsByCategoryId(class_id);
+    @RequestMapping(value = "getNewsByCategoryId",method = RequestMethod.POST)
+    public Object getNewsByCategoryId(@RequestBody AuthorNews authorNews) {
+      PageHelper.startPage(authorNews.getCurrentPage(), authorNews.getPageSize());
+      List<NewsPaperAndAuthor> list = newsPaperService.getNewsByCategoryId(authorNews.getClass_id());
+      PageInfo<NewsPaperAndAuthor> newsPaperAndAuthorPageInfo = new PageInfo<NewsPaperAndAuthor>(list);
+      return newsPaperAndAuthorPageInfo;
+    }
+
+   /**
+   * 获取指定类别下的新闻，并按照热度，进行降序输出
+   * @param authorNews
+   * @return
+   */
+    @RequestMapping(value = "getHotNewsByCategoryId",method = RequestMethod.POST)
+    public Object getHotNewsByCategoryId(@RequestBody AuthorNews authorNews){
+      PageHelper.startPage(authorNews.getCurrentPage(),authorNews.getPageSize());
+      List<NewsPaperAndAuthor> hotNewsByCategoryId = newsPaperService.getHotNewsByCategoryId(authorNews.getClass_id());
+      PageInfo<NewsPaperAndAuthor> newsPaperAndAuthorPageInfo = new PageInfo<NewsPaperAndAuthor>(hotNewsByCategoryId);
+      return newsPaperAndAuthorPageInfo;
     }
 
   /**
