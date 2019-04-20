@@ -30,6 +30,14 @@ public interface NewsPaperService {
      */
     public List<NewsPaperAndAuthor> getNewsByCategoryId(int class_id);
 
+
+    /**
+     * 获取相应类别的新闻，并按照热度进行输出
+     * @param class_id
+     * @return
+     */
+    public List<NewsPaperAndAuthor> getHotNewsByCategoryId(int class_id);
+
     /**
      * 接收用户发布新闻的数据，并将其保存到数据库
      * @param newsAndOwner 用户id，和一些新闻的内容
@@ -51,4 +59,12 @@ public interface NewsPaperService {
      * @return 返回一个影响行数
      */
     public Boolean updateNewsStatusToZero(NewsPaperData newsPaperData);
+
+
+    /**
+     * 根据用户id获取该用户所撰写的新闻，并进行按阅读量和喜爱量降序输出
+     * @param user_id
+     * @return
+     */
+    public List<NewsPaperAndCategory> theHotNewsByUser(int user_id);
 }
