@@ -1,12 +1,22 @@
 package com.qf.userInfo.pojo;
 
+
 public class UserInfo {
     int user_id;
+
+    // 用户别名
     String	user_alias;
+
     String	user_tel;
+
+    //用户头像地址
     String	user_imageUrl;
+
     String	username;
+
     String password;
+
+    // 用户权限等级，0不可用，1游客，2普通用户
     int	user_power;
 
     @Override

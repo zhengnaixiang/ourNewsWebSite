@@ -123,6 +123,12 @@
                         );
                         if (item.commentList != null) {
                             $(item.commentList).each(function (index2, item2) {
+                                if (item2.user_imageUrl == null) {
+                                    item2.user_imageUrl = 'images/head/headImage-0.jpg'
+                                }
+                                if (item2.user_alias == null) {
+                                    item2.user_alias = '游客'
+                                }
                                 $(".respon:last").append(
                                     "<div class=\"media response-info\">" +
                                     "<div class=\"media-left response-text-left\">" +
@@ -131,7 +137,7 @@
                                     "</a>" +
                                     "</div>" +
                                     "<div class=\"media-body response-text-right\">" +
-                                    "<h5>"+item.user_alias+"</h5>" +
+                                    "<h5>"+item2.user_alias+"</h5>" +
                                     "<p>"+item2.comment_content+"</p>" +
                                     "<ul>" +
                                     "<li>"+item2.comment_date+"</li>" +
@@ -191,12 +197,12 @@
         //获取权限
         function getUserPower(emailText) {
             $.ajax({
-                type: 'POST',
-                url: 'getUserPower',
+                type: 'GET',
+                url: 'getUserPower?username='+emailText,
                 contentType: "application/json; charset=utf-8",
-                data:JSON.stringify({
-                    "username":emailText
-                }),
+                // data:JSON.stringify({
+                //     "username":emailText
+                // }),
                 dataType: 'json',
                 success: function (Response) {
                     if (Response == 0) {
@@ -216,12 +222,12 @@
         //得到邮箱对应的账号id
         function commentByGuess(emailText) {
             $.ajax({
-                type: 'POST',
-                url: 'getUserId',
+                type: 'GET',
+                url: 'getUserId?username='+emailText,
                 contentType: "application/json; charset=utf-8",
-                data:JSON.stringify({
-                    "username":emailText
-                }),
+                // data:JSON.stringify({
+                //     "username":emailText
+                // }),
                 dataType: 'json',
                 success: function (user_id) {
                     if (user_id > 0) {

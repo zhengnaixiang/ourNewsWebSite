@@ -3,10 +3,7 @@ package com.qf.userInfo.controller;
 import com.qf.userInfo.pojo.UserInfo;
 import com.qf.userInfo.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,17 +13,6 @@ public class UserInfoController {
 
     @Autowired
     private UserInfoService userInfoService;
-
-    /**
-     * 注册游客账号
-     * @param userInfo
-     * @return
-     */
-    @RequestMapping(value = "guessRegister",method = RequestMethod.POST)
-    public String addUserInfo(@RequestBody UserInfo userInfo){
-        userInfo.setUser_power(1);//1为游客账号
-        return userInfoService.addUserInfo(userInfo)?"true":"false";
-    }
 
     /**
      * 注册验证，检查用户是否已被注册
@@ -46,8 +32,19 @@ public class UserInfoController {
      */
     @RequestMapping(value = "register",method = RequestMethod.POST)
     public String register(@RequestBody UserInfo userInfo){
-        userInfo.setUser_power(2);//2为普通注册会员
+//        userInfo.setUser_power(2);//2为普通注册会员
         return userInfoService.addUserInfo(userInfo)?"true":"false";
+    }
+
+    /**
+     * 激活用户
+     * @param user_id
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "activation",method = RequestMethod.GET)
+    public String ToActivation(@RequestParam int user_id, int key){
+        return userInfoService.ToActivation(user_id,key)?"true":"false";
     }
 
     /**
@@ -80,25 +77,26 @@ public class UserInfoController {
 
     /**
      * 获取用户权限
-     * @param userInfo
+     * @param username
      * @return
      */
-    @RequestMapping(value = "getUserPower",method = RequestMethod.POST)
-    public int getUserPower(@RequestBody UserInfo userInfo){
-        return userInfoService.getUserPower(userInfo);
+    @RequestMapping(value = "getUserPower",method = RequestMethod.GET)
+    public int getUserPower(@RequestParam String username){
+        return userInfoService.getUserPower(username);
     }
 
     /**
      * 获取用户id
-     * @param userInfo
+     * @param username
      * @param httpSession
      * @return
      */
-    @RequestMapping(value = "getUserId",method = RequestMethod.POST)
-    public int getUserId(@RequestBody UserInfo userInfo, HttpSession httpSession){
-        int user_id = userInfoService.getUserId(userInfo);
-        userInfo.setUser_id(user_id);
-        httpSession.setAttribute("userInfo",userInfo);
+    @RequestMapping(value = "getUserId",method = RequestMethod.GET)
+    public int getUserId(@RequestParam String username, HttpSession httpSession){
+        int user_id = userInfoService.getUserId(username);
+        if (user_id>0) {
+            httpSession.setAttribute("userInfo",userInfoService.selectUserInfoByName(username));
+        }
         return user_id;
     }
 }

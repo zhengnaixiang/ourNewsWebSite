@@ -5,11 +5,35 @@
     <title>登录</title>
     <script src="js/jquery/jquery-2.1.1.min.js"></script>
     <script src="js/md5.js"></script>
-    <script>
+    <script type="text/javascript">
+
+        // 加密状态
+        var md5lock = false;
+
+        $(document).ready(function(){
+            $("#password").keydown(function (event) {
+                // 敲击回车键快速通道登录
+                if (event.which === 13) {
+                    login();
+                }
+                if (md5lock) {
+                    // 密码已被加密情况下触发退格键清空全部并复原加锁状态到false
+                    if (event.which === 8) {
+                        $("#password").val(''); md5lock = false;
+                    }
+                }
+            });
+        });
+
         function login() {
             var usernameText = $("#username").val();
             var passwordText = $("#password").val();
-            $("#password").val(hex_md5(usernameText+passwordText));//表象加密动作
+            if (!md5lock) {
+                // 表象加密动作
+                $("#password").val(hex_md5(usernameText+passwordText));
+                // 仅加密一次
+                md5lock = true;
+            }
             $.ajax({
                 type: 'POST',
                 url: 'loginTo',
@@ -20,13 +44,18 @@
                 }),
                 dataType: 'json',
                 success: function (Response) {
-                   alert(Response)
+                   if (Response) {
+                       alert("登录成功")
+                   } else {
+                       alert("账号或密码不正确，或者用户未激活")
+                   }
                 },
                 error: function (response) {
                     console.error(response);
                 }
             });
         }
+
     </script>
 </head>
 <body>

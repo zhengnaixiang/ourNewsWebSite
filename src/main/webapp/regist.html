@@ -98,11 +98,32 @@
             'margin-top': -(intro.height() / 2 + 100)
         });
     });
+
+    // 加密状态
+    var md5lock = false;
+
+    $(document).ready(function(){
+        $("#password").keydown(function (event) {
+            if (md5lock) {
+                // 密码已被加密情况下触发退格键清空全部并复原加锁状态到false
+                if (event.which === 8) {
+                    $("#password").val(''); md5lock = false;
+                }
+            }
+        });
+    });
+
     function register() {
-        var aliasText = $("#alias").val();
+
         var usernameText = $("#account").val();
         var passwordText = $("#password").val();
-        $("#password").val(hex_md5(usernameText+passwordText));//表象加密动作
+        if (!md5lock) {
+            // 表象加密动作
+            $("#password").val(hex_md5(usernameText+passwordText));
+            // 仅加密一次
+            md5lock = true;
+        }
+        var aliasText = $("#alias").val();
         var telephone = $("#telephone").val();
         if (true) {
             $.ajax({

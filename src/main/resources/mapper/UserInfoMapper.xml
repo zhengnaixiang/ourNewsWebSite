@@ -19,13 +19,13 @@
         <where>
             <trim suffixOverrides="or">
                 <if test="#{user_alias} != null" >
-                    user_alias = #{user_alias} or
+                    user_alias = #{user_alias}
                 </if>
                 <if test="#{username} != null" >
-                    username = #{username} or
+                    username = #{username}
                 </if>
                 <if test="#{user_tel} != null" >
-                    user_tel = #{user_tel} or
+                    user_tel = #{user_tel}
                 </if>
 --                 游客不算被注册，过滤掉
                 user_power != 1
@@ -33,64 +33,93 @@
         </where>
     </select>
 
-    <select id="selectUserInfoBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
-        select * from userinfo
-        <where>
-            <trim suffixOverrides="or">
-                <if test="#{user_alias} != null" >
-                    user_alias = #{user_alias} or
-                </if>
-                <if test="#{username} != null" >
-                    username = #{username} or
-                </if>
-                <if test="#{user_tel} != null" >
-                    user_tel = #{user_tel} or
-                </if>
-            </trim>
-        </where>
+    <select id="selectUserInfoByName" resultMap="userInfoMap" parameterType="java.lang.String">
+        select * from userinfo where username = #{username} limit 1
     </select>
 
     <!--必须有账号名称和权限值，其他选填-->
     <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
         insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`,user_power)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            <if test="user_alias != null">
-                #{user_alias},
-            </if>
-            <if test="user_alias == null">
-                default,
-            </if>
-            <if test="user_tel != null">
-                #{user_tel},
-            </if>
-            <if test="user_tel == null">
-                default,
-            </if>
-            <if test="user_imageUrl != null">
-                #{user_imageUrl},
-            </if>
-            <if test="user_imageUrl == null">
-                default,
-            </if>
+            <choose>
+                <when test="user_alias != null and user_alias != ''">
+                    #{user_alias},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="user_tel != null and user_tel != 0">
+                    #{user_tel},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="user_imageUrl != null and user_imageUrl != ''">
+                    #{user_imageUrl},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
 
             #{username},
 
-            <if test="password != null">
-                #{password},
-            </if>
-            <if test="password == null">
-                default,
-            </if>
+            <choose>
+                <when test="password != null and password != ''">
+                    #{password},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
 
             #{user_power},
 
         </trim>
     </insert>
 
-    <!--支持账号或者手机号码登录-->
     <select id="checklogin" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
-        select * from userinfo where username = #{username} and `password` = #{password}
+        select * from userinfo where username = #{username} and `password` = #{password} and user_power>1
     </select>
 
+    <update id="updateUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
+        update userinfo set
+        <if test="user_id != null and user_id != '' and user_id != 0">
+            <trim suffixOverrides=",">
+                <if test="user_alias != null and user_alias != ''">
+                    user_alias = #{user_alias},
+                </if>
+                <if test="username != null and username != ''">
+                    username = #{username},
+                </if>
+                <if test="password != null and password != ''">
+                    password = #{password},
+                </if>
+                <if test="user_tel != null and user_tel != 0">
+                    user_tel = #{user_tel},
+                </if>
+                <if test="user_power != null and user_power != 0">
+                    user_power = #{user_power},
+            </if>
+            </trim>
+            where user_id = #{user_id}
+        </if>
+    </update>
+
+    <insert id="addActivation" parameterType="com.qf.userInfo.pojo.Activation">
+        insert into activation_userinfo(user_id,activation_key) values(#{user_id},#{activation_key})
+    </insert>
+
+    <select id="checkActivation" resultType="Integer" parameterType="Integer">
+        select count(*) from activation_userinfo where user_id = #{user_id} and activation_key = #{activation_key}
+    </select>
+
+    <delete id="deleteActivationByUserId" parameterType="Integer">
+        delete from activation_userinfo where user_id = #{user_id}
+    </delete>
 
 </mapper>
