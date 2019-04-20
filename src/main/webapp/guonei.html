@@ -21,14 +21,19 @@
             $(".header").load("header.html");
             // 页尾
             $(".footer").load("footer.html");
-     /*       // 热门
-            $(".col-md-3").load("popular.html");*/
+            /*       // 热门
+                   $(".col-md-3").load("popular.html");*/
         })
 	</script>
 	<style>
 		.effect-grid li{
 			width: 250px;
 			height: 200px;
+		}
+
+		.myStyle{
+			font-weight: bold;
+			color: red;
 		}
 	</style>
 </head>
@@ -38,72 +43,47 @@
 </div>
 <!--start-main-->
 <!--<div class="header-bottom">-->
-	<!--<div class="container">-->
-		<!--<div class="logo">-->
-			<!--<h1><a href="index.html">STYLE BLOG</a></h1>-->
-			<!--<p><label class="of"></label>LET'S MAKE A PERFECT STYLE<label class="on"></label></p>-->
-		<!--</div>-->
-	<!--</div>-->
+<!--<div class="container">-->
+<!--<div class="logo">-->
+<!--<h1><a href="index.html">STYLE BLOG</a></h1>-->
+<!--<p><label class="of"></label>LET'S MAKE A PERFECT STYLE<label class="on"></label></p>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 <!-- banner -->
-
-<div class="banner-1">
-
-</div>
 
 <!-- technology-left -->
 <div class="technology">
 	<div class="container">
 		<div class="col-md-9 technology-left">
-			<div class="guonei">
+			<div class="guonei" class="grid">
 				<div class="latest">
 					<h2 class="w3" id="ClassHeadLine"></h2>
 					<div class="tip-grids" id="theFirstNews">
 						<a href="singlepage.html">
-						<div class="col-md-6 tip-grid">
-							<figure class="effect-julia" >
-								<img src="images/5cafc4c3a310e7f83eeff498.jpg" alt="" >
-							</figure>
-						</div>
-						<div class="col-md-6 tip-grid-right">
-							<div class="tip-gd-left">
-								<h4>近50件敦煌壁画艺术精品首次亮相云南</h4>
-								<p> 4月11日，观众观赏敦煌壁画。昨日，《敦煌穿越千年的永恒——敦煌壁画艺术精品高校公益巡展》亮相云南大学，近50件精美的敦煌石窟壁画、雕塑、藏经洞文献和绢纸画复制品一一展出</p>
+							<div class="col-md-6 tip-grid">
+								<figure class="effect-julia" >
+									<img src="images/5cafc4c3a310e7f83eeff498.jpg" alt="" >
+								</figure>
 							</div>
-						</div>
+							<div class="col-md-6 tip-grid-right">
+								<div class="tip-gd-left">
+									<h4>近50件敦煌壁画艺术精品首次亮相云南</h4>
+									<p> 4月11日，观众观赏敦煌壁画。昨日，《敦煌穿越千年的永恒——敦煌壁画艺术精品高校公益巡展》亮相云南大学，近50件精美的敦煌石窟壁画、雕塑、藏经洞文献和绢纸画复制品一一展出</p>
+								</div>
+							</div>
 						</a>
 						<div class="clearfix"></div>
 					</div>
 				</div>
-				<!--<div class="effect-grid">
-					<h3 class="w3">更多</h3>
-					<ul class="grid cs-style-3">
-						<li>
-							<figure>
-								<img src="images/5cae8e12a310e7f83eefda89.jpg" alt="img02">
-								<figcaption>
-									<h4>查看</h4>
-								</figcaption>
-							</figure>
-						</li>
-						<li>
-							<figure>
-								<img src="images/n1.jpg" alt="img03">
-								<figcaption>
-									<h4>查看</h4>
-								</figcaption>
-							</figure>
-						</li>
-						<div class="clearfix"></div>
-					</ul>
-				</div>-->
-				<div class="w3ls" id="theOrdinaryNews">
+				<div class="w3ls" id="theOrdinaryNews"  class="grid-item">
 					<div class="col-md-6 w3ls-left wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
 						<div class="tc-ch">
 							<div class="tch-img">
 								<a href="singlepage.html">
 									<img src="images/m4.jpg" class="img-responsive" alt=""></a>
 							</div>
+
 							<h3><a href="singlepage.html">两度推迟“上天” 重型猎鹰火箭终于完成首次商业发射</a></h3>
 							<h6>BY <a href="singlepage.html">德玛西亚 </a>2019-04-12.</h6>
 							<p>新京报快讯（记者陆一夫）因天气问题两度推迟发射的猎鹰重型火箭终于顺利发射。北京时间4月12日6时35分，美国民营火箭公司Space X的猎鹰重型火箭(FalconHeavy)成功升空，并完成两个助推器和芯级火箭的回收。</p>
@@ -113,6 +93,21 @@
 							<div class="clearfix"></div>
 						</div>
 					</div>
+					<div class="col-md-6 w3ls-left wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+						<div class="tc-ch">
+							<div class="tch-img">
+								<a href="singlepage.html"><img src="images/m5.jpg" class="img-responsive" alt=""></a>
+							</div>
+							<h3><a href="singlepage.html">黑龙江回应毁林种参事件：已连夜派调查组取证</a></h3>
+							<h6>BY <a href="singlepage.html">克里斯丁 </a>2019-04-11.</h6>
+							<p>11日，上游新闻刊发《密林开“天窗”，黑龙江6000亩林地疑被毁林种人参》一文，据报道显示，有居民举报黑龙江省尚志市帽儿山镇一大片国有、村集体所有林地，在没有采伐手续的情况下被砍伐上万亩。</p>
+							<div class="bht1">
+								<a href="singlepage.html">查看更多</a>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
 				</div>
 			</div>
 		</div>
@@ -152,13 +147,14 @@
 		<!-- technology-right -->
 	</div>
 </div>
-<div class="footer">
+<div class="footer" style="display: none">
 
 </div>
 <div class="copyright">
 	<div class="container">
 		<p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
 	</div>
+
 
 </div>
 </body>
@@ -167,63 +163,42 @@
 <script src="script/docs.min.js"></script>
 <script type="text/javascript">
     // <!--通过ajax将该类别下的新闻，展示到该页面上-->
-	//获取该类别的名称
-	var class_id=window.location.href.split("=")[1];
-	function getNewsContent() {
+    //获取该类别的名称
+    var class_id=window.location.href.split("=")[1];
+    $("#theOrdinaryNews").empty('');
+    function getNewsContent(currentPage,pageSize) {
+        class_id=window.location.href.split("=")[1];
         $.ajax({
-            type: 'GET',
-            url:  "getNewsByCategoryId?class_id="+class_id,
+            type: 'POST',
+            url:  "getNewsByCategoryId",
             contentType: "application/json; charset=utf-8",
+            data:JSON.stringify({
+                "class_id":class_id,
+                "currentPage":currentPage,
+                "pageSize":pageSize
+            }) ,
             success: function(response){
                 console.log(response);
-                /*将原数据清空*/
-				$("#theHotNews").empty('');
-				$("#theOrdinaryNews").empty('');
-				$("#theFirstNews").empty('');
                 /*将集合的数据进行迭代*/
-                $(response).each(function (index,item){
-                    if (index==0){//index=0,表示该类别下最热门的新闻
-                       $("#theFirstNews").append("\t<a href='#'  onclick='turnToSingleNews("+item.np_id+")'>\n" +
-                           "\t\t\t\t\t\t<div class=\"col-md-6 tip-grid\">\n" +
-                           "\t\t\t\t\t\t\t<figure class=\"effect-julia\" >\n" +
-                           "\t\t\t\t\t\t\t\t<img src='"+item.np_image+"' alt=\"\" >\n" +
-                           "\t\t\t\t\t\t\t</figure>\n" +
-                           "\t\t\t\t\t\t</div>\n" +
-                           "\t\t\t\t\t\t<div class=\"col-md-6 tip-grid-right\">\n" +
-                           "\t\t\t\t\t\t\t<div class=\"tip-gd-left\">\n" +
-                           "\t\t\t\t\t\t\t\t<h4>'"+item.np_title+"'</h4>\n" +
-                           "\t\t\t\t\t\t\t\t<p>'"+item.np_content+"'</p>\n" +
-                           "\t\t\t\t\t\t\t</div>\n" +
-                           "\t\t\t\t\t\t</div>\n" +
-                           "\t\t\t\t\t\t</a>\n" +
-                           "\t\t\t\t\t\t<div class=\"clearfix\"></div>");
-					}
-					if (index<=2){//index=0,1,2.表示该类别下，最热门的前三个新闻
-					//    创建前三个热门新闻的标签
-						$("#theHotNews").append("\t<div class=\"blog-grid-left\">\n" +
-                        "\t\t\t\t\t\t\t<a href='#'  onclick='turnToSingleNews("+item.np_id+")'><img src='"+item.np_image+"' class=\"img-responsive\" alt=\"\"></a>\n" +
-                        "\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t<div class=\"blog-grid-right\">\n" +
-                        "\t\t\t\t\t\t\t<h5><a href='#' onclick='turnToSingleNews("+item.np_id+")' >'"+item.np_title+"'</a> </h5>\n" +
-                        "\t\t\t\t\t\t</div>\n" +
-                        "\t\t\t\t\t\t<div class=\"clearfix\"> </div>");
-
-					} else{//其余普通新闻
-                        $("#theOrdinaryNews").append("\t\t<div class=\"tc-ch\">\n" +
-                           "\t\t\t\t\t\t\t<div class=\"tch-img\">\n" +
-                           "\t\t\t\t\t\t\t\t<a href='#'  onclick='turnToSingleNews("+item.np_id+")'>\n" +
-                           "\t\t\t\t\t\t\t\t\t<img src='"+item.np_image+"' class=\"img-responsive\" alt=\"\"></a>\n" +
-                           "\t\t\t\t\t\t\t</div>\n" +
-                           "\t\t\t\t\t\t\t<h3><a href='#'  onclick='turnToSingleNews("+item.np_id+")'>'"+item.np_title+"'</a></h3>\n" +
-                           "\t\t\t\t\t\t\t<h6>BY <a href=\"#\">'"+item.alias+"'</a>'"+item.np_date+"'</h6>\n" +
-                           "\t\t\t\t\t\t\t<p>'"+item.np_content+"'</p>\n" +
-                           "\t\t\t\t\t\t\t<div class=\"bht1\">\n" +
-                           "\t\t\t\t\t\t\t\t<a href='#'  onclick='turnToSingleNews("+item.np_id+")'>查看更多</a>\n" +
-                           "\t\t\t\t\t\t\t</div>\n" +
-                           "\t\t\t\t\t\t\t<div class=\"clearfix\"></div>\n" +
-                           "\t\t\t\t\t\t</div>");
-					}
-				})
+                for (var i = 0; i < response.list.length; i++) {
+                    //其余普通新闻
+                    $("#theOrdinaryNews").append("\t<div class=\"col-md-6 w3ls-left wow fadeInDown\"  data-wow-duration=\".8s\" data-wow-delay=\".2s\">\n" +
+                        "\t\t\t\t\t\t\t<div class=\"tc-ch\">\n" +
+                        "\t\t\t\t\t\t\t\t<div class=\"tch-img\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<a href='#' onclick='turnToSingleNews("+response.list[i].np_id+")'>\n" +
+                        "\t\t\t\t\t\t\t\t\t\t<img src="+response.list[i].np_image+" class=\"img-responsive\" alt=\"\"></a>\n" +
+                        "\t\t\t\t\t\t\t\t</div>\n" +
+                        "\n" +
+                        "\t\t\t\t\t\t\t\t<h3><a href='#' onclick='turnToSingleNews("+response.list[i].np_id+")'>"+response.list[i].np_title+"</a></h3>\n" +
+                        "\t\t\t\t\t\t\t\t<h6>BY <a href='#' onclick='turnToAuthorHome("+response.list[i].user_id+")'>"+response.list[i].user_alias+"</a>"+response.list[i].np_date+"</h6>\n" +
+                        "\t\t\t\t\t\t\t\t<p>"+response.list[i].np_content.split("。")[0]+"<a href='#' onclick='turnToSingleNews("+response.list[i].np_id+")' class='myStyle'>点击查看更多</a></p>\n" +
+                        "\t\t\t\t\t\t\t\t<div class=\"bht1\">\n" +
+                        "\t\t\t\t\t\t\t\t\t<a href='#' onclick='turnToSingleNews("+response.list[i].np_id+")'>查看更多</a>\n" +
+                        "\t\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t\t\t<div class=\"clearfix\"></div>\n" +
+                        "\t\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t</div>");
+                }
             } ,
             error:function (message) {
                 console.log(message);
@@ -231,14 +206,85 @@
             dataType: 'json'
         });
     }
-//    调用函数，将数据显示出来
-	 getNewsContent();
+    //    调用函数，将数据显示出来，新闻按照时间降序输出，
+    getNewsContent(1,3);
 
-	/*点击单个新闻，携带新闻的id跳转到单个新闻的浏览界面*/
-	function turnToSingleNews(theNp_id) {
+
+    //通过ajax，将该类别下的新闻，按照热度进行降序输出
+    function getHotNewsByCategoryId(currentPage,pageSize) {
+        class_id=window.location.href.split("=")[1];
+        $.ajax({
+            type: 'POST',
+            url:  "getHotNewsByCategoryId",
+            contentType: "application/json; charset=utf-8",
+            data:JSON.stringify({
+                "class_id":class_id,
+                "currentPage":currentPage,
+                "pageSize":pageSize
+            }) ,
+            success: function(responseText){
+                /* console.log(responseText);*/
+                /*将原数据清空*/
+                $("#theHotNews").empty('');
+                $("#theFirstNews").empty('');
+                /*将集合的数据进行迭代*/
+                for (var i = 0; i < responseText.list.length; i++){
+                    if (i==0){//i=0,表示该类别下最热门的新闻
+                        $("#theFirstNews").append("\t<a href='#'  onclick='turnToSingleNews("+responseText.list[i].np_id+")'>\n" +
+                            "\t\t\t\t\t\t<div class=\"col-md-6 tip-grid\">\n" +
+                            "\t\t\t\t\t\t\t<figure class=\"effect-julia\" >\n" +
+                            "\t\t\t\t\t\t\t\t<img src="+responseText.list[i].np_image+" alt=\"\" >\n" +
+                            "\t\t\t\t\t\t\t</figure>\n" +
+                            "\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t<div class=\"col-md-6 tip-grid-right\">\n" +
+                            "\t\t\t\t\t\t\t<div class=\"tip-gd-left\">\n" +
+                            "\t\t\t\t\t\t\t\t<h4>"+responseText.list[i].np_title+"</h4>\n" +
+                            "\t\t\t\t\t\t\t\t<p>"+responseText.list[i].np_content.split("。")[0]+"<a href='#' onclick='turnToSingleNews("+responseText.list[i].np_id+")' class='myStyle'>点击查看更多</a></p>\n" +
+                            "\t\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t</div>\n" +
+                            "\t\t\t\t\t\t</a>\n" +
+                            "\t\t\t\t\t\t<div class=\"clearfix\"></div>");
+                    }
+                    $("#theHotNews").append("\t<div class=\"blog-grid-left\">\n" +
+                        "\t\t\t\t\t\t\t<a href='#'  onclick='turnToSingleNews("+responseText.list[i].np_id+")'><img src="+responseText.list[i].np_image+" class=\"img-responsive\" alt=\"\"></a>\n" +
+                        "\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t<div class=\"blog-grid-right\">\n" +
+                        "\t\t\t\t\t\t\t<h5><a href='#' onclick='turnToSingleNews("+responseText.list[i].np_id+")' >"+responseText.list[i].np_title+"</a> </h5>\n" +
+                        "\t\t\t\t\t\t</div>\n" +
+                        "\t\t\t\t\t\t<div class=\"clearfix\"> </div>");
+                }
+            },
+            error:function (message) {
+                console.log(message);
+            },
+            dataType: 'json'
+        });
+    }
+    /*调用函数，展示热门新闻*/
+    getHotNewsByCategoryId(1,2);
+
+    /*点击单个新闻，携带新闻的id跳转到单个新闻的浏览界面*/
+    function turnToSingleNews(theNp_id) {
         var url = "singlepage.html?np_id="+theNp_id;
         window.location.href = url;
     }
-</script>
 
+    /*点击作者，跳转到该新闻作者的个人主页*/
+    function turnToAuthorHome(user_id) {
+        var url="authorHomepage.html?user_id"+user_id;
+        window.location.href=url;
+    }
+
+    var currentPage=1;
+    var pageSize=2;
+    /*瀑布流滚动加载事件*/
+    $(window).scroll(function(){
+        // 当滚动到最底部以上n像素时， 加载新内容
+        if ($(document).height() - $(this).scrollTop() - $(this).height()<=3) {
+            currentPage=currentPage+1;
+            class_id=window.location.href.split("=")[1];
+            getNewsContent(currentPage,pageSize)
+        }
+    });
+</script>
 </html>
