@@ -1,17 +1,12 @@
 package com.qf.userInfo.service;
 
+import com.qf.userInfo.dto.UserInfoDto;
 import com.qf.userInfo.pojo.UserInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserInfoService {
-    /**
-     * 找到对应的用户信息(精确查找)
-     * 登录验证
-     * @param userInfo
-     * @return
-     */
-    List<UserInfo> selectUserInfoIdBy(UserInfo userInfo);
     /**
      * 注册信息是否已存在
      * 返回值0即未注册
@@ -33,7 +28,7 @@ public interface UserInfoService {
      * @param userInfo
      * @return
      */
-    UserInfo checkSingIn(UserInfo userInfo);
+    UserInfo checklogin(UserInfo userInfo);
 
     /**
      * 获取用户id
@@ -49,4 +44,12 @@ public interface UserInfoService {
      * @return
      */
     int getUserPower(UserInfo userInfo);
+
+    UserInfoDto getFocusAndFans(int user_id);
+
+    int removeFollow(Map map);
+
+    int follow(Map map);
+
+    List<UserInfo> selectUserInfoBy(UserInfo userInfo);
 }
