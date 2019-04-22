@@ -36,26 +36,6 @@
         select * from userinfo where username = #{username} limit 1
     </select>
 
-    <!--<select id="selectUserInfoBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">-->
-        <!--select * from userinfo-->
-        <!--<where>-->
-            <!--<trim suffixOverrides="or">-->
-                <!--<if test="#{user_alias} != null" >-->
-                    <!--user_alias = #{user_alias} or-->
-                <!--</if>-->
-                <!--<if test="#{username} != null" >-->
-                    <!--username = #{username} or-->
-                <!--</if>-->
-                <!--<if test="#{user_tel} != null" >-->
-                    <!--user_tel = #{user_tel} or-->
-                <!--</if>-->
-                <!--<if test="#{user_power} != null" >-->
-                    <!--user_power = #{user_power} or-->
-                <!--</if>-->
-            <!--</trim>-->
-        <!--</where>-->
-    <!--</select>-->
-
     <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
         insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
@@ -102,8 +82,8 @@
     </select>
 
     <update id="updateUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
-        update userinfo set
         <if test="user_id != null and user_id != '' and user_id != 0">
+            update userinfo set
             <trim suffixOverrides=",">
                 <if test="user_alias != null and user_alias != ''">
                     user_alias = #{user_alias},
