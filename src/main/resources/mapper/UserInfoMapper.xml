@@ -13,112 +13,112 @@
         <result column="password" property="password"></result>
         <result column="user_power" property="user_power"></result>
     </resultMap>
-
-    <resultMap id="userInfoDto" type="com.qf.userInfo.dto.UserInfoDto">
-        <id column="user_id" property="user_id"></id>
-        <result column="user_alias" property="user_alias"></result>
-        <result column="user_tel" property="user_tel"></result>
-        <result column="user_imageUrl" property="user_imageUrl"></result>
-        <result column="username" property="username"></result>
-        <result column="password" property="password"></result>
-        <result column="user_power" property="user_power"></result>
-        <result column="num" property="num"></result>
-        <collection property="focus" ofType="com.qf.userInfo.pojo.UserInfo">
-            <id column="fo_id" property="user_id"></id>
-        </collection>
-        <collection property="fans" ofType="com.qf.userInfo.pojo.UserInfo">
-            <id column="fa_id" property="user_id"></id>
-        </collection>
-    </resultMap>
-
+    
     <select id="checkRegisterBy" resultType="Integer" parameterType="com.qf.userInfo.pojo.UserInfo">
         select count(*) from userinfo
         <where>
-            <trim suffixOverrides="or">
-                <if test="#{user_alias} != null" >
-                    user_alias = #{user_alias} or
-                </if>
-                <if test="#{username} != null" >
-                    username = #{username} or
-                </if>
-                <if test="#{user_tel} != null" >
-                    user_tel = #{user_tel} or
-                </if>
-            </trim>
+            <choose>
+                <when test="#{user_alias} != null and #{user_alias} != ''">
+                    user_alias = #{user_alias}
+                </when>
+                <when test="#{username} != null and #{username} != ''">
+                    username = #{username}
+                </when>
+                <when test="#{user_tel} != null and #{user_tel} != ''">
+                    user_tel = #{user_tel}
+                </when>
+            </choose>
         </where>
     </select>
 
-    <select id="selectUserInfoIdBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
-        select * from userinfo
-        <where>
-            <trim suffixOverrides="or">
-                <if test="#{user_alias} != null" >
-                    user_alias = #{user_alias} or
-                </if>
-                <if test="#{username} != null" >
-                    username = #{username} or
-                </if>
-                <if test="#{user_tel} != null" >
-                    user_tel = #{user_tel} or
-                </if>
-                <if test="#{user_power} != null" >
-                    user_power = #{user_power} or
-                </if>
-            </trim>
-        </where>
+
+    <select id="selectUserInfoByName" resultMap="userInfoMap" parameterType="java.lang.String">
+        select * from userinfo where username = #{username} limit 1
     </select>
 
     <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
         insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`)
         <trim prefix="values(" suffix=")" suffixOverrides=",">
-            <if test="#{user_alias} != null">
-                #{user_alias},
-            </if>
-            <if test="#{user_alias} == null">
-                default,
-            </if>
-            <if test="#{user_tel} != null">
-                #{user_tel},
-            </if>
-            <if test="#{user_tel} == null">
-                default,
-            </if>
-            <if test="#{user_imageUrl} != null">
-                #{user_imageUrl},
-            </if>
-            <if test="#{user_imageUrl} == null">
-                default,
-            </if>
-                #{username},
-            <if test="#{password} != null">
-                #{password},
-            </if>
-            <if test="#{password} == null">
-                default,
-            </if>
-            <if test="#{user_power} != null">
-                #{user_power},
-            </if>
-            <if test="#{user_power} == null">
-                default,
-            </if>
+            <choose>
+                <when test="user_alias != null and user_alias != ''">
+                    #{user_alias},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="user_tel != null and user_tel != 0">
+                    #{user_tel},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="user_imageUrl != null and user_imageUrl != ''">
+                    #{user_imageUrl},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
+
+            #{username},
+
+            <choose>
+                <when test="password != null and password != ''">
+                    #{password},
+                </when>
+                <otherwise>
+                    default,
+                </otherwise>
+            </choose>
         </trim>
     </insert>
 
-    <select id="checklogin" resultType="com.qf.userInfo.pojo.UserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
+    <select id="checklogin" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
+        select * from userinfo where username = #{username} and `password` = #{password} and user_power>1
+    </select>
+
+    <update id="updateUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
+        <if test="user_id != null and user_id != '' and user_id != 0">
+            update userinfo set
+            <trim suffixOverrides=",">
+                <if test="user_alias != null and user_alias != ''">
+                    user_alias = #{user_alias},
+                </if>
+                <if test="username != null and username != ''">
+                    username = #{username},
+                </if>
+                <if test="password != null and password != ''">
+                    password = #{password},
+                </if>
+                <if test="user_tel != null and user_tel != 0">
+                    user_tel = #{user_tel},
+                </if>
+                <if test="user_power != null and user_power != 0">
+                    user_power = #{user_power},
+            </if>
+            </trim>
+            where user_id = #{user_id}
+        </if>
+    </update>
+
+    <insert id="addActivation" parameterType="com.qf.userInfo.pojo.Activation">
+        insert into activation_userinfo(user_id,activation_key) values(#{user_id},#{activation_key})
+    </insert>
+
+    <select id="checkActivation" resultType="Integer" parameterType="Integer">
+        select count(*) from activation_userinfo where user_id = #{user_id} and activation_key = #{activation_key}
+    </select>
+
+    <delete id="deleteActivationByUserId" parameterType="Integer">
+        delete from activation_userinfo where user_id = #{user_id}
+    </delete>
+
+    <select id="checkSingIn" resultType="com.qf.userInfo.pojo.UserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
         SELECT * from userinfo where user_power != 0 and username = #{username} and password = #{password}
     </select>
 
-    <select id="getFocus" parameterType="int" resultMap="userInfoDto">
-        select u.*,f1.from_user_id fo_id from (select * from userInfo,(select count(*) num from newpaper where user_id = #{user_id}) as c where user_id = #{user_id} )as u left join follow f1 on  f1.to_user_id = #{user_id}
-    </select>
-    <select id="getFans" parameterType="int" resultMap="userInfoDto">
-        select u.*,f1.to_user_id fa_id from (select * from userInfo,(select count(*) num from newpaper where user_id = #{user_id}) as c where user_id = #{user_id} )as u left join follow f1 on  f1.from_user_id = #{user_id}
-   </select>
-    <delete id="removeFollow" parameterType="int">
-        delete from follow where from_user_id = #{from_user_id} and to_user_id = #{to_user_id}
-    </delete>
-    <insert id="follow" parameterType="Map">
-        insert into follow values (default ,#{from_user_id}, #{to_user_id})
-    </insert>
 </mapper>

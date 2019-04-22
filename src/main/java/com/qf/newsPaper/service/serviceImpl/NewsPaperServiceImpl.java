@@ -6,7 +6,6 @@ import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.newsPaper.service.NewsPaperService;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
@@ -48,6 +47,15 @@ public class NewsPaperServiceImpl implements NewsPaperService {
     }
 
     /**
+     * 获取该类别的新闻，并按照热度进行降序输出
+     * @param class_id
+     * @return
+     */
+    public List<NewsPaperAndAuthor> getHotNewsByCategoryId(int class_id) {
+        return newsMapper.getHotNewsByCategoryId(class_id);
+    }
+
+    /**
      * 接收用户发布新闻的数据，并将其保存到数据库
      * @param newsAndOwner 用户id，和一些新闻的内容
      * @return 是否添加成功的状态值
@@ -72,5 +80,14 @@ public class NewsPaperServiceImpl implements NewsPaperService {
      */
     public Boolean updateNewsStatusToZero(NewsPaperData newsPaperData) {
         return newsMapper.updateNewsStatusToZero(newsPaperData)>0?true:false;
+    }
+
+    /**
+     * 根据用户id获取该用户所撰写的新闻，并进行按阅读量和喜爱量降序输出
+     * @param user_id
+     * @return
+     */
+    public List<NewsPaperAndCategory> theHotNewsByUser(int user_id) {
+        return newsMapper.theHotNewsByUser(user_id);
     }
 }

@@ -15,4 +15,6 @@ public class NewsAndOwner {
     String np_image;
 //    新闻内容
     String np_content;
+//    新闻的类别
+    int classes;
 }

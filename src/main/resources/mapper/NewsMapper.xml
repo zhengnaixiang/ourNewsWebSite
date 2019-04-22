@@ -8,14 +8,13 @@
     <resultMap id="newsPaperMap" type="com.qf.newsPaper.dto.NewsPaperAndAuthor">
         <id column="np_id" property="np_id"></id>
         <result column="user_alias" property="user_alias"></result>
+        <result column="user_id" property="user_id"></result>
         <result column="np_title" property="np_title"></result>
         <result column="np_date" property="np_date"></result>
         <result column="np_image" property="np_image"></result>
         <result column="np_content" property="np_content"></result>
         <result column="class_name" property="class_name"></result>
     </resultMap>
-
-
 
     <!--点击新闻，将新闻页面所需东西返回给前端-->
     <select id="acquireNewsByNewsId" parameterType="int" resultType="com.qf.newsPaper.dto.NewsPaperAndAuthor">
@@ -37,26 +36,44 @@
         where  np_id=#{np_id}
     </update>
 
-    <!--通过点击类别，获取类别id，得到一定数量的相关类新闻并进行排序，展示到前端页面-->
+    <!--通过点击类别，获取类别id，得到一定数量的相关类新闻并进行按时间排序，展示到前端页面-->
     <select id="getNewsByCategoryId" parameterType="int" resultMap="newsPaperMap">
-  SELECT newp.np_id,newp.user_alias,newp.np_title,newp.np_date,newp.np_image,newp.np_content,
-   class.class_name from newpaper newp,classes class,classes_newpaper class_newp where
-    newp.np_id=class_newp.np_id and class_newp.class_id=class.class_id and newp.np_status=1 and class.class_id=#{class_id}
-    ORDER BY newp.np_reading desc,newp.np_likes desc;
+    SELECT newp.np_id,newp.user_id,newp.user_alias,newp.np_title,newp.np_date,newp.np_image,newp.np_content,
+    class.class_name from newpaper newp,classes class WHERE newp.classes=class.class_id AND newp.np_status=1
+    and class.class_id=#{class_id} ORDER BY newp.np_date DESC
+    </select>
+
+    <!--点击新闻类别，按照热度进行排序并输出-->
+    <select id="getHotNewsByCategoryId" parameterType="int" resultMap="newsPaperMap">
+    SELECT newp.np_id,newp.user_id,newp.user_alias,newp.np_title,newp.np_date,newp.np_image,newp.np_content,
+    class.class_name
+    from newpaper newp,classes class
+     WHERE newp.classes=class.class_id AND newp.np_status=1
+    and class.class_id=#{class_id} ORDER BY newp.np_reading DESC,newp.np_likes DESC
     </select>
 
     <!--接收用户发布的新闻，并将它保存到数据库-->
     <insert id="publishNewsByUser" parameterType="com.qf.newsPaper.vo.NewsAndOwner">
-        INSERT into newpaper VALUES(DEFAULT,#{user_id},(SELECT user_alias from userinfo where user_id=#{user_id}),
-        #{np_title},DEFAULT,#{np_image},#{np_content},0,0,1);
+       INSERT into newpaper VALUES(DEFAULT,#{user_id},(SELECT user_alias from userinfo where user_id=#{user_id}),
+        #{np_title},DEFAULT,#{np_image},#{np_content},0,0,1,#{classes});
     </insert>
 
    <!--普通用户的内容管理界面，将用户写的新闻获取一定的数据，通过时间排序展示到前端页面-->
     <select id="getAuthorNewsByUserId" resultType="com.qf.newsPaper.dto.NewsPaperAndCategory" parameterType="int">
-    SELECT newpaper.np_id,newpaper.np_title,newpaper.np_date,newpaper.np_likes,newpaper.np_reading,classes.class_name
-    from newpaper,classes_newpaper,classes
-    where newpaper.np_id=classes_newpaper.np_id and classes_newpaper.class_id=classes.class_id
-    and newpaper.np_status=1 and  newpaper.user_id=#{user_id} ORDER BY newpaper.np_date DESC;
+    SELECT newpaper.np_id,newpaper.np_image,newpaper.np_content,newpaper.np_title,newpaper.np_date,
+    newpaper.np_likes,newpaper.np_reading,classes.class_name
+    from newpaper,classes
+    where newpaper.np_status=1 and newpaper.classes=classes.class_id and  newpaper.user_id=#{user_id}
+    ORDER BY newpaper.np_date DESC
+    </select>
+
+    <!--根据用户id获取该用户所撰写的新闻，并进行按阅读量和喜爱量输出的结果-->
+    <select id="theHotNewsByUser" parameterType="int" resultType="com.qf.newsPaper.dto.NewsPaperAndCategory">
+     SELECT newpaper.np_id,newpaper.np_image,newpaper.np_content,newpaper.np_title,newpaper.np_date,
+    newpaper.np_likes,newpaper.np_reading,classes.class_name
+    from newpaper,classes
+    where newpaper.np_status=1 and newpaper.classes=classes.class_id and  newpaper.user_id=#{user_id}
+    ORDER BY newpaper.np_reading desc,np_likes DESC
     </select>
 
     <!--用户点击删除新闻按钮，将用户的所属新闻进行删除-->
