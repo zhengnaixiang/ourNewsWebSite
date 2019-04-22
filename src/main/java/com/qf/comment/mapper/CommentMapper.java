@@ -9,8 +9,10 @@ public interface CommentMapper {
 
     int addCommentBy(Comment comment);
 
-    List<Comment> getAllCommentByNpId(int np_id);
+    List<Comment> getCommentByNpId(int np_id);
 
-    List<Comment> getAllCommentByUserId(@Param("np_id")int np_id, @Param("user_id")int user_id);
+    List<Comment> getNpCommentByUserId(@Param("np_id")int np_id, @Param("user_id")int user_id);
 
+    int checkCommentByUserId(@Param("comment_id")int comment_id, @Param("user_id")int user_id);
+    int deleteCommentByUser(@Param("comment_id")int comment_id);
 }

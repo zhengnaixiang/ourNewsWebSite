@@ -86,7 +86,7 @@
             var user_id = $("#user_id").val();
             var requestUrl = 'getCommentByNpId?np_id='+np_id;
             if (user_id >1) {
-                requestUrl = 'getAllCommentByUserId?np_id='+np_id+"&user_id="+user_id;
+                requestUrl = 'getNpCommentByUserId?np_id='+np_id+"&user_id="+user_id;
             }
             $.ajax({
                 type: 'GET',
@@ -97,7 +97,7 @@
                     $("#commentShow").empty();
                     $(commentList).each(function (index, item) {
                         if (item.user_imageUrl == null) {
-                            item.user_imageUrl = 'images/head/headImage-0.jpg'
+                            item.user_imageUrl = 'images/head/0.jpg'
                         }
                         if (item.user_alias == null) {
                             item.user_alias = '游客'
@@ -114,7 +114,8 @@
                             "<p>"+item.comment_content+"</p>" +
                             "<ul>" +
                             "<li>"+item.comment_date+"</li>" +
-                            "<li onclick='target("+item.comment_id+")'>回复</li>" +
+                            "<a><li onclick='target("+item.comment_id+")'>回复</li></a>" +
+                            "<li onclick='del("+item.comment_id+")'>&nbsp&nbsp删除</li>" +
                             "</ul>" +
                             "<div class='respon'></div>"+
                             "</div>" +
@@ -124,7 +125,7 @@
                         if (item.commentList != null) {
                             $(item.commentList).each(function (index2, item2) {
                                 if (item2.user_imageUrl == null) {
-                                    item2.user_imageUrl = 'images/head/headImage-0.jpg'
+                                    item2.user_imageUrl = 'images/head/0.jpg'
                                 }
                                 if (item2.user_alias == null) {
                                     item2.user_alias = '游客'
@@ -167,7 +168,7 @@
                 }
             } else {
                 var np_idText = $("#np_id").val();
-                var targetText = $("#target").val();
+                var targetText = $("#target").val().split(":")[1];
                 var contentText = $("#content").val();
 
                 //确定评论合规开始发送
@@ -232,7 +233,9 @@
                 success: function (user_id) {
                     if (user_id > 0) {
                         $("#user_id").val(user_id);
-                        //
+                        // 通过接口获取user_id
+                        // 同时服务器session会登记对应userInfo
+                        // 发表评论必须session存在带id的userInfo(*)
                         sendComment();
                     }
                 },
@@ -242,11 +245,35 @@
             })
         }
 
-        function target(target_userId) {
-            $("#target").val(target_userId);
+        function target(target_comment_id) {
+            $("#target").val("回复评论id:" +target_comment_id);
             // $("#targetAlias").val(targetAlias)
         }
+
+        function del(comment_id) {
+            console.log("删除评论"+comment_id)
+            $.ajax({
+                type: 'GET',
+                url: 'deleteComment?comment_id='+comment_id,
+                dataType: 'json',
+                success: function (response) {
+                    if (response) {
+                        alert("删除成功")
+                    } else {
+                        alert("删除失败")
+                    }
+                },
+                error: function (response) {
+                    console.error(response);
+                }
+            })
+        }
     </script>
+    <style>
+        p {
+            margin-top: 30px;
+        }
+    </style>
 </head>
 <body>
 <div class="header" id="ban">
@@ -272,7 +299,7 @@
                     <h4>留下你的评论</h4>
                     <form>
                         <input type="hidden" id="user_id" value="">
-                        <input type="hidden" id="target" value="">
+                        <input type="text" id="target" value="" readonly="readonly" >
                         <!--<input type="text" id="targetAlias" value="">-->
                         <input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
                         <textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>

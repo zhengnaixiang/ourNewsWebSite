@@ -30,11 +30,18 @@ public class CommentServiceImpol implements CommentService {
         return commentMapper.addCommentBy(comment) > 0;
     }
 
-    public List<Comment> getAllCommentByNpId(int np_id) {
-        return commentMapper.getAllCommentByNpId(np_id);
+    public List<Comment> getCommentByNpId(int np_id) {
+        return commentMapper.getCommentByNpId(np_id);
     }
 
-    public List<Comment> getAllCommentByUserId(int np_id, int user_id) {
-        return commentMapper.getAllCommentByUserId(np_id,user_id);
+    public List<Comment> getNpCommentByUserId(int np_id, int user_id) {
+        return commentMapper.getNpCommentByUserId(np_id,user_id);
+    }
+
+    public boolean deleteComment(int comment_id, int user_id) {
+        if (commentMapper.checkCommentByUserId(comment_id,user_id) > 0) {
+            return commentMapper.deleteCommentByUser(comment_id) > 0;
+        }
+        return false;
     }
 }

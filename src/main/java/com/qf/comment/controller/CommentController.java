@@ -40,8 +40,8 @@ public class CommentController {
      * @return
      */
     @RequestMapping(value = "getCommentByNpId",method = RequestMethod.GET)
-    public Object getAllCommentByNpId(@RequestParam int np_id){
-        commentList = commentService.getAllCommentByNpId(np_id);
+    public Object getCommentByNpId(@RequestParam int np_id){
+        commentList = commentService.getCommentByNpId(np_id);
         return commentList;
     }
 
@@ -51,15 +51,27 @@ public class CommentController {
      * @param user_id
      * @return
      */
-    @RequestMapping(value = "getAllCommentByUserId",method = RequestMethod.GET)
-    public Object getAllCommentByUserId(@RequestParam int np_id, int user_id){
-        commentList = commentService.getAllCommentByUserId(np_id,user_id);
+    @RequestMapping(value = "getNpCommentByUserId",method = RequestMethod.GET)
+    public Object getNpCommentByUserId(@RequestParam int np_id, int user_id){
+        commentList = commentService.getNpCommentByUserId(np_id,user_id);
         return commentList;
     }
 
-    @RequestMapping(value = "deleteCommentFromClient",method = RequestMethod.GET)
-    public int deleteCommentFromClient(@RequestParam int np_id, int user_id){
-        commentList = commentService.getAllCommentByUserId(np_id,user_id);
-        return 0;
+    /**
+     * 用户删除自己评论
+     * @param comment_id
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping(value = "deleteComment")
+    public String deleteCommentFromClient(@RequestParam int comment_id, HttpSession httpSession){
+        UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
+        int user_id = userInfo.getUser_id();
+        if (user_id > 0) {
+            if (commentService.deleteComment(comment_id,user_id)) {
+                return "true";
+            }
+        }
+        return "false";
     }
 }
