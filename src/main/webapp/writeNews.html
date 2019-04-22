@@ -30,8 +30,8 @@
             <div>
                 <h5>新闻分类:</h5>
                 <select style="width: 100%" id="classNews" style="height: 50px">
-                    <option >1</option>
-                    <option>2</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
                 </select>
             </div>
             <div id="editor" style="margin-top: 15px"></div>
@@ -40,7 +40,7 @@
                 <h4>封面</h4>
                 <img src="images/sin2.jpg"/>
             </div>
-            <input type="button" id="submit" value="提交" style="width: 60px" style="margin-top: 20px" />
+            <input type="button" id="submit" value="提交" style="width: 60px" style="margin-top: 20px" onclick="publishNews()"/>
             <input type="button" id="reSet" value="重置" style="width: 60px" style="margin-top: 20px"/>
             <script>
                 var E = window.wangEditor;
@@ -58,6 +58,7 @@
                 editor.customConfig.uploadImgServer = 'upload1'; //设置上传文件的服务器路径
                 editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024; // 将图片大小限制为 3M
                 //自定义上传图片事件
+                editor.create();
                 editor.customConfig.uploadImgHooks = {
                     before: function(xhr, editor, files) {
 
@@ -76,7 +77,7 @@
                     }
                 }
 
-                editor.create();
+
                 $("#test1").bind("click",function(){
                     var src = editor.txt.html();
                     alert(src);
@@ -98,26 +99,28 @@
         $("#top").load("userHead.html");
         $("#left").load("userLeft.html");
     });
-    
-    
+
+
     /*用户写的新闻，提交后通过ajax写到后端，存入数据库*/
     function publishNews() {
+        debugger;
         $.ajax({
             type: 'POST',
             url:  "publishNewsByUser",
             contentType: "application/json; charset=utf-8",
             data:JSON.stringify({
-             "user_id":user_id,
-             "np_title":np_title,
-             "np_image":np_image,
-             "np_content":np_content
+                "user_id":1,
+                "np_title":$("#headLine").val(),
+                "np_image":null,
+                "np_content":$("#editor").html(),
+                "classes":$("#classNews").val()
             }) ,
             success: function(response){
-              if (response==true){
-                  window.location.href="userMenu.html"
-              } else{
-                  alert("发布失败")
-              }
+                if (response==true){
+                    window.location.href="userMenu.html"
+                } else{
+                    alert("发布失败")
+                }
             } ,
             error:function (message) {
                 console.log(message);
