@@ -26,7 +26,6 @@ public class CommentServiceImpol implements CommentService {
 //    private static CommentMapper commentMapper=context .getBean(CommentMapper.class);
 
     public boolean addComment(Comment comment) {
-        System.out.println(comment);
         return commentMapper.addCommentBy(comment) > 0;
     }
 
