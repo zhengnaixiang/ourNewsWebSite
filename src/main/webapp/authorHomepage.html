@@ -30,6 +30,46 @@
             width: 250px;
             height: 200px;
         }
+        body{
+            background: #dedede;
+            margin: 0;
+            padding: 0;
+        }
+        .pubu-container{
+            width: 100%;
+            border: 1px solid red;
+
+            margin: 0 auto;
+
+            /*弹性布局*/
+            display: flex;
+            /*方向*/
+            flex-direction: row;/*可以理解成float left*/
+        }
+
+        .pubu-container > .item{
+            flex:1;/*弹性项的占比*/
+            /*图片左右之间的间距*/
+            margin: 17px;
+        }
+
+        .pubu-container > .item>img{
+            /*图片在div中的宽度*/
+            width: 100%;
+            /*图片的外边框*/
+            border: 10px solid white;
+            /*图片的上下边距*/
+            margin-top: 8px;
+            /*图片的改变时间*/
+            transition: all 0.3s ease-in-out;
+        }
+
+        /*图片悬浮时的样式*/
+        .pubu-container>.item>img:hover{
+            cursor: pointer;
+            transform: scale(1.05); /*图片悬浮是变大的倍数*/
+            box-shadow: 0px 3px 2px 1px #999;
+        }
     </style>
 </head>
 <body>
@@ -40,40 +80,45 @@
     <div class="container">
         <div class="col-md-9 technology-left">
             <div class="guonei">
-                <div class="latest" id="newsList">
-                    <div class="tip-grids" id="theFirstNews">
-                        <a href="singlepage.html">
-                            <div class="col-md-6 tip-grid">
-                                <figure class="effect-julia" >
-                                    <img src="images/5cafc4c3a310e7f83eeff498.jpg" alt="" >
-                                </figure>
+                <!--<div class="pubu-container">-->
+                    <div class="item" id="pubu-01">
+                        <div class="latest" id="newsList">
+                            <div class="tip-grids" id="theFirstNews">
+                                <a href="singlepage.html">
+                                    <div class="col-md-6 tip-grid">
+                                        <figure class="effect-julia" >
+                                            <img src="images/5cafc4c3a310e7f83eeff498.jpg" alt="" >
+                                        </figure>
+                                    </div>
+                                    <div class="col-md-6 tip-grid-right">
+                                        <div class="tip-gd-left">
+                                            <h4>近50件敦煌壁画艺术精品首次亮相云南</h4>
+                                            <p> 4月11日，观众观赏敦煌壁画。昨日，《敦煌穿越千年的永恒——敦煌壁画艺术精品高校公益巡展》亮相云南大学，近50件精美的敦煌石窟壁画、雕塑、藏经洞文献和绢纸画复制品一一展出</p>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="col-md-6 tip-grid-right">
-                                <div class="tip-gd-left">
-                                    <h4>近50件敦煌壁画艺术精品首次亮相云南</h4>
-                                    <p> 4月11日，观众观赏敦煌壁画。昨日，《敦煌穿越千年的永恒——敦煌壁画艺术精品高校公益巡展》亮相云南大学，近50件精美的敦煌石窟壁画、雕塑、藏经洞文献和绢纸画复制品一一展出</p>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="clearfix"></div>
+                        <!--</div>-->
                     </div>
                 </div>
 
-                <tfoot >
-                <div class="row">
-                    <ul class="pagination" id="pagination">
-                        <li id="btns">
-                        </li>
-                    </ul>
-                    <p class="text-primary">当前第:<span id="currentPage"></span>页 共计<span
-                            id="totalPage"></span>页&nbsp;&nbsp;&nbsp;<input type="text" id="t" style="width: 25px;height: 22px">
-                        <button class="btn-primary" onclick="goto()">跳转</button>
-                    </p>
-                    <p class="text-primary">总记录数:<span id="totalNums"></span></p>
-                </div>
-                </tfoot>
+                <!--<tfoot >-->
+                <!--<div class="row">-->
+                    <!--<ul class="pagination" id="pagination">-->
+                        <!--<li id="btns">-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                    <!--<p class="text-primary">当前第:<span id="currentPage"></span>页 --><span
+                            id="totalPage" style="display: none"></span>
+                        <!--<button class="btn-primary" onclick="goto()">跳转</button>-->
+                    <!--</p>-->
+                    <!--<p class="text-primary">总记录数:<span id="totalNums"></span></p>-->
+                <!--</div>-->
+                <!--</tfoot>-->
 
             </div>
+
         </div>
         <!-- technology-right -->
         <div class="col-md-3 technology-right">
@@ -114,8 +159,10 @@
             </div>
         </div>
         <div class="clearfix"></div>
+
     </div>
 </div>
+
 <div class="footer">
 
 </div>
@@ -125,6 +172,8 @@
     </div>
 
 </div>
+
+
 </body>
 <script src="jquery/jquery-2.1.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
@@ -146,6 +195,7 @@
             success: function (responseText) {
                 $("#newsList").empty("");
                 console.log(responseText);
+                if(responseText.list.length>1)
                 for (var i = 0; i < responseText.list.length; i++) {
                     $("#newsList").append("<div class=\"tip-grids\">\n" +
                         " <a href='#' onclick='turnToSingleNews("+responseText.list[i].np_id+")'>\n" +
@@ -163,6 +213,8 @@
                         "</a>\n" +
                         "<div class=\"clearfix\"></div>\n" +
                         "</div>");
+                }   else {
+                    $("#newsList").append("<div style='text-align: center'><span id='ale' style='font-size: large;font-family:\"宋体\";font-weight: bold'>该用户还没发表过任何新闻!!!!!</span></div>")
                 }
 
                 //动态生成页数
@@ -214,6 +266,7 @@
 
     /*调用函数，显示数据*/
     init(1,5);
+    getUserInfo();
     /*下一页或者上一页的操作*/
     function goNormal(n) {
         $("#tab tr:not(:first)").empty("");
@@ -239,15 +292,17 @@
     function getUserInfo(){
         $.ajax({
             type: 'POST',
-            url:  'getUserInfomation',
+            url:  'getFansAndFocus?user_id='+user_id,
             contentType: "application/json; charset=utf-8",
-            data:JSON.stringify({
-                "user_id":user_id
-            }) ,
+            // data:JSON.stringify({
+            //     "user_id":user_id
+            // }) ,
             success: function(responseText){
                 $("#username").html(responseText.user_alias);
-                $("#theFocus").html(responseText);
-                $("#theFans").html(responseText)
+                $("#theFocus").html(responseText.focus.length);
+                $("#theFocus").parent().attr("href","fansAndFocus.html?user_id="+user_id+"&action=focus");
+                $("#theFans").html(+responseText.fans.length);
+                $("#theFans").parent().attr("href","fansAndFocus.html?user_id="+user_id+"&action=fans");
             } ,
             error:function (message) {
                 console.log(message);
@@ -289,6 +344,136 @@
 
     getTheHotNewsByUser(1,3);
 
+    /*默认屏幕大小，初始化图片的占用位置*/
+    var windowHeight=window.screen.height+100;
+    var count = 1;
+    window.onload=function () {
+        insert();
+        /*监听滚动事件*/
+        window.document.addEventListener("scroll",function () {
+            //document.documentElement.scrollTop：已经滚动的内容高度
+            //windowHeight：窗口高度
+            //document.documentElement.scrollHeight：能滚动的最大高度
+            if (document.documentElement.scrollTop+window.screen.height>document.documentElement.scrollHeight){//滚动条触底，触发定时器
+                /*再次插入图片*/
+                windowHeight+=500;
+                insert();
+            }
+        })
+    }
+
+    /*插入图片的算法*/
+    var insert=function () {
+        count++;
+        var inter=setInterval(function () {
+            if (document.documentElement.scrollHeight>windowHeight){//滚动条大于1个窗口
+                clearInterval(inter);
+            }
+            /*插入图片*/
+            if(count< $("#totalPage").html()) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'getAuthorNewsByUserId',
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        "currentPage": count,
+                        "pageSize": 5,
+                        "user_id": user_id
+                    }),
+                    success: function (responseText) {
+                        // $("#newsList").empty("");
+                        console.log(responseText);
+
+                        for (var i = 0; i < responseText.list.length; i++) {
+                            $("#newsList").append("<div class=\"tip-grids\">\n" +
+                                " <a href='#' onclick='turnToSingleNews(" + responseText.list[i].np_id + ")'>\n" +
+                                " <div class=\"col-md-6 tip-grid\">\n" +
+                                " <figure class=\"effect-julia\" >\n" +
+                                " <img src=" + responseText.list[i].np_image + " alt=\"\" >\n" +
+                                " </figure>\n" +
+                                " </div>\n" +
+                                " <div class=\"col-md-6 tip-grid-right\">\n" +
+                                " <div class=\"tip-gd-left\">\n" +
+                                " <h4>" + responseText.list[i].np_title + "</h4>\n" +
+                                "<p>" + responseText.list[i].np_content + "</p>\n" +
+                                "</div>\n" +
+                                "</div>\n" +
+                                "</a>\n" +
+                                "<div class=\"clearfix\"></div>\n" +
+                                "</div>");
+                        }
+
+                        $("#currentPage").html(responseText.pageNum);
+                        //总页数
+                        $("#totalPage").html(responseText.lastPage);
+                        //总记录数
+                        $("#totalNums").html(responseText.total);
+                    },
+                    error: function (message) {
+                        console.log(message);
+                    },
+                    dataType: 'json'
+                });
+                // document.getElementById("pubu-01").appendChild(node);
+            }else insert=function () {
+                if($(".tip-grids").length>0){
+                $("#newsList").find($("span")).parent().remove();
+                $("#newsList").append("<div style='text-align: center'><span id='ale' style='font-size: large;font-family:\"宋体\";font-weight: bold'>已经到底了!!!!!</span></div>")
+            }
+            }
+        },100)
+    }
+    // var minDiv=function () {
+    //     /*获取四个div标签的id*/
+    //     var pb1=document.getElementById("pubu-01");
+    //     var pb2=document.getElementById("pubu-02");
+    //     var pb3=document.getElementById("pubu-03");
+    //     var pb4=document.getElementById("pubu-04");
+    //
+    //     /*获取四个div标签的子标签*/
+    //     var pbimgs_1=pb1.children;
+    //     var pbimgs_2=pb2.children;
+    //     var pbimgs_3=pb3.children;
+    //     var pbimgs_4=pb4.children;
+    //
+    //     /*计算每列图片的高度*/
+    //     var pb1Height=jisuan(pbimgs_1);
+    //     var pb2Height=jisuan(pbimgs_2);
+    //     var pb3Height=jisuan(pbimgs_3);
+    //     var pb4Height=jisuan(pbimgs_4);
+    //
+    //     /*求哪个div的高度是最小的*/
+    //     var minHeight=Math.min(pb1Height,pb2Height,pb3Height,pb4Height);
+    //
+    //     if (minHeight==pb1Height) {
+    //         return pb1;
+    //     }
+    //     if (minHeight==pb2Height) {
+    //         return pb2;
+    //     }
+    //     if (minHeight==pb3Height) {
+    //         return pb3;
+    //     }
+    //     if (minHeight==pb4Height) {
+    //         return pb4;
+    //     }
+    // }
+
+    // var jisuan=function (pbImgs) {
+    //     if (pbImgs==null||pbImgs.length==0){
+    //         return 0;
+    //     } else{
+    //         var height=0;
+    //         /*获取当前列的每一个图片*/
+    //         for (var i=0;i<pbImgs.length;i++){
+    //             var img=pbImgs[i];
+    //             var h=img.height;
+    //             /*结果进行叠加*/
+    //             height+=h;
+    //         }
+    //         return height;
+    //     }
+    // }
 </script>
 
 </html>
