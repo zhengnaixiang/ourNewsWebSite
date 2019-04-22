@@ -8,12 +8,9 @@ import com.qf.newsPaper.service.NewsPaperService;
 import com.qf.newsPaper.vo.AuthorNews;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
-import com.qf.userInfo.pojo.UserInfo;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -22,10 +19,10 @@ import java.util.List;
 @RestController
 public class NewsPaperController {
 
-  /*  @Autowired
-    NewsPaperService newsPaperService;*/
-  private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
-    private static NewsPaperService newsPaperService=context .getBean(NewsPaperService.class);
+    @Autowired
+    NewsPaperService newsPaperService;
+/*  private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
+    private static NewsPaperService newsPaperService=context .getBean(NewsPaperService.class);*/
 
     /**
      * 通过前端的点击事件，返回具体的新闻信息，以及该新闻作者的相关属性
@@ -79,9 +76,7 @@ public class NewsPaperController {
    * @return
    */
     @RequestMapping(value = "publishNewsByUser",method = RequestMethod.POST)
-    public String publishNewsByUser(HttpSession session, @RequestBody NewsAndOwner newsAndOwner){
-      UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
-      newsAndOwner.setUser_id(userInfo.getUser_id());
+    public String publishNewsByUser(@RequestBody NewsAndOwner newsAndOwner){
       return newsPaperService.publishNewsByUser(newsAndOwner).toString();
     }
 

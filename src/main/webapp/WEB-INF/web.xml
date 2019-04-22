@@ -3,7 +3,7 @@
     <!-- 配置spring上下文参数 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring-service.xml</param-value>
+        <param-value>classpath:spring-*.xml</param-value>
     </context-param>
     <!-- 配置侦听器 -->
     <listener>
