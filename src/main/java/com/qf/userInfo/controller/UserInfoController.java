@@ -16,7 +16,7 @@ public class UserInfoController {
 
     /**
      * 注册验证，检查用户是否已被注册
-     * 权限1即游客记录sql自动忽略
+     * sql查询自动忽略权限1即游客记录
      * @param userInfo
      * @return
      */

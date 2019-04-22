@@ -64,7 +64,6 @@ public class UserInfoServiceImpol implements UserInfoService {
             //数据库没有该记录，即访客是新游客
             userInfo = new UserInfo();
             userInfo.setUsername(username);
-            userInfo.setUser_power(1);
             //创建游客用户
             if (userInfoMapper.addUserInfo(userInfo)>0) {
                 userInfo = userInfoMapper.selectUserInfoByName(username);

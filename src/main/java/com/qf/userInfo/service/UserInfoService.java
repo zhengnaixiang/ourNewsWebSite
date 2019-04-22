@@ -45,7 +45,6 @@ public interface UserInfoService {
 
     /**
      * 判断用户名是否已存在
-     * (已忽视游客记录)
      * @param username
      * @return true即存在
      */

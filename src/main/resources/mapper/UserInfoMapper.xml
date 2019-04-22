@@ -17,17 +17,17 @@
     <select id="checkRegisterBy" resultType="Integer" parameterType="com.qf.userInfo.pojo.UserInfo">
         select count(*) from userinfo
         <where>
-            <trim suffixOverrides="or">
-                <if test="#{user_alias} != null" >
+            <choose>
+                <when test="#{user_alias} != null and #{user_alias} != ''">
                     user_alias = #{user_alias}
-                </if>
-                <if test="#{username} != null" >
+                </when>
+                <when test="#{username} != null and #{username} != ''">
                     username = #{username}
-                </if>
-                <if test="#{user_tel} != null" >
+                </when>
+                <when test="#{user_tel} != null and #{user_tel} != ''">
                     user_tel = #{user_tel}
-                </if>
-            </trim>
+                </when>
+            </choose>
         </where>
     </select>
 
@@ -36,25 +36,25 @@
         select * from userinfo where username = #{username} limit 1
     </select>
 
-    <select id="selectUserInfoIdBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
-        select * from userinfo
-        <where>
-            <trim suffixOverrides="or">
-                <if test="#{user_alias} != null" >
-                    user_alias = #{user_alias} or
-                </if>
-                <if test="#{username} != null" >
-                    username = #{username} or
-                </if>
-                <if test="#{user_tel} != null" >
-                    user_tel = #{user_tel} or
-                </if>
-                <if test="#{user_power} != null" >
-                    user_power = #{user_power} or
-                </if>
-            </trim>
-        </where>
-    </select>
+    <!--<select id="selectUserInfoBy" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">-->
+        <!--select * from userinfo-->
+        <!--<where>-->
+            <!--<trim suffixOverrides="or">-->
+                <!--<if test="#{user_alias} != null" >-->
+                    <!--user_alias = #{user_alias} or-->
+                <!--</if>-->
+                <!--<if test="#{username} != null" >-->
+                    <!--username = #{username} or-->
+                <!--</if>-->
+                <!--<if test="#{user_tel} != null" >-->
+                    <!--user_tel = #{user_tel} or-->
+                <!--</if>-->
+                <!--<if test="#{user_power} != null" >-->
+                    <!--user_power = #{user_power} or-->
+                <!--</if>-->
+            <!--</trim>-->
+        <!--</where>-->
+    <!--</select>-->
 
     <insert id="addUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
         insert into userinfo(user_alias,user_tel,user_imageUrl,username,`password`)
@@ -94,9 +94,6 @@
                     default,
                 </otherwise>
             </choose>
-
-            #{user_power},
-
         </trim>
     </insert>
 
