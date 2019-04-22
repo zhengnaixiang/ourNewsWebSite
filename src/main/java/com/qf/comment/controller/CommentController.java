@@ -74,4 +74,9 @@ public class CommentController {
         }
         return "false";
     }
+    @RequestMapping(value = "updateComment",method = RequestMethod.POST)
+    public String updateComment(@RequestParam int comment_id, HttpSession httpSession){
+
+        return "";
+    }
 }

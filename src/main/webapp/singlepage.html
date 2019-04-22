@@ -103,7 +103,7 @@
                             item.user_alias = '游客'
                         }
                         $("#commentShow").append(
-                            "<div class=\"media-left response-text-left\">" +
+                            "<div class=\"media-left response-text-left &nbsp "+item.comment_id+"\">" +
                             // "<input class='user_alias' value='"+item.user_alias+"' "+
                             "<a href='authorHomepage.html?user_id="+item.user_id+"'>" +
                             "<img src='"+item.user_imageUrl+"' class=\"img-responsive\" alt=\"\">" +
@@ -112,10 +112,11 @@
                             "<div class=\"media-body response-text-right\">" +
                             "<h5>"+item.user_alias+"</h5>" +
                             "<p>"+item.comment_content+"</p>" +
-                            "<ul>" +
-                            "<li>"+item.comment_date+"</li>" +
-                            "<a><li onclick='target("+item.comment_id+")'>回复</li></a>" +
-                            "<li onclick='del("+item.comment_id+")'>&nbsp&nbsp删除</li>" +
+                            "<ul class='commentUser"+item.user_id+"'>" +
+                            "<li>"+item.comment_date+"</li>&nbsp&nbsp" +
+                            "<li onclick='target(this)' value='"+item.comment_id+"' >回复："+item.user_alias+"</li>&nbsp&nbsp" +
+                            "<li style='display:none' onclick='rewrite("+item.comment_id+")' >修改</li>&nbsp&nbsp" +
+                            "<li style='display:none' onclick='del("+item.comment_id+")' >删除</li>"+
                             "</ul>" +
                             "<div class='respon'></div>"+
                             "</div>" +
@@ -140,16 +141,28 @@
                                     "<div class=\"media-body response-text-right\">" +
                                     "<h5>"+item2.user_alias+"</h5>" +
                                     "<p>"+item2.comment_content+"</p>" +
-                                    "<ul>" +
-                                    "<li>"+item2.comment_date+"</li>" +
+                                    "<ul class='commentUser"+item2.user_id+"'>" +
+                                    "<li>"+item2.comment_date+"</li>&nbsp&nbsp" +
+                                    "<li></li>" +
+                                    "<li style='display:none' onclick='rewrite("+item2.comment_id+")' >修改</li>&nbsp&nbsp" +
+                                    "<li style='display:none' onclick='del("+item2.comment_id+")' >删除</li>"+
                                     "</ul>" +
                                     "</div>" +
-                                    "<div class=\"clearfix\"> </div>"
+                                    "<div class=\"clearfix\"></div>"
                                 );
                             })
                         }
-                    });
 
+                    });
+                    var t = $(".commentUser"+user_id+" li");
+                    // console.log(t);
+                    for (var i = 0; i < t.length/4; i++) {
+                        var gap = i*4;
+                        t[gap+1].style.display = 'none';
+                        t[gap+2].style.display = 'inline';
+                        t[gap+3].style.display = 'inline'
+                    }
+                    // t[0].hide();
                 },
                 error: function (response) {
                     console.error(response);
@@ -186,6 +199,7 @@
                         dataType: 'json',
                         success: function (Response) {
                             alert(Response);
+                            getCommentList();
                         },
                         error: function (response) {
                             console.error(response);
@@ -233,9 +247,8 @@
                 success: function (user_id) {
                     if (user_id > 0) {
                         $("#user_id").val(user_id);
-                        // 通过接口获取user_id
-                        // 同时服务器session会登记对应userInfo
-                        // 发表评论必须session存在带id的userInfo(*)
+                        // 获取user_id,同时服务器session会登记对应userInfo
+                        // (*)发表评论必须session存在带id的userInfo
                         sendComment();
                     }
                 },
@@ -245,13 +258,16 @@
             })
         }
 
-        function target(target_comment_id) {
-            $("#target").val("回复评论id:" +target_comment_id);
-            // $("#targetAlias").val(targetAlias)
+        // 回复
+        function target(t) {
+            $("#targetAlias").show();
+            $("#target").val(t.value);
+            $("#targetAlias").val("正在回复："+t.innerText.split("：")[1]);
         }
 
+        // 删除
         function del(comment_id) {
-            console.log("删除评论"+comment_id)
+            // console.log("删除评论"+comment_id)
             $.ajax({
                 type: 'GET',
                 url: 'deleteComment?comment_id='+comment_id,
@@ -268,12 +284,14 @@
                 }
             })
         }
-    </script>
-    <style>
-        p {
-            margin-top: 30px;
+
+        // 修改
+        function rewrite(commentId) {
+            console.log(commentId);
+            var test = $(".media-left "+commentId);
+            console.log(test)
         }
-    </style>
+    </script>
 </head>
 <body>
 <div class="header" id="ban">
@@ -293,15 +311,14 @@
                         <!--评论内容-->
                         <div class="clearfix"> </div>
                     </div>
-
                 </div>
                 <div class="coment-form">
                     <h4>留下你的评论</h4>
                     <form>
                         <input type="hidden" id="user_id" value="">
-                        <input type="text" id="target" value="" readonly="readonly" >
-                        <!--<input type="text" id="targetAlias" value="">-->
+                        <input type="hidden" id="target" value="" readonly="readonly" >
                         <input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
+                        <input style="display: none;" type="text" id="targetAlias" value="" readonly="readonly" >
                         <textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>
                         <input type="button" value="发表评论" onclick="sendComment()">
                     </form>
