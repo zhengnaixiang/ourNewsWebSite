@@ -6,6 +6,7 @@ import com.qf.userInfo.pojo.UserInfo;
 import com.qf.userInfo.service.UserInfoService;
 import com.qf.userInfo.utils.EmailSendUtils;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,10 @@ import java.util.Random;
 @Service
 public class UserInfoServiceImpol implements UserInfoService {
 
-   /* @Autowired
-    private UserInfoMapper userInfoMapper;*/
-    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
-    private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
+    @Autowired
+    private UserInfoMapper userInfoMapper;
+//    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
+//    private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
 
     public int checkRegisterBy(UserInfo userInfo) {
         return userInfoMapper.checkRegisterBy(userInfo);
@@ -36,9 +37,9 @@ public class UserInfoServiceImpol implements UserInfoService {
                 // 4. 登记待激活信息
                 int key = new Random().nextInt(99999999)+1;
                 if (userInfoMapper.addActivation(new Activation(user_id,key))>0) {
-                    EmailSendUtils emailSendUtils = new EmailSendUtils();
-                    String activationUrl = "htt p:/ /localhost:8080/newsWebSite/activation?user_id="+user_id+"&key="+key;
-                    emailSendUtils.send("你在新闻网注册的账号点击激活",activationUrl,"460015041@qq.com");
+//                    EmailSendUtils emailSendUtils = new EmailSendUtils();
+//                    String activationUrl = "htt p:/ /localhost:8080/newsWebSite/activation?user_id="+user_id+"&key="+key;
+//                    emailSendUtils.send("你在新闻网注册的账号点击激活",activationUrl,"460015041@qq.com");
                     return true;
                 } else {
                     // ?. 信息更新成功但是激活信息登记失败如何回滚

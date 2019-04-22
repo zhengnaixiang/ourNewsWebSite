@@ -19,15 +19,14 @@ import java.util.List;
 @Service
 public class CommentServiceImpol implements CommentService {
 
-     /*  @Autowired
-      private CommentMapper commentMapper;
-      @Autowired
-      private UserInfoMapper userInfoMapper;*/
+    @Autowired
+    private CommentMapper commentMapper;
 
-    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
-    private static CommentMapper commentMapper=context .getBean(CommentMapper.class);
+//    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
+//    private static CommentMapper commentMapper=context .getBean(CommentMapper.class);
 
     public boolean addComment(Comment comment) {
+        System.out.println(comment);
         return commentMapper.addCommentBy(comment) > 0;
     }
 
