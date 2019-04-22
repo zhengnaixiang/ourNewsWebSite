@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+	<meta charset="UTF-8">
+	<title>用户管理</title>
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link href="https://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="css/style1.css">
+
+	<style>
+		.tree li {
+			list-style-type: none;
+			cursor:pointer;
+		}
+		table tbody tr:nth-child(odd){background:#F4F4F4;}
+		table tbody td:nth-child(even){color:#C00;}
+		.container1 {
+			width: 300px;
+			margin: 3em auto 1em auto;
+			-webkit-border-radius: 8px;
+			-moz-border-radius: 8px;
+			-ms-border-radius: 8px;
+			-o-border-radius: 8px;
+			border-radius: 8px;
+			padding-bottom: 1.5em;
+			background-color: #dde1e2;
+			-webkit-box-shadow: #bdc3c7 0 5px 5px;
+			-moz-box-shadow: #bdc3c7 0 5px 5px;
+			box-shadow: #bdc3c7 0 5px 5px; }
+		.follow1 {
+			margin: 1.5em auto 0 auto;
+			background-color: #2589cc;
+			width: 150px;
+			color: white;
+			font-family: 'Microsoft YaHei','Lantinghei SC','Open Sans',Arial,'Hiragino Sans GB','STHeiti','WenQuanYi Micro Hei','SimSun',sans-serif;
+			text-align: center;
+			padding: .5em;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			-ms-border-radius: 5px;
+			-o-border-radius: 5px;
+			border-radius: 5px;
+			}
+		.follow1:hover {
+			background-color: #167abd;
+			cursor: pointer; }
+	</style>
+</head>
+<body>
+<div id="top"></div>
+<div class="container-fluids">
+	<div class="row">
+		<div id="left"></div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="content">
+<div class="container-fluid">
+		<div class="container1" style="float:left;margin: 3%" >
+	<header>
+		<div class="bio">
+			<img src="images/up.jpg" alt="background" class="bg">
+			<div class="desc">
+				<h3>@吊炸天官方账号</h3>
+				<p>你所拥有的一切都是你吸引而来的。我们都活在过去的行为和想法造就的世界里。</p>
+			</div>
+		</div>
+		<div class="avatarcontainer">
+			<img src="images/photo.jpg" alt="avatar" class="avatar">
+			<div class="hover">
+				<div class="icon-twitter"></div>
+			</div>
+		</div>
+	</header>
+	<div id="content2">
+		<div class="data">
+			<ul>
+				<li>
+					2,931
+					<span>帖子</span>
+				</li>
+				<li>
+					1,118
+					<span>粉丝</span>
+				</li>
+				<li>
+					531
+					<span>关注</span>
+				</li>
+			</ul>
+		</div>
+		<div class="follow1"> <div class="icon-twitter"></div> 粉我</div>
+	</div>
+</div>
+
+</div>
+	</div>
+</div>
+<script type="text/javascript" src='js/jquery.min2.js'></script>
+</div>
+</body>
+<script src="jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $("#top").load("userHead.html");
+        $("#left").load("userLeft.html");
+    })
+    var userInfo;
+    $.ajax({
+        async:false,
+        type: 'POST',
+        url:  'giveStatus',
+        contentType: "application/json; charset=utf-8",
+        // data:JSON.stringify({
+        //     "user_id":user_id
+        // }) ,
+        success: function(responseText){
+            userInfo = responseText;
+        },
+        error:function (message) {
+            console.log(message);
+        },
+        dataType: 'json'
+    });
+    var user_id=window.location.search.split("=")[1];
+    user_id = user_id.split("&")[0];
+    var action = window.location.search.split("=")[2];
+            $.ajax({
+                async:false,
+                type: 'POST',
+                url:  'getFansAndFocus?user_id='+user_id,
+                contentType: "application/json; charset=utf-8",
+                // data:JSON.stringify({
+                //     "user_id":user_id
+                // }) ,
+                success: function(responseText){
+					if(action == "fans") {
+                        var array = responseText.fans;
+                    }
+					else {
+                        var array = responseText.focus;
+                    }
+                    var i =0;
+                    for(; i<array.length ; i++)
+                        $.ajax({
+                            type: 'POST',
+							async:false,
+                            url:  'getFansAndFocus?user_id='+array[i].user_id,
+                            contentType: "application/json; charset=utf-8",
+                            // data:JSON.stringify({
+                            //     "user_id":user_id
+                            // }) ,
+                            success: function(responseText){
+								$(".container-fluid").append($("<div class=\"container1 \" style=\"float:left;margin: 3%\">\n" +
+                                    "\t<header>\n" +
+                                    "\t\t<div class=\"bio\">\n" +
+                                    "\t\t\t<img src=\"images/up.jpg\" alt=\"background\" class=\"bg\">\n" +
+                                    "\t\t\t<div class=\"desc\" onclick='location.href=\"authorHomepage.html?user_id="+array[i].user_id+"\"'>\n" +
+                                    "\t\t\t\t<h3>@"+responseText.user_alias+"</h3>\n" +
+                                    "\t\t\t\t<p>你所拥有的一切都是你吸引而来的。我们都活在过去的行为和想法造就的世界里。</p>\n" +
+                                    "\t\t\t</div>\n" +
+                                    "\t\t</div>\n" +
+                                    "\t\t<div class=\"avatarcontainer\">\n" +
+                                    "\t\t\t<img src=\""+responseText.user_imageUrl+"\" alt=\"avatar\" class=\"avatar\">\n" +
+                                    "\t\t\t<div class=\"hover\">\n" +
+                                    "\t\t\t\t<div class=\"icon-twitter\"></div>\n" +
+                                    "\t\t\t</div>\n" +
+                                    "\t\t</div>\n" +
+                                    "\t</header>\n" +
+                                    "\t<div id=\"content1\">\n" +
+                                    "\t\t<div class=\"data\">\n" +
+                                    "\t\t\t<ul>\n" +
+                                    "\t\t\t\t<li>\n" +"<a style='text-decoration: none' href='authorHomepage.html?user_id="+array[i].user_id+"'>"+
+                                    "\t\t\t\t\t"+responseText.num+"\n"  +"</a>"+
+                                    "\t\t\t\t\t<span>帖子</span>\n" +
+                                    "\t\t\t\t</li>\n" +
+                                    "\t\t\t\t<li>\n" +"<a style='text-decoration: none' href='fansAndFocus.html?user_id="+array[i].user_id+"&action=fans'>"+
+                                    "\t\t\t\t\t"+responseText.fans.length+"\n" +"</a>"+
+                                    "\t\t\t\t\t<span>粉丝</span>\n" +
+                                    "\t\t\t\t</li>\n" +
+                                    "\t\t\t\t<li>\n" +"<a style='text-decoration: none'  href='fansAndFocus.html?user_id="+array[i].user_id+"&action=focus'>"+
+                                    "\t\t\t\t\t"+responseText.focus.length+"\n" +"</a>"+
+                                    "\t\t\t\t\t<span>关注</span>\n" +
+                                    "\t\t\t\t</li>\n" +
+                                    "\t\t\t</ul>\n" +
+                                    "\t\t</div>\n" +
+                                    "\t\t<div class=\"follow1\" id='f"+array[i].user_id+"' onclick='removeF(this,"+responseText.user_id+")'> <div class=\"icon-twitter\"></div> 粉我</div>\n" +
+                                    "\t</div>\n" +
+                                    "</div>"))
+                            } ,
+                            error:function (message) {
+                                console.log(message);
+                            },
+                            dataType: 'json'
+                        });
+					iniciar();
+                        var array3;
+                        $.ajax({
+                            async:false,
+                            type: 'POST',
+                            url:  'getFansAndFocus?user_id='+userInfo.user_id,
+                            contentType: "application/json; charset=utf-8",
+                            // data:JSON.stringify({
+                            //     "user_id":user_id
+                            // }) ,
+                            success: function(responseText){
+                                array3 = responseText.focus;
+                            },
+                            error:function (message) {
+                                console.log(message);
+                            },
+                            dataType: 'json'
+                        });
+
+                            for (var j = 0; j < array.length; j++) {
+                                if(array[j].user_id == userInfo.user_id){
+                                    var str = "#f"+array[j].user_id;
+                                    $(str).remove();
+                                    continue;
+                                }
+                                for(var i = 0; i<array3.length ;i++) {
+                                if (array3[i].user_id == array[j].user_id) {
+                                    var str = "#f"+array[j].user_id;
+                                    $(str).css('background-color', '#34CF7A');
+                                    $(str).html('<div class="icon-ok"></div> 已关注');
+                                }
+                            }
+                        }
+                } ,
+                error:function (message) {
+                    console.log(message);
+                },
+                dataType: 'json'
+            });
+
+
+    function iniciar(){
+            $('.follow1').css('background-color', '#2589cc');
+            $('.follow1').html(' 关注');
+    }
+    function removeF(obj,to_user_id) {
+         obj = $(obj);
+         var user_id =  userInfo.user_id;
+        if (obj.text().trim() == "已关注") {
+            $.ajax({
+                async:false,
+                type: 'POST',
+                url:  'removeFollow?from_user_id='+user_id+"&to_user_id="+to_user_id,
+                contentType: "application/json; charset=utf-8",
+                // data:JSON.stringify({
+                //     "user_id":user_id
+                // }) ,
+                success: function(responseText){
+                    console.log(responseText);
+                    if(responseText){
+                       obj.css('background-color', '#2589cc');
+			           obj.html('关注');
+                    }
+					else {
+					    alert("操作失败")
+					}
+                } ,
+                error:function (message) {
+                    console.log(message);
+                },
+                dataType: 'json'
+            });
+        } else {
+            $.ajax({
+                async:false,
+                type: 'POST',
+                url:  'follow?from_user_id='+user_id+"&to_user_id="+to_user_id,
+                contentType: "application/json; charset=utf-8",
+                // data:JSON.stringify({
+                //     "user_id":user_id
+                // }) ,
+                success: function(responseText){
+                    console.log(responseText);
+                    if(responseText){
+                        obj.css('background-color', '#34CF7A');
+                        obj.html('<div class="icon-ok"></div> 已关注');
+                    }
+                    else {
+                        alert("操作失败")
+                    }
+                } ,
+                error:function (message) {
+                    console.log(message);
+                },
+                dataType: 'json'
+            });
+
+        }
+    }
+
+</script>
+</html>
