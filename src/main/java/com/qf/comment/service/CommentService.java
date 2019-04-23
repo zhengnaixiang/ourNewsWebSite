@@ -8,10 +8,10 @@ import java.util.List;
 public interface CommentService {
     /**
      * 添加普通评论
-     * @param comment
+     * @param commentVo
      * @return
      */
-    boolean addComment(Comment comment);
+    boolean addComment(CommentVo commentVo);
 
     /**
      * 获取新闻内容下方全部评论

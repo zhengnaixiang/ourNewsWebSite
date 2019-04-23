@@ -25,8 +25,8 @@ public class CommentServiceImpol implements CommentService {
 //    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
 //    private static CommentMapper commentMapper=context .getBean(CommentMapper.class);
 
-    public boolean addComment(Comment comment) {
-        return commentMapper.addCommentBy(comment) > 0;
+    public boolean addComment(CommentVo commentVo) {
+        return commentMapper.addCommentBy(commentVo) > 0;
     }
 
     public List<Comment> getCommentByNpId(int np_id) {

@@ -1,13 +1,14 @@
 package com.qf.comment.mapper;
 
 import com.qf.comment.pojo.Comment;
+import com.qf.comment.vo.CommentVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface CommentMapper {
 
-    int addCommentBy(Comment comment);
+    int addCommentBy(CommentVo commentVo);
 
     List<Comment> getCommentByNpId(int np_id);
 

@@ -1,29 +1,29 @@
 package com.qf.comment.vo;
 
 public class CommentVo {
+    int user_id;
     int np_id;
     int parent_id;
-    String alias;
-    String email;
-    String content;
+    String comment_content;
+    String yzm;
 
     @Override
     public String toString() {
         return "CommentVo{" +
-                "np_id=" + np_id +
+                "user_id=" + user_id +
+                ", np_id=" + np_id +
                 ", parent_id=" + parent_id +
-                ", alias='" + alias + '\'' +
-                ", email='" + email + '\'' +
-                ", content='" + content + '\'' +
+                ", comment_content='" + comment_content + '\'' +
+                ", yzm='" + yzm + '\'' +
                 '}';
     }
 
-    public int getParent_id() {
-        return parent_id;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setParent_id(int parent_id) {
-        this.parent_id = parent_id;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public int getNp_id() {
@@ -34,27 +34,27 @@ public class CommentVo {
         this.np_id = np_id;
     }
 
-    public String getAlias() {
-        return alias;
+    public int getParent_id() {
+        return parent_id;
     }
 
-    public void setAlias(String alias) {
-        this.alias = alias;
+    public void setParent_id(int parent_id) {
+        this.parent_id = parent_id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getComment_content() {
+        return comment_content;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setComment_content(String comment_content) {
+        this.comment_content = comment_content;
     }
 
-    public String getContent() {
-        return content;
+    public String getYzm() {
+        return yzm;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setYzm(String yzm) {
+        this.yzm = yzm;
     }
 }

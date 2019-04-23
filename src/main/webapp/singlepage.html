@@ -195,16 +195,18 @@
                         contentType: "application/json; charset=utf-8",
                         data:JSON.stringify({
                             // "user_id":user_id, //前端页面不需提交用户id，用户id由服务器从session里获取
-                            "parent_id":targetText,
                             "np_id":np_idText,
-                            "comment_content":captchaText+";"+contentText
+                            "parent_id":targetText,
+                            "comment_content":contentText,
+                            "yzm":captchaText
                         }),
                         // dataType: 'json',
                         success: function (Response) {
                             if (Response === 'yzm_error') {
                                 alert("验证码错误！")
                             } else if (Response) {
-                                getCommentList();
+                                // getCommentList();
+                                window.location.reload()
                             } else {
                                 alert("评论发送失败");
                             }

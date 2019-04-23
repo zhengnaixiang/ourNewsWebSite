@@ -27,7 +27,7 @@
         </collection>
     </resultMap>
 
-    <insert id="addCommentBy" parameterType="com.qf.comment.pojo.Comment">
+    <insert id="addCommentBy" parameterType="com.qf.comment.vo.CommentVo">
       insert into comment(parent_id,np_id,comment_content,user_id)
       values(#{parent_id},#{np_id},#{comment_content},#{user_id})
     </insert>
