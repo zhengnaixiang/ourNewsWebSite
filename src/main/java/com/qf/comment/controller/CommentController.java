@@ -2,9 +2,7 @@ package com.qf.comment.controller;
 
 import com.qf.comment.pojo.Comment;
 import com.qf.comment.service.CommentService;
-import com.qf.comment.vo.CommentVo;
 import com.qf.userInfo.pojo.UserInfo;
-import com.qf.userInfo.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,15 +21,29 @@ public class CommentController {
     /**
      * 发表评论
      * 发表评论者id从session里获取,防止前端欺骗
+     * 服务端验证码从session里获取。
      * @param comment
      * @param httpSession
      * @return
      */
     @RequestMapping(value = "addComment",method = RequestMethod.POST)
-    public String addComment(@RequestBody Comment comment, HttpSession httpSession){
+    public String addComment(@RequestBody Comment comment,HttpSession httpSession){
         UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
         comment.setUser_id(userInfo.getUser_id());
-        return commentService.addComment(comment)?"true":"false";
+        String yzmServer = (String)httpSession.getAttribute("yzm");
+        if (yzmServer != null) {
+            String comment_content = comment.getComment_content();
+            int i = comment_content.indexOf(";");
+            //  请求验证码在评论内容头部提取
+            String yzmClient = comment_content.substring(0, i);
+//            System.out.println("客户端："+yzmClient+",服务端"+yzmServer);
+            if (yzmServer.equals(yzmClient)) {
+                // 清除捆绑在内容头的验证码，还原原内容
+                comment.setComment_content(comment_content.substring(i+1));
+                return commentService.addComment(comment)?"true":"false";
+            }
+        }
+        return "yzm_error";
     }
 
     /**
@@ -64,19 +76,27 @@ public class CommentController {
      * @return
      */
     @RequestMapping(value = "deleteComment")
-    public String deleteCommentFromClient(@RequestParam int comment_id, HttpSession httpSession){
+    public String deleteCommentByUser(@RequestParam int comment_id, HttpSession httpSession){
         UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
         int user_id = userInfo.getUser_id();
-        if (user_id > 0) {
+        if (user_id > 0 && comment_id > 0) {
             if (commentService.deleteComment(comment_id,user_id)) {
                 return "true";
             }
         }
         return "false";
     }
+
+    /**
+     * 修改评论
+     * @param comment_id
+     * @param httpSession
+     * @return
+     */
     @RequestMapping(value = "updateComment",method = RequestMethod.POST)
     public String updateComment(@RequestParam int comment_id, HttpSession httpSession){
-
-        return "";
+        // 暂不支持用户修改评论
+        return "false";
     }
+
 }

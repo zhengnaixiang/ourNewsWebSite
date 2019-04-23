@@ -16,7 +16,8 @@ public class UserInfoController {
 
     /**
      * 注册验证，检查用户是否已被注册
-     * sql查询自动忽略权限1即游客记录
+     * sql查询自动忽略权限1即游客的记录
+     * 每次只供查询alias、username、tel中其一，一个以上只能判断最开始的一个
      * @param userInfo
      * @return
      */

@@ -38,9 +38,6 @@ public class CommentServiceImpol implements CommentService {
     }
 
     public boolean deleteComment(int comment_id, int user_id) {
-        if (commentMapper.checkCommentByUserId(comment_id,user_id) > 0) {
-            return commentMapper.deleteCommentByUser(comment_id) > 0;
-        }
-        return false;
+        return commentMapper.deleteCommentByUser(comment_id,user_id) > 0;
     }
 }

@@ -29,8 +29,8 @@ public interface CommentService {
     List<Comment> getNpCommentByUserId(int np_id, int user_id);
 
     /**
-     * 校验用户是否有资格删除评论
-     * 有则删除指定评论
+     * 用户评论删除入口
+     * 只能删除用户自己的评论
      * @param comment_id
      * @param user_id
      * @return

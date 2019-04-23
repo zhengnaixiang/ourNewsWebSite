@@ -16,7 +16,7 @@ import java.util.Random;
 @Service
 public class UserInfoServiceImpol implements UserInfoService {
 
-    @Autowired
+    @Autowired(required = false)
     private UserInfoMapper userInfoMapper;
 //    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
 //    private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
