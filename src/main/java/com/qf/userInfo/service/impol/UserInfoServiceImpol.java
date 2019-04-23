@@ -1,4 +1,4 @@
-package com.qf.userInfo.service.impol;
+package com.qf.userInfo.service.impl;
 
 import com.qf.userInfo.mapper.UserInfoMapper;
 import com.qf.userInfo.pojo.Activation;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Random;
 
 @Service
-public class UserInfoServiceImpol implements UserInfoService {
+public class UserInfoServiceImpl implements UserInfoService {
 
     @Autowired(required = false)
     private UserInfoMapper userInfoMapper;

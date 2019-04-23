@@ -67,6 +67,10 @@
         </property>
     </bean>
 
+    <!-- swagger 配置文件-->
+    <mvc:default-servlet-handler />
+    <bean class="com.qf.personalInformation.tools.SpringfoxDocConfig"></bean>
+
     <!--谷歌验证码kaptcha-->
     <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
         <property name="config">

@@ -44,63 +44,169 @@
     <div class="row">
         <div id="left"></div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="content">
-         <!--   <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                    &lt;!&ndash;<img data-src="holder.js/200x200/auto/sky" src="img/time.png" class="img-responsive" alt="Generic placeholder thumbnail">&ndash;&gt;
-                    <h3>信息修改</h3>
-                    <span class="text-muted">名称</span>&nbsp;&nbsp;&nbsp;
-                    <input class="theContent" value="张三" />
-                </div>
-            </div>-->
+            <!--   <div class="row placeholders">
+                   <div class="col-xs-6 col-sm-3 placeholder">
+                       &lt;!&ndash;<img data-src="holder.js/200x200/auto/sky" src="img/time.png" class="img-responsive" alt="Generic placeholder thumbnail">&ndash;&gt;
+                       <h3>信息修改</h3>
+                       <span class="text-muted">名称</span>&nbsp;&nbsp;&nbsp;
+                       <input class="theContent" value="张三" />
+                   </div>
+               </div>-->
             <div class="panel panel-default">
                 <div class="panel-heading">表单数据<div style="float:right;cursor:pointer;" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-question-sign"></i></div></div>
                 <div class="panel-body">
-                    <form role="form">
+                    <form role="form" id="form">
+                        <input type="hidden" id="userIds"/>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">名称</label>
+                            <label for="userAlias">用户别名(作者名)</label>
+                            <input type="text" class="form-control" id="userAlias" name="userAlias" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">用户名</label>
                             <input type="text" class="form-control" id="username" name="username" value="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">邮箱</label>
-                            <input type="text" class="form-control" id="email" name="email" value="">
+                            <label for="userTel">电话号码</label>
+                            <input type="text" class="form-control" id="userTel" name="userTel" value="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">签名</label>
-                            <input type="text" class="form-control" id="name" name="name" value="">
+                            <label for="userImageurl">个人头像</label>
+                            <img src="images/sin2.jpg" id="userImageurl">
                         </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">领域</label>
-                            <input type="email" class="form-control" id="field" name="field" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">个人身份信息</label>
-                            <input type="email" class="form-control" id="identification" name="identification" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">所在地</label>
-                            <input type="email" class="form-control" id="hometown" name="hometown" value="">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">个人头像</label>
-                            <img src="images/sin2.jpg">
-                        </div>
-                        <button type="button" class="btn btn-success" onclick="modify()"><i class="glyphicon glyphicon-edit"></i> 修改</button>
-                        <button type="button" class="btn btn-danger" onclick="restart()"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
                     </form>
+
+                    <form action="../user/upload" enctype="multipart/form-data" method="post">
+                        更换用户图片:<input type="file" name="file"/>
+                        <input type="hidden" name="userId" id="userId" value=""/>
+                        <input type="submit" value="上传"/><br/><br/><br/>
+                    </form>
+
+                    <button type="button" id="submit" class="btn btn-success" onclick="modify()"><i class="glyphicon glyphicon-edit"></i> 修改</button>
+                    <button type="button" id="reSet" class="btn btn-danger" onclick="restart()"><i class="glyphicon glyphicon-refresh"></i> 重置</button>
+
                 </div>
             </div>
+        </div>
     </div>
-</div>
 </div>
 </body>
 <script src="jquery/jquery-2.1.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="script/docs.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 <script type="text/javascript">
-    $(function () {
+    $('#form').validate({
+        rules:{
+            userAlias:{
+                required: true,
+                rangelength:[2,12]
+            },
+            username:{
+                required: true,
+                rangelength:[2,18]
+            },
+            userTel:{
+                digits: true,
+                required: true,
+                rangelength:[11,11]
+            }
+        }
+    })
+
+    $.extend($.validator.messages, {
+        required: "这是必填字段",
+        remote: "请修正此字段",
+        email: "请输入有效的电子邮件地址",
+        url: "请输入有效的网址",
+        date: "请输入有效的日期",
+        dateISO: "请输入有效的日期 (YYYY-MM-DD)",
+        number: "请输入有效的数字",
+        digits: "只能输入数字",
+        creditcard: "请输入有效的信用卡号码",
+        equalTo: "你的输入不相同",
+        extension: "请输入有效的后缀",
+        maxlength: $.validator.format("最多可以输入 {0} 个字符"),
+        minlength: $.validator.format("最少要输入 {0} 个字符"),
+        rangelength: $.validator.format("请输入长度在 {0} 到 {1} 之间的字符串"),
+        range: $.validator.format("请输入范围在 {0} 到 {1} 之间的数值"),
+        max: $.validator.format("请输入不大于 {0} 的数值"),
+        min: $.validator.format("请输入不小于 {0} 的数值")
+    });
+
+    function load () {
+        var userId = window.location.href.split("=")[1];
+        var userId0 = document.getElementById("userId");
+        userId0.value = userId;
+        var param = {};
+        param.userId = userId;
+        $.ajax({
+            type: "POST",
+            url: "/user/watchUser",
+            contentType: "application/json; charset=utf-8",
+            cache: false,  //禁用缓存
+            data: JSON.stringify(param),  //传入组装的参数
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+
+                $(result).each(function (index,item) {
+                    var userAlias = document.getElementById("userAlias");
+                    var username = document.getElementById("username");
+                    var userTel = document.getElementById("userTel");
+                    var userImageurl = document.getElementById("userImageurl");
+
+                    userAlias.value = item.userAlias;
+                    username.value = item.username;
+                    userTel.value = item.userTel;
+                    userImageurl.src = item.userImageurl;
+
+                })
+            }
+        })
+
         $("#top").load("userHead.html");
         $("#left").load("userLeft.html");
-    });
+    }
+    load();
+
+    $("#reSet").click(function () {
+        load();
+    })
+
+
+    $("#submit").click(function () {
+        var userAlias = document.getElementById("userAlias").value;
+        var username = document.getElementById("username").value;
+        var userTel = document.getElementById("userTel").value;
+        alert(username.trim().length)
+        var userId = window.location.href.split("=")[1];
+        // alert(userId)
+        var param = {};
+        param.userAlias = userAlias;
+        param.username = username;
+        param.userTel = userTel;
+        param.userId = userId;
+        $.ajax({
+            type: "POST",
+            url: "/user/editUser",
+            contentType: "application/json; charset=utf-8",
+            cache: false,  //禁用缓存
+            data: JSON.stringify(param),  //传入组装的参数
+            dataType: "json",
+            success: function (result) {
+                console.log(result);
+                if (result > 0){
+                    alert("修改成功!!!!!!!");
+                    window.location.reload()
+                } else {
+                    alert("修改失败!!!!!!");
+                }
+            }
+        })
+        // }
+
+    })
 </script>
 </html>
 

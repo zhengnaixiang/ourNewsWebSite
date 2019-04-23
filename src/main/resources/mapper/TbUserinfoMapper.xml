@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.personalInformation.mapper.TbUserinfoMapper" >
+  <resultMap id="BaseResultMap" type="com.qf.personalInformation.pojo.TbUserinfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_alias" property="userAlias" jdbcType="VARCHAR" />
+    <result column="user_tel" property="userTel" jdbcType="VARCHAR" />
+    <result column="user_imageUrl" property="userImageurl" jdbcType="VARCHAR" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_power" property="userPower" jdbcType="INTEGER" />
+  </resultMap>
+
+    <!--修改用户信息-->
+  <update id="editUser" parameterType="com.qf.personalInformation.dto.WatchUserDto">
+    UPDATE userinfo u
+			SET u.user_alias = #{userAlias},u.username = #{username},u.user_tel = #{userTel}
+			WHERE u.user_id = #{userId}
+  </update>
+
+    <!--查看用户信息-->
+  <select id="watchUser" resultType="com.qf.personalInformation.dto.WatchUserDto">
+      SELECT user_id AS userId,user_alias AS userAlias,user_tel AS userTel,
+			 user_imageUrl AS userImageurl,username,`password`,user_power AS userPower
+      FROM userinfo
+      WHERE user_id = #{userId}
+  </select>
+
+    <!--修改用户的旧密码是否正确-->
+    <select id="watchPassword" resultType="java.lang.String">
+      SELECT u.password
+      FROM userinfo u
+      WHERE user_id = #{userId}
+  </select>
+
+    <!--修改用户密码-->
+    <update id="editPassword">
+      UPDATE userinfo u
+      SET u.password = #{password}
+      WHERE u.user_id = #{userId}
+  </update>
+
+    <!--  编辑用户图片 -->
+    <update id="editUserImg">
+        UPDATE userinfo u
+        SET u.user_imageUrl=#{img}
+        WHERE u.user_id=#{userId}
+    </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    user_id, user_alias, user_imageUrl, username, password, user_power
+  </sql>
+</mapper>

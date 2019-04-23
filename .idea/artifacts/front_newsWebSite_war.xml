@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="front_newsWebSite:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="mavenweb.war">
+      <element id="artifact" artifact-name="front_newsWebSite:war exploded" />
+    </root>
+  </artifact>
+</component>
