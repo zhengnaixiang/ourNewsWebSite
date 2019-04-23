@@ -14,6 +14,13 @@
     <description>front_newsWebSite</description>
 
     <dependencies>
+        <!--邮箱工具，验证工具-->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-email</artifactId>
+            <version>1.4</version>
+        </dependency>
         <!--单元测试-->
         <dependency>
             <groupId>junit</groupId>
@@ -143,6 +150,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
             <version>1.4</version>
+        </dependency>
+        <!--google验证码-->
+        <!-- https://mvnrepository.com/artifact/com.github.penggle/kaptcha -->
+        <dependency>
+            <groupId>com.github.penggle</groupId>
+            <artifactId>kaptcha</artifactId>
+            <version>2.3.2</version>
         </dependency>
 
     </dependencies>

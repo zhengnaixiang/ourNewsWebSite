@@ -56,5 +56,22 @@
     <!--&lt;!&ndash;在日志环境中，一般使用aspect&ndash;&gt;-->
     <!--&lt;!&ndash;<aop:aspect></aop:aspect>&ndash;&gt;-->
     <!--</aop:config>-->
+
+    <!--邮件服务-->
+    <bean id="emailSendUtils" class="com.qf.userInfo.utils.EmailSendUtils">
+
+    </bean>
+    <bean id="email" class="org.apache.commons.mail.SimpleEmail">
+        <property name="hostName" value="${email.host.name}"></property>
+        <property name="smtpPort" value="${email.smtp.port}"></property>
+        <property name="authenticator">
+            <bean class="org.apache.commons.mail.DefaultAuthenticator">
+                <constructor-arg name="userName" value="${email.username}"></constructor-arg>
+                <constructor-arg name="password" value="${email.password}"></constructor-arg>
+            </bean>
+        </property>
+        <property name="SSLOnConnect" value="true"></property>
+        <property name="from" value="${email.from}"></property>
+    </bean>
 </beans>
 
