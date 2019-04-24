@@ -1,4 +1,4 @@
-package com.qf.userInfo.service.impl;
+package com.qf.userInfo.service.impol;
 
 import com.qf.userInfo.dto.UserInfoDto;
 import com.qf.userInfo.mapper.UserInfoMapper;
@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserInfoServiceImpl implements UserInfoService {
+public class UserInfoServiceImpol implements UserInfoService {
 
     @Autowired(required = false)
     private UserInfoMapper userInfoMapper;
@@ -79,7 +79,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         return userInfo.getUser_power();
     }
 
-    public boolean ToActivation(@Param("user_id")int user_id, @Param("activation_key")int key) {
+    public boolean ToActivation(int user_id, int key) {
         if (userInfoMapper.checkActivation(user_id,key)>0) {
             // 激活信息正确。更新用户权限至2
             UserInfo uTemp = new UserInfo();

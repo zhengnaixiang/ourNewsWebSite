@@ -24,6 +24,11 @@
             $(".header").load("header.html");
             // 热门
             $(".col-md-3").load("popular.html");
+
+            // 刷新激活码
+            $(".coment-form img").click(function () {
+                this.src = 'tryCaptcha.jpg';
+            })
         });
 
         var np_id=window.location.search.split("=")[1];
@@ -161,7 +166,7 @@
                     for (var i = 0; i < t.length/4; i++) {
                         var gap = i*4;
                         t[gap+1].style.display = 'none';
-                        t[gap+2].style.display = 'inline';
+                        // t[gap+2].style.display = 'inline';
                         t[gap+3].style.display = 'inline'
                     }
                     // t[0].hide();
