@@ -13,7 +13,24 @@
         <result column="password" property="password"></result>
         <result column="user_power" property="user_power"></result>
     </resultMap>
-    
+
+    <resultMap id="userInfoDto" type="com.qf.userInfo.dto.UserInfoDto">
+        <id column="user_id" property="user_id"></id>
+        <result column="user_alias" property="user_alias"></result>
+        <result column="user_tel" property="user_tel"></result>
+        <result column="user_imageUrl" property="user_imageUrl"></result>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="user_power" property="user_power"></result>
+        <result column="num" property="num"></result>
+        <collection property="focus" ofType="com.qf.userInfo.pojo.UserInfo">
+            <id column="fo_id" property="user_id"></id>
+        </collection>
+        <collection property="fans" ofType="com.qf.userInfo.pojo.UserInfo">
+            <id column="fa_id" property="user_id"></id>
+        </collection>
+    </resultMap>
+
     <select id="checkRegisterBy" resultType="Integer" parameterType="com.qf.userInfo.pojo.UserInfo">
         select count(*) from userinfo
         <where>
@@ -120,5 +137,18 @@
     <select id="checkSingIn" resultType="com.qf.userInfo.pojo.UserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
         SELECT * from userinfo where user_power != 0 and username = #{username} and password = #{password}
     </select>
+
+    <select id="getFocus" parameterType="int" resultMap="userInfoDto">
+        select u.*,f1.from_user_id fo_id from (select * from userInfo,(select count(*) num from newpaper where user_id = #{user_id}) as c where user_id = #{user_id} )as u left join follow f1 on  f1.to_user_id = #{user_id}
+    </select>
+    <select id="getFans" parameterType="int" resultMap="userInfoDto">
+        select u.*,f1.to_user_id fa_id from (select * from userInfo,(select count(*) num from newpaper where user_id = #{user_id}) as c where user_id = #{user_id} )as u left join follow f1 on  f1.from_user_id = #{user_id}
+   </select>
+    <delete id="removeFollow" parameterType="int">
+        delete from follow where from_user_id = #{from_user_id} and to_user_id = #{to_user_id}
+    </delete>
+    <insert id="follow" parameterType="Map">
+        insert into follow values (default ,#{from_user_id}, #{to_user_id})
+    </insert>
 
 </mapper>
