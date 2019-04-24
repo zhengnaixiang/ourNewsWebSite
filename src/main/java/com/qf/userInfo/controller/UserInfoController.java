@@ -1,11 +1,14 @@
 package com.qf.userInfo.controller;
 
+import com.qf.userInfo.dto.UserInfoDto;
 import com.qf.userInfo.pojo.UserInfo;
 import com.qf.userInfo.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @RestController
@@ -98,5 +101,29 @@ public class UserInfoController {
             httpSession.setAttribute("userInfo",userInfoService.selectUserInfoByName(username));
         }
         return user_id;
+    }
+
+    @RequestMapping(value = "getFansAndFocus", method = RequestMethod.POST)
+    public UserInfoDto getFansAndFocus(@RequestParam int user_id) {
+        UserInfoDto focusAndFans = userInfoService.getFocusAndFans(user_id);
+        return focusAndFans;
+    }
+
+    @RequestMapping(value = "removeFollow",method = RequestMethod.POST)
+    public String removeFollow(@RequestParam int from_user_id,@RequestParam int to_user_id){
+        Map<String,Integer> map = new HashMap<String,Integer>();
+        map.put("from_user_id", from_user_id);
+        map.put("to_user_id", to_user_id);
+        Boolean i = userInfoService.removeFollow(map)>0;
+        return i.toString();
+    }
+
+    @RequestMapping(value = "follow",method = RequestMethod.POST)
+    public String follow(@RequestParam int from_user_id,@RequestParam int to_user_id){
+        Map<String,Integer> map = new HashMap<String,Integer>();
+        map.put("from_user_id", from_user_id);
+        map.put("to_user_id", to_user_id);
+        Boolean i = userInfoService.follow(map)>0;
+        return i.toString();
     }
 }

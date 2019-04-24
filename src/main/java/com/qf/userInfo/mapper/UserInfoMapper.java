@@ -1,8 +1,11 @@
 package com.qf.userInfo.mapper;
 
+import com.qf.userInfo.dto.UserInfoDto;
 import com.qf.userInfo.pojo.Activation;
 import com.qf.userInfo.pojo.UserInfo;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 public interface UserInfoMapper {
     int checkRegisterBy(UserInfo userInfo);
@@ -58,4 +61,13 @@ public interface UserInfoMapper {
      * @return
      */
     int deleteActivationByUserId(int user_id);
+
+    UserInfoDto getFocus(int user_id);
+
+    UserInfoDto getFans(int user_id);
+
+    int removeFollow(Map map);
+
+    int follow(Map map);
 }
+

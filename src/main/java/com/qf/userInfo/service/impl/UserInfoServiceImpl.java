@@ -1,22 +1,21 @@
-package com.qf.userInfo.service.impol;
+package com.qf.userInfo.service.impl;
 
+import com.qf.userInfo.dto.UserInfoDto;
 import com.qf.userInfo.mapper.UserInfoMapper;
 import com.qf.userInfo.pojo.Activation;
 import com.qf.userInfo.pojo.UserInfo;
 import com.qf.userInfo.service.UserInfoService;
-import com.qf.userInfo.utils.EmailSendUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Random;
 
 @Service
-public class UserInfoServiceImpol implements UserInfoService {
+public class UserInfoServiceImpl implements UserInfoService {
 
-    @Autowired
+    @Autowired(required = false)
     private UserInfoMapper userInfoMapper;
 //    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
 //    private static UserInfoMapper userInfoMapper=context .getBean(UserInfoMapper.class);
@@ -93,5 +92,19 @@ public class UserInfoServiceImpol implements UserInfoService {
             }
         }
         return false;
+    }
+
+    public UserInfoDto getFocusAndFans(int user_id) {
+        UserInfoDto userInfoDto = userInfoMapper.getFans(user_id);
+        userInfoDto.setFocus(userInfoMapper.getFocus(user_id).getFocus());
+        return userInfoDto;
+    }
+
+    public int removeFollow(Map map) {
+        return userInfoMapper.removeFollow(map);
+    }
+
+    public int follow(Map map) {
+        return userInfoMapper.follow(map);
     }
 }

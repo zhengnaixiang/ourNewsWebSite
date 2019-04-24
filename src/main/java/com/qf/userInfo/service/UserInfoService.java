@@ -1,8 +1,10 @@
 package com.qf.userInfo.service;
 
+import com.qf.userInfo.dto.UserInfoDto;
 import com.qf.userInfo.pojo.UserInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserInfoService {
     /**
@@ -59,4 +61,11 @@ public interface UserInfoService {
      * @return
      */
     boolean ToActivation(int user_id, int key);
+
+    UserInfoDto getFocusAndFans(int user_id);
+
+    int removeFollow(Map map);
+
+    int follow(Map map);
+
 }
