@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qf.money.mapper.TbMoneyMapper" >
+  <resultMap id="BaseResultMap" type="com.qf.money.pojo.TbMoney" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="money_id" property="moneyId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="BIT" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="operation_date" property="operationDate" jdbcType="TIMESTAMP" />
+    <result column="remaining_money" property="remainingMoney" jdbcType="INTEGER" />
+  </resultMap>
+
+  <insert id="remainingMoney" parameterType="com.qf.money.vo.RemainingVo">
+    INSERT into money(user_id,state,amount)
+			 VALUES(#{userId},#{state},#{amount})
+  </insert>
+
+  <update id="editUserInfo">
+    UPDATE userinfo u
+			SET u.have_money = CASE
+						WHEN #{state} = 1 THEN u.have_money + #{amount}
+						WHEN #{state} = 0 AND u.have_money >= #{amount} THEN u.have_money - #{amount}
+						ELSE u.have_money
+						END
+			WHERE u.user_id = #{userId}
+  </update>
+
+  <!--   分页模糊查询 -->
+  <select id="pageFuzzyselect" resultType="com.qf.money.dto.UserMoneyDto">
+    SELECT u.user_alias AS userAlias,m.state,m.amount,m.operation_date AS operationDate,u.have_money AS haveMoney
+    FROM userinfo u,money m
+    WHERE u.user_id = #{userId} AND m.user_id = #{userId}
+    <if test="orderStr != null and orderStr.length() > 0">
+      ${orderStr}
+    </if>
+
+    <!--<if test="search!=null and search !=''">
+      WHERE np_title like binary '%${search}%'
+    </if>
+    <if test="search!=null and search !=''">
+      or user_alias like binary '%${search}%'
+    </if>
+    <if test="search!=null and search !=''">
+      or np_date like binary '%${search}%'
+    </if>-->
+
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    money_id, user_id, state, amount, operation_date, remaining_money
+  </sql>
+</mapper>

@@ -8,10 +8,10 @@ import java.util.List;
 public interface CommentService {
     /**
      * 添加普通评论
-     * @param comment
+     * @param commentVo
      * @return
      */
-    boolean addComment(Comment comment);
+    boolean addComment(CommentVo commentVo);
 
     /**
      * 获取新闻内容下方全部评论
@@ -29,8 +29,7 @@ public interface CommentService {
     List<Comment> getNpCommentByUserId(int np_id, int user_id);
 
     /**
-     * 校验用户是否有资格删除评论
-     * 有则删除指定评论
+     * 用户自删评论接口
      * @param comment_id
      * @param user_id
      * @return

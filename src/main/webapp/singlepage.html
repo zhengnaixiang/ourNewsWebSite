@@ -155,6 +155,8 @@
 
                     });
                     var t = $(".commentUser"+user_id+" li");
+                    // 前账号的评论进行定制化接口
+                    // 不能回复自己，可以修改，可以删除。
                     // console.log(t);
                     for (var i = 0; i < t.length/4; i++) {
                         var gap = i*4;
@@ -183,6 +185,7 @@
                 var np_idText = $("#np_id").val();
                 var targetText = $("#target").val().split(":")[1];
                 var contentText = $("#content").val();
+                var captchaText = $("#captcha").val().trim();
 
                 //确定评论合规开始发送
                 if (true) {
@@ -192,14 +195,21 @@
                         contentType: "application/json; charset=utf-8",
                         data:JSON.stringify({
                             // "user_id":user_id, //前端页面不需提交用户id，用户id由服务器从session里获取
-                            "parent_id":targetText,
                             "np_id":np_idText,
-                            "comment_content":contentText
+                            "parent_id":targetText,
+                            "comment_content":contentText,
+                            "yzm":captchaText
                         }),
-                        dataType: 'json',
+                        // dataType: 'json',
                         success: function (Response) {
-                            alert(Response);
-                            getCommentList();
+                            if (Response === 'yzm_error') {
+                                alert("验证码错误！")
+                            } else if (Response) {
+                                // getCommentList();
+                                window.location.reload()
+                            } else {
+                                alert("评论发送失败");
+                            }
                         },
                         error: function (response) {
                             console.error(response);
@@ -274,7 +284,8 @@
                 dataType: 'json',
                 success: function (response) {
                     if (response) {
-                        alert("删除成功")
+                        alert("删除成功");
+                        getCommentList();
                     } else {
                         alert("删除失败")
                     }
@@ -320,7 +331,15 @@
                         <input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
                         <input style="display: none;" type="text" id="targetAlias" value="" readonly="readonly" >
                         <textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>
+
+                        <input type="text" id="captcha" style="width: 150px; height: 30px">
+                        <img alt="验证码找不到" src="tryCaptcha.jpg" style="width: 150px; height: 30px" />
+                        <!--<input type="text" class="form-control" id="kaptcha" name="kaptcha" placeholder="请输入验证码" style="color:#000000;"/>-->
+                        <!--<img src="tryCaptcha.jpg" width="100" id="kaptchaImage" title="看不清，点击换一张" />-->
+                        <!--<br/>-->
+
                         <input type="button" value="发表评论" onclick="sendComment()">
+
                     </form>
                 </div>
                 <div class="clearfix"></div>

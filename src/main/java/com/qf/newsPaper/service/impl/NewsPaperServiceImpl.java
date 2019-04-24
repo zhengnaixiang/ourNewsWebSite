@@ -1,4 +1,4 @@
-package com.qf.newsPaper.service.serviceImpl;
+package com.qf.newsPaper.service.impl;
 
 import com.qf.newsPaper.dto.NewsPaperAndAuthor;
 import com.qf.newsPaper.dto.NewsPaperAndCategory;
@@ -6,8 +6,7 @@ import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.newsPaper.service.NewsPaperService;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +14,9 @@ import java.util.List;
 @Service
 public class NewsPaperServiceImpl implements NewsPaperService {
 
-   /* @Autowired
-    NewsMapper newsMapper;*/
-   private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
-    private static NewsMapper  newsMapper=context .getBean(NewsMapper.class);
+    @Autowired
+    NewsMapper newsMapper;
+
     /**
      * 根据新闻的id，获取到新闻的相关信息和新闻作者的相关信息
      * @param np_id 新闻的id

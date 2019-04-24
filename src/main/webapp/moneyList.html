@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<script src="http://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+    <script src="jquery/jquery-2.1.1.min.js" type="text/javascript"></script>
+    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="script/docs.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/page.js"></script>
+    <script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <style>
+        #myCarousel{
+            margin-top: 10px;
+        }
+        .col-xs-6 col-sm-3 placeholder{
+            box-shadow: 2px 2px 2px gray;
+            border: 1px solid red;
+            width: 2px;
+            height: 2px;
+        }
+        #publish{
+            background: cornflowerblue;
+            height: 50px;
+            width: 100px;
+            font-size: x-large;
+        }
+        .theNews{
+            /*     background: cornflowerblue;*/
+            font-size: larger;
+        }
+        .text-muted{
+            font-size: large;
+        }
+        /*.theContent{
+            font-size: larger;
+        }*/
+    </style>
+</head>
+<body>
+
+<div id="top"></div>
+<div class="container-fluids">
+    <div class="row">
+        <div id="left"></div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="content">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <!--<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+                    <div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="glyphicon glyphicon-th"></i> 数据列表</h3>
+                            </div>
+                            <div class="panel-body">
+                                <!--<form class="form-inline" role="form" style="float:left;">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">根据标题、作者、时间的模糊查询</div>
+                                            <input id="txtnameid" name="txtnameid" value="" class="form-control has-success" type="text" placeholder="请输入查询的模糊字段">
+                                        </div>
+                                    </div>
+                                    <button type="button" id="button" name="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
+                                </form>-->
+                                <!--<button type="button" id="deleteNews" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
+                                <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='writeNews.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>-->
+                                <br>
+                                <hr style="clear:both;">
+                                <div class="dgvone">
+                                    <table class="table table-condensed table-bordered table-striped" id="tableid">
+                                        <thead class="theadone">
+                                        <tr>
+                                            <!--<th width="30">ID</th>
+                                            <th width="30"><input id="BigFlag" type="checkbox"></th>-->
+                                            <!--<th>选择</th>-->
+                                            <th>作者</th>
+                                            <th>收入\支出状态(1收入/0支出)</th>
+                                            <th>收入\支出数额</th>
+                                            <th>时间</th>
+                                            <!--<th>余额</th>-->
+                                            <!--<th width="200">操作</th>-->
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<button type="button" id="submit" class="btn btn-success" onclick="modify()"><i class="glyphicon glyphicon-edit"></i> 修改</button>
+                    <button type="button" id="reSet" class="btn btn-danger" onclick="restart()"><i class="glyphicon glyphicon-refresh"></i> 重置</button>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!--<script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="script/docs.min.js"></script>-->
+<script type="text/javascript">
+
+    $(function () {
+        //提示信息
+        var lang = {
+            "sProcessing": "处理中...",
+            "sLengthMenu": "每页 _MENU_ 项",
+            "sZeroRecords": "没有匹配结果",
+            "sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+            "sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+            "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+            "sInfoPostFix": "",
+            "sSearch": "搜索:",
+            "sUrl": "",
+            "sEmptyTable": "表中数据为空",
+            "sLoadingRecords": "载入中...",
+            "sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": "首页",
+                "sPrevious": "上页",
+                "sNext": "下页",
+                "sLast": "末页",
+                "sJump": "跳转"
+            },
+            "oAria": {
+                "sSortAscending": ": 以升序排列此列",
+                "sSortDescending": ": 以降序排列此列"
+            }
+        };
+        //初始化表格
+        var table = $("#tableid").dataTable({
+            // dom: 'Bfrtip',//每页显示可调显示数据数量
+            language:lang,  //提示信息
+            autoWidth: false,  //禁用自动调整列宽
+            stripeClasses: ["odd", "even"],  //为奇偶行加上样式，兼容不支持CSS伪类的场合
+            processing: true,  //隐藏加载提示,自行处理
+            serverSide: true,  //启用服务器端分页
+            searching: false,  //禁用原生搜索
+            orderMulti: false,  //启用多列排序
+            order: [],  //取消默认排序查询,否则复选框一列会出现小箭头
+            renderer: "bootstrap",  //渲染样式：Bootstrap和jquery-ui
+            pagingType: "simple_numbers",  //分页样式：simple,simple_numbers,full,full_numbers
+            //渲染
+            columnDefs: [
+                /*{
+                "render": function ( data, type, row ) {
+                    /!*删除1.1*!/
+                    return "<input type='checkbox' name='newsId'  value='" + data + "' >"+ data;
+                },
+                "targets": 0 //指定渲染列：第一列(渲染第一列为单选框，data自动匹配为  {"data":"id"}中数据）
+            },*/
+                /*{
+                    "render": function ( data, type, row , meta) {
+                        return "<button type=\"button\" class=\"btn btn-success btn-xs\" onclick=\"toEditNews(" + data + ")\"><i class=\" glyphicon glyphicon-pencil\"></i>编辑</button>" +
+                            "<button type=\"button\" class=\"btn btn-primary btn-xs\" onclick=\"toReadNews(" + data + ")\"><i class=\" glyphicon glyphicon-check\"></i>查看</button>" +
+                            "<button type=\"button\" onclick='deleteById(" + data + ")' class=\"btn btn-danger btn-xs\"><i class=\" glyphicon glyphicon-remove\"></i>删除</button>";
+                    },
+                    "targets": 7 //指定渲染列：第一列(渲染第一列为单选框，data自动匹配为  {"data":"id"}中数据）
+                },*/
+                {
+                    "targets": 'nosort',  //列的样式名
+                    "orderable": false    //包含上样式名‘nosort’的禁止排序
+                }],
+            ajax: function (data, callback, settings) {
+                //封装请求参数
+                var param = {};
+                /*踩坑 记得与后端接口接收类型名称对应*/
+                param.pageSize = data.length;//页面显示记录条数，在页面显示每页显示多少项的时候
+                /*param.start = data.start;//开始的记录序号*/
+                param.pageNum = (data.start / data.length)+1;//当前页码
+                //console.log(param);
+
+                param.search = "";
+
+                if(data.order.length > 0){
+                    param.order = data.order[0].column;
+                    param.dir = data.order[0].dir;
+                }
+
+                var userId = window.location.href.split("=")[1];
+                param.userId = userId;
+
+                //ajax请求数据
+                $.ajax({
+                    type: "POST",
+                    url: "/money/list",
+                    contentType: "application/json; charset=utf-8",
+                    cache: false,  //禁用缓存
+                    data: JSON.stringify(param),   //修改提交数据注意
+                    dataType: "json",
+
+                    success: function (result) {
+                        // alert(result)
+                        //console.log(result);
+                        //setTimeout仅为测试延迟效果
+                        setTimeout(function () {
+                            //封装返回数据
+                            var returnData = {};
+                            returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+                            returnData.recordsTotal = result.totalRecord;//返回数据全部记录 ——踩坑 修改2 result.totalRecord要与前端返回的数据格式对应
+                            returnData.recordsFiltered = result.totalRecord;//后台不实现过滤功能，每次查询均视作全部结果——踩坑 修改2
+
+                            if (result.totalRecord == 0) {
+                                //4.7.4解决空数据时卡顿,就是查不到数据是一直在搜索中
+                                returnData.data = "";    //返回的数据列表
+                            } else {
+                                returnData.data = result.result;    //返回的数据列表
+                            }
+
+                            //console.log(returnData);
+                            //调用DataTables提供的callback方法，代表数据已封装完成并传回DataTables进行渲染
+                            //此时的数据需确保正确无误，异常判断应在执行此回调前自行处理完毕
+                            callback(returnData);
+                        }, 200);
+                    },
+
+                    fail: function (result) {
+                        alert("失败!!!!!!!!!")
+                    }
+                });
+            },
+            //列表表头字段
+            /*columns: [
+                { "data": "userAlias" },
+                { "data": "state" },
+                { "data": "amount" },
+                { "data": "time" },
+                { "data": "haveMoney" }
+            ]*/
+            columns: [
+                { "data": "userAlias" },
+                { "data": "state" },
+                { "data": "amount" },
+                { "data": "time" },
+                // { "data": "haveMoney" }
+            ]
+        }).api();
+        //此处需调用api()方法,否则返回的是JQuery对象而不是DataTables的API对象
+    })
+
+
+
+
+
+    function load () {
+        $("#top").load("userHead.html");
+        $("#left").load("userLeft.html");
+    }
+    load();
+</script>
+</html>
+

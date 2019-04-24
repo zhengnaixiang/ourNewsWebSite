@@ -27,7 +27,7 @@
         </collection>
     </resultMap>
 
-    <insert id="addCommentBy" parameterType="com.qf.comment.pojo.Comment">
+    <insert id="addCommentBy" parameterType="com.qf.comment.vo.CommentVo">
       insert into comment(parent_id,np_id,comment_content,user_id)
       values(#{parent_id},#{np_id},#{comment_content},#{user_id})
     </insert>
@@ -56,13 +56,13 @@
         left join userinfo u2 on u2.user_id=c3.c2_uid and u2.user_power != 0
     </select>
 
-    <select id="checkCommentByUserId" resultType="Integer" parameterType="Integer">
-        select count(*) from comment where comment_id = #{comment_id} and user_id = #{user_id}
-    </select>
+    <!--<select id="checkCommentByUserId" resultType="Integer" parameterType="Integer">-->
+        <!--select count(*) from comment where comment_id = #{comment_id} and user_id = #{user_id}-->
+    <!--</select>-->
 
     <update id="deleteCommentByUser" parameterType="Integer">
-        <if test="comment_id != null and comment_id != 0">
-            update comment set `status` = 2 where comment_id = #{comment_id}
+        <if test="comment_id != 0 and user_id != 0">
+            update comment set `status` = 2 where comment_id = #{comment_id} and user_id = #{user_id}
         </if>
     </update>
 

@@ -11,7 +11,7 @@
       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
     <!-- 1、配置自定控制器扫描路径 -->
     <!--这里配置的是controller的路径-->
-    <context:component-scan base-package="com.qf.*.controller"></context:component-scan>
+    <context:component-scan base-package="com.qf.*.controller,com.qf.tools"></context:component-scan>
     <!-- 2、配置静态资源处理 -->
     <mvc:default-servlet-handler />
     <!-- 3、配置注解驱动 -->
@@ -66,4 +66,30 @@
             <value>UTF-8</value>
         </property>
     </bean>
+
+    <!-- swagger 配置文件-->
+    <mvc:default-servlet-handler />
+    <bean class="com.qf.personalInformation.tools.SpringfoxDocConfig"></bean>
+
+    <!--谷歌验证码kaptcha-->
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg>
+                    <props>
+                        <prop key="kaptcha.border">yes</prop>
+                        <prop key="kaptcha.border.color">105,179,90</prop>
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>
+                        <prop key="kaptcha.image.width">125</prop>
+                        <prop key="kaptcha.image.height">45</prop>
+                        <prop key="kaptcha.textproducer.font.size">40</prop>
+                        <prop key="kaptcha.session.key">code</prop>
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                        <prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

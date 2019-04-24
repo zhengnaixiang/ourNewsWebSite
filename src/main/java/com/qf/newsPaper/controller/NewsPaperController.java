@@ -21,8 +21,7 @@ public class NewsPaperController {
 
     @Autowired
     NewsPaperService newsPaperService;
-/*  private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
-    private static NewsPaperService newsPaperService=context .getBean(NewsPaperService.class);*/
+
 
     /**
      * 通过前端的点击事件，返回具体的新闻信息，以及该新闻作者的相关属性

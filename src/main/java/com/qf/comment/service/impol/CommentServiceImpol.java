@@ -22,11 +22,8 @@ public class CommentServiceImpol implements CommentService {
     @Autowired(required = false)
     private CommentMapper commentMapper;
 
-//    private static ApplicationContext context=new ClassPathXmlApplicationContext("spring-mybatis.xml","spring-service.xml");
-//    private static CommentMapper commentMapper=context .getBean(CommentMapper.class);
-
-    public boolean addComment(Comment comment) {
-        return commentMapper.addCommentBy(comment) > 0;
+    public boolean addComment(CommentVo commentVo) {
+        return commentMapper.addCommentBy(commentVo) > 0;
     }
 
     public List<Comment> getCommentByNpId(int np_id) {
@@ -38,9 +35,6 @@ public class CommentServiceImpol implements CommentService {
     }
 
     public boolean deleteComment(int comment_id, int user_id) {
-        if (commentMapper.checkCommentByUserId(comment_id,user_id) > 0) {
-            return commentMapper.deleteCommentByUser(comment_id) > 0;
-        }
-        return false;
+        return commentMapper.deleteCommentByUser(comment_id,user_id) > 0;
     }
 }
