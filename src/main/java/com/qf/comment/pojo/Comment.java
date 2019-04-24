@@ -24,22 +24,6 @@ public class Comment {
     // 评论下方的跟帖
     List<Comment> commentList;
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "comment_id=" + comment_id +
-                ", parent_id=" + parent_id +
-                ", np_id=" + np_id +
-                ", comment_date='" + comment_date + '\'' +
-                ", comment_content='" + comment_content + '\'' +
-                ", user_id=" + user_id +
-                ", status=" + status +
-                ", user_alias='" + user_alias + '\'' +
-                ", user_imageUrl='" + user_imageUrl + '\'' +
-                ", commentList=" + commentList +
-                '}';
-    }
-
     public int getComment_id() {
         return comment_id;
     }
@@ -118,5 +102,21 @@ public class Comment {
 
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "comment_id=" + comment_id +
+                ", parent_id=" + parent_id +
+                ", np_id=" + np_id +
+                ", comment_date='" + comment_date + '\'' +
+                ", comment_content='" + comment_content + '\'' +
+                ", user_id=" + user_id +
+                ", status=" + status +
+                ", user_alias='" + user_alias + '\'' +
+                ", user_imageUrl='" + user_imageUrl + '\'' +
+                ", commentList=" + commentList +
+                '}';
     }
 }

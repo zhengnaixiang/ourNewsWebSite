@@ -29,8 +29,7 @@ public interface CommentService {
     List<Comment> getNpCommentByUserId(int np_id, int user_id);
 
     /**
-     * 用户评论删除入口
-     * 只能删除用户自己的评论
+     * 用户自删评论接口
      * @param comment_id
      * @param user_id
      * @return

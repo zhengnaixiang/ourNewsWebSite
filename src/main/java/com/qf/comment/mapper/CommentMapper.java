@@ -14,6 +14,5 @@ public interface CommentMapper {
 
     List<Comment> getNpCommentByUserId(@Param("np_id")int np_id, @Param("user_id")int user_id);
 
-//    int checkCommentByUserId(@Param("comment_id")int comment_id, @Param("user_id")int user_id);
     int deleteCommentByUser(@Param("comment_id")int comment_id, @Param("user_id")int user_id);
 }

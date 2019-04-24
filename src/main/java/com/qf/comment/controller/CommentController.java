@@ -1,16 +1,15 @@
 package com.qf.comment.controller;
 
-
 import com.qf.comment.pojo.Comment;
 import com.qf.comment.service.CommentService;
+import com.qf.comment.vo.CommentVo;
 import com.qf.userInfo.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
-
-//import static sun.rmi.transport.proxy.CGIHandler.RequestMethod;
 
 @RestController
 public class CommentController {
@@ -28,13 +27,8 @@ public class CommentController {
      * @param httpSession
      * @return
      */
-<<<<<<< HEAD
     @RequestMapping(value = "addComment",method = RequestMethod.POST)
     public String addComment(@RequestBody CommentVo commentVo, HttpSession httpSession){
-=======
-    @RequestMapping(value = "addComment",method = org.springframework.web.bind.annotation.RequestMethod.POST)
-    public String addComment(@RequestBody Comment comment, HttpSession httpSession){
->>>>>>> 前端系统项目整合
         UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
         commentVo.setUser_id(userInfo.getUser_id());
         String yzmServer = (String)httpSession.getAttribute("yzm");
@@ -94,7 +88,7 @@ public class CommentController {
     @RequestMapping(value = "updateComment",method = RequestMethod.POST)
     public String updateComment(@RequestParam int comment_id, HttpSession httpSession){
         // 暂不支持用户修改评论
-        return "false";
+        return "true";
     }
 
 }

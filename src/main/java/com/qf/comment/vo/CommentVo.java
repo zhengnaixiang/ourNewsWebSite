@@ -1,22 +1,12 @@
 package com.qf.comment.vo;
 
 public class CommentVo {
+
     int user_id;
     int np_id;
     int parent_id;
     String comment_content;
     String yzm;
-
-    @Override
-    public String toString() {
-        return "CommentVo{" +
-                "user_id=" + user_id +
-                ", np_id=" + np_id +
-                ", parent_id=" + parent_id +
-                ", comment_content='" + comment_content + '\'' +
-                ", yzm='" + yzm + '\'' +
-                '}';
-    }
 
     public int getUser_id() {
         return user_id;
@@ -56,5 +46,16 @@ public class CommentVo {
 
     public void setYzm(String yzm) {
         this.yzm = yzm;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentVo{" +
+                "user_id=" + user_id +
+                ", np_id=" + np_id +
+                ", parent_id=" + parent_id +
+                ", comment_content='" + comment_content + '\'' +
+                ", yzm='" + yzm + '\'' +
+                '}';
     }
 }
