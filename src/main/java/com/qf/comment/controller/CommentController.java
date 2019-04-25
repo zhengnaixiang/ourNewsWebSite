@@ -36,20 +36,27 @@ public class CommentController {
      */
     @RequestMapping(value = "addComment",method = RequestMethod.POST)
     public String addComment(@RequestBody CommentVo commentVo, HttpSession httpSession){
-        Set<String> sensitivateWord = sensitive.getSensitivateWord(commentVo.getComment_content());
-        if (sensitivateWord == null || sensitivateWord.isEmpty()) {
-            // 通过敏感词检查
-            UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
-            commentVo.setUser_id(userInfo.getUser_id());
-            String yzmServer = (String)httpSession.getAttribute("yzm");
-            if (yzmServer != null && yzmServer.equals(commentVo.getYzm())) {
-                // 通过验证码
-                return commentService.addComment(commentVo)?"true":"false";
-            }
+        // 1. 检查验证码
+        String yzmServer = (String)httpSession.getAttribute("yzm");
+        if (yzmServer == null || !yzmServer.equals(commentVo.getYzm())) {
             return "yzm_error";
+        } else {
+            // 2.检查身份
+            UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
+            if (userInfo == null || userInfo.getUser_id()<1) {
+                return "user_error";
+            } else {
+                // 3.检查内容
+                Set<String> swSet = sensitive.getSensitivateWord(commentVo.getComment_content());
+                if (swSet != null && !swSet.isEmpty()) {
+                    return sensitive.replaceSensitiveWord(commentVo.getComment_content(),"*");
+                } else {
+                    // 4. 发表评论
+                    commentVo.setUser_id(userInfo.getUser_id());
+                    return commentService.addComment(commentVo)?"true":"false";
+                }
+            }
         }
-        // 把敏感词屏蔽后返回客户端
-        return sensitive.replaceSensitiveWord(commentVo.getComment_content(),"*");
     }
 
     /**

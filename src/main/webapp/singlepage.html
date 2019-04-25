@@ -255,6 +255,8 @@
                         success: function (Response) {
                             if (Response === 'yzm_error') {
                                 alert("验证码错误！")
+                            } else if (Response === 'user_error') {
+                                alert("身份认证失败")
                             } else if (Response) {
                                 // getCommentList();
                                 window.location.reload()
