@@ -24,6 +24,11 @@
             $(".header").load("header.html");
             // 热门
             $(".col-md-3").load("popular.html");
+            
+            // 激活码更新
+            $(".coment-form img").click(function () {
+                this.src = 'tryCaptcha.jpg';
+            })
         });
 
         var np_id=window.location.search.split("=")[1];
