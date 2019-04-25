@@ -74,4 +74,11 @@ public interface NewsPaperService {
      * @return
      */
     public Boolean deleteSingleNews(int np_id);
+
+
+    /**
+     * 获取所有新闻文章文本，用于添加新新闻时的文章查重
+     * @return
+     */
+    public Boolean FindRepetitiveNews(String content);
 }

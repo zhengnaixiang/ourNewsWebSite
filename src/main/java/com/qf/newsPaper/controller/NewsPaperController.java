@@ -135,4 +135,14 @@ public class NewsPaperController {
     public String deleteSingleNews(@RequestBody NewsPaperData newsPaperData){
       return newsPaperService.deleteSingleNews(newsPaperData.getNp_id()).toString();
     }
+
+    /**
+     * 获取所有新闻文章文本，用于添加新新闻时的文章查重
+     * @return
+     */
+    @RequestMapping(value = "FindRepetitiveNews",method = RequestMethod.POST)
+    public Boolean FindRepetitiveNews(@RequestParam String content) {
+        System.out.println("进入查重方法");
+        return newsPaperService.FindRepetitiveNews(content);
+    }
 }
