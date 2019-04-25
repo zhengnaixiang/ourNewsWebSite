@@ -207,13 +207,17 @@
                         }),
                         // dataType: 'json',
                         success: function (Response) {
+                            console.log(Response);
                             if (Response === 'yzm_error') {
                                 alert("验证码错误！")
-                            } else if (Response) {
+                            } else if (Response === "true") {
                                 // getCommentList();
                                 window.location.reload()
-                            } else {
+                            } else if (Response === "false") {
                                 alert("评论发送失败");
+                            } else {
+                                // alert("存在敏感词，请修改");
+                                $("#content").val(Response)
                             }
                         },
                         error: function (response) {

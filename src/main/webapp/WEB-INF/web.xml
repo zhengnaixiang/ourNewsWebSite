@@ -36,4 +36,12 @@
         <servlet-name>springmvc</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
+
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>evan.webapp</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.util.WebAppRootListener</listener-class>
+    </listener>
 </web-app>

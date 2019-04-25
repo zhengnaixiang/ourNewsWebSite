@@ -3,6 +3,7 @@ package com.qf.comment.controller;
 import com.qf.comment.pojo.Comment;
 import com.qf.comment.service.CommentService;
 import com.qf.comment.vo.CommentVo;
+import com.qf.tools.Sensitive;
 import com.qf.userInfo.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private Sensitive sensitive;
 
     private List<Comment> commentList;
 
@@ -29,13 +34,21 @@ public class CommentController {
      */
     @RequestMapping(value = "addComment",method = RequestMethod.POST)
     public String addComment(@RequestBody CommentVo commentVo, HttpSession httpSession){
-        UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
-        commentVo.setUser_id(userInfo.getUser_id());
-        String yzmServer = (String)httpSession.getAttribute("yzm");
-        if (yzmServer != null && yzmServer.equals(commentVo.getYzm())) {
+        Set<String> sensitivateWord = sensitive.getSensitivateWord(commentVo.getComment_content());
+        if (sensitivateWord == null || sensitivateWord.isEmpty()) {
+            // 通过敏感词检查
+            UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
+            commentVo.setUser_id(userInfo.getUser_id());
+            String yzmServer = (String)httpSession.getAttribute("yzm");
+            if (yzmServer != null && yzmServer.equals(commentVo.getYzm())) {
+                // 通过验证码
                 return commentService.addComment(commentVo)?"true":"false";
             }
-        return "yzm_error";
+            return "yzm_error";
+        }
+        // 把敏感词屏蔽返回客户浏览器
+
+        return sensitive.replaceSensitiveWord(commentVo.getComment_content(),"*");
     }
 
     /**
