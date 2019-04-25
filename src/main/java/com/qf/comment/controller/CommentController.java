@@ -1,7 +1,9 @@
 package com.qf.comment.controller;
 
+import com.qf.comment.dto.CommentSeachDto;
 import com.qf.comment.pojo.Comment;
 import com.qf.comment.service.CommentService;
+import com.qf.comment.vo.CommentSeachVo;
 import com.qf.comment.vo.CommentVo;
 import com.qf.tools.Sensitive;
 import com.qf.userInfo.pojo.UserInfo;
@@ -46,8 +48,7 @@ public class CommentController {
             }
             return "yzm_error";
         }
-        // 把敏感词屏蔽返回客户浏览器
-
+        // 把敏感词屏蔽后返回客户端
         return sensitive.replaceSensitiveWord(commentVo.getComment_content(),"*");
     }
 
@@ -104,4 +105,16 @@ public class CommentController {
         return "true";
     }
 
+    /**
+     * 评论管理搜索接口
+     * @param commentSeachVo
+     * @return
+     */
+    @RequestMapping(value = "searchCommentByLike")
+    public Object searchCommentByLike(@RequestBody(required=false) CommentSeachVo commentSeachVo){
+        System.out.println(commentSeachVo);
+        List<CommentSeachDto> commentSeachDtos = commentService.searchCommentByLike(commentSeachVo);
+        System.out.println(commentSeachDtos);
+        return "true";
+    }
 }

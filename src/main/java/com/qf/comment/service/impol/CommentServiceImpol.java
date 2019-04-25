@@ -1,8 +1,10 @@
 package com.qf.comment.service.impol;
 
+import com.qf.comment.dto.CommentSeachDto;
 import com.qf.comment.mapper.CommentMapper;
 import com.qf.comment.pojo.Comment;
 import com.qf.comment.service.CommentService;
+import com.qf.comment.vo.CommentSeachVo;
 import com.qf.comment.vo.CommentVo;
 import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.newsPaper.service.NewsPaperService;
@@ -36,5 +38,10 @@ public class CommentServiceImpol implements CommentService {
 
     public boolean deleteComment(int comment_id, int user_id) {
         return commentMapper.deleteCommentByUser(comment_id,user_id) > 0;
+    }
+
+    @Override
+    public List<CommentSeachDto> searchCommentByLike(CommentSeachVo commentSeachVo) {
+        return commentMapper.searchCommentByLike(commentSeachVo);
     }
 }

@@ -14,6 +14,71 @@
         table tbody tr:nth-child(odd){background:#F4F4F4;}
         table tbody td:nth-child(even){color:#C00;}
     </style>
+    <script src="jquery/jquery-2.1.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="script/docs.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#top").load("userHead.html");
+            $("#left").load("userLeft.html");
+
+            search();
+
+            var total = $(".ids").length;
+            var count = 0;
+            var flag;
+            // 全选同步
+            $("#BigFlag").click(function () {
+                flag = $(this).prop("checked");
+                $(".ids").prop("checked", flag);
+                if (flag){
+                    count = total;
+                } else {
+                    count = 0;
+                }
+            });
+
+            // 多选操作
+            $(".ids").click(function () {
+                flag = $(this).prop("checked");
+                if (flag) {
+                    if (++count == total) {
+                        $("#BigFlag").prop("checked", true);
+                    }
+                } else {
+                    count--;
+                    $("#BigFlag").prop("checked", false);
+                }
+            });
+        });
+
+        //跳转到查看新闻界面
+        function toReadNews() {
+            window.location.href="readNews.html";
+        }
+
+        /*通过ajax，将该用户所撰写的新闻，返回到该页面*/
+        function search() {
+            $.ajax({
+                type: 'GET',
+                url:  'searchCommentByLike',
+                contentType: "application/json; charset=utf-8",
+                data:JSON.stringify({
+                    "dateBegin": '2019-04-15 00:00:00',
+                    "dateEnd": '2019-04-24 20:05:36',
+                    "user_alias": 'h',
+                    "np_title": ''
+                }),
+                success: function(response){
+                    console.log(response)
+                } ,
+                error:function (message) {
+                    console.log(message);
+                },
+                dataType: 'json'
+            });
+        }
+    </script>
 </head>
 <body>
 <div id="top"></div>
@@ -41,10 +106,10 @@
                                 <div class="input-group-addon">标题/时间/类别/点赞数/评论数</div>
                                 <input id="titleText" value="" class="form-control has-success" type="text" placeholder="请输入查询条件">
                             </div>
-                           <!-- <div class="input-group">
-                                <div class="input-group-addon">作者</div>
-                                <input id="writerText" class="form-control has-success" type="text" placeholder="请输入查询条件">
-                            </div>-->
+                            <!-- <div class="input-group">
+                                 <div class="input-group-addon">作者</div>
+                                 <input id="writerText" class="form-control has-success" type="text" placeholder="请输入查询条件">
+                             </div>-->
                             <!--<div class="input-group">
                                 <div class="input-group-addon">时间</div>
                                 <input id="dateText" class="form-control has-success" type="text" placeholder="请输入查询条件">
@@ -87,7 +152,7 @@
                             </tbody>
                         </table>
                         <tfoot >
-                        <tr >
+                        <tr>
                             <td>
                                 <ul class="pagination" align="center">
                                     <li class="disabled"><a href="#">上一页</a></li>
@@ -108,65 +173,4 @@
     </div>
 </div>
 </body>
-<script src="jquery/jquery-2.1.1.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="script/docs.min.js"></script>
-<script type="text/javascript">
-    $(function () {
-        $("#top").load("userHead.html");
-        $("#left").load("userLeft.html");
-
-        var total = $(".ids").length;
-        var count = 0;
-        var flag;
-        // 全选同步
-        $("#BigFlag").click(function () {
-            flag = $(this).prop("checked");
-            $(".ids").prop("checked", flag);
-            if (flag){
-                count = total;
-            } else {
-                count = 0;
-            }
-        });
-
-        // 多选操作
-        $(".ids").click(function () {
-            flag = $(this).prop("checked");
-            if (flag) {
-                if (++count == total) {
-                    $("#BigFlag").prop("checked", true);
-                }
-            } else {
-                count--;
-                $("#BigFlag").prop("checked", false);
-            }
-        });
-    });
-
-    //跳转到查看新闻界面
-    function toReadNews() {
-        window.location.href="readNews.html";
-    }
-
-    /*通过ajax，将该用户所撰写的新闻，返回到该页面*/
-    function getNewsContent() {
-        $.ajax({
-            type: 'GET',
-            url:  "getAuthorNewsByUserId?user_id="+user_id,
-            contentType: "application/json; charset=utf-8",
-            success: function(response){
-             if (response!=null){
-             //    返回的数据写入表格
-             } else{
-             //    返回的集合为空，说明该用户没有撰写过新闻
-             }
-            } ,
-            error:function (message) {
-                console.log(message);
-            },
-            dataType: 'json'
-        });
-    }
-</script>
 </html>

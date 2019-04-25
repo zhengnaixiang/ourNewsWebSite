@@ -26,6 +26,16 @@
             <result column="c2_url" property="user_imageUrl"></result>
         </collection>
     </resultMap>
+    <resultMap id="commentSearchMap" type="com.qf.comment.dto.CommentSeachDto">
+        <id column="comment_id" property="comment_id"></id>
+        <result column="comment_content" property="comment_content"></result>
+        <result column="comment_date" property="comment_date"></result>
+        <result column="status" property="status"></result>
+        <result column="user_id" property="user_id"></result>
+        <result column="user_alias" property="user_alias"></result>
+        <result column="np_id" property="np_id"></result>
+        <result column="np_title" property="np_title"></result>
+    </resultMap>
 
     <insert id="addCommentBy" parameterType="com.qf.comment.vo.CommentVo">
       insert into comment(parent_id,np_id,comment_content,user_id)
@@ -56,14 +66,32 @@
         left join userinfo u2 on u2.user_id=c3.c2_uid and u2.user_power != 0
     </select>
 
-    <!--<select id="checkCommentByUserId" resultType="Integer" parameterType="Integer">-->
-        <!--select count(*) from comment where comment_id = #{comment_id} and user_id = #{user_id}-->
-    <!--</select>-->
-
     <update id="deleteCommentByUser" parameterType="Integer">
         <if test="comment_id != 0 and user_id != 0">
             update comment set `status` = 2 where comment_id = #{comment_id} and user_id = #{user_id}
         </if>
     </update>
+
+    <select id="searchCommentByLike" resultMap="commentSearchMap" parameterType="com.qf.comment.vo.CommentSeachVo">
+        select c.comment_id,c.comment_content,c.comment_date,c.`status`,u.user_id,u.user_alias,n.np_id,n.np_title
+        from comment c, userinfo u, newpaper n
+        <where>
+            c.user_id = u.user_id and c.np_id = n.np_id
+            <trim prefix="and(" suffix=")" prefixOverrides="and">
+                <if test="dateEnd != null and dateEnd != ''">
+                    and c.comment_date between #{dateBegin} and #{dateEnd}
+                </if>
+                <if test="status != null">
+                    and c.`status` = #{status}
+                </if>
+                <if test="user_alias != null and user_alias != ''">
+                    and u.user_alias like CONCAT('%',#{user_alias},'%')
+                </if>
+                <if test="np_title != null and np_title != ''">
+                    and n.np_title like CONCAT('%',#{np_title},'%')
+                </if>
+            </trim>
+        </where>
+    </select>
 
 </mapper>

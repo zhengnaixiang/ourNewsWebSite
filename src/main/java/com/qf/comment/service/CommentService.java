@@ -1,6 +1,8 @@
 package com.qf.comment.service;
 
+import com.qf.comment.dto.CommentSeachDto;
 import com.qf.comment.pojo.Comment;
+import com.qf.comment.vo.CommentSeachVo;
 import com.qf.comment.vo.CommentVo;
 
 import java.util.List;
@@ -35,4 +37,11 @@ public interface CommentService {
      * @return
      */
     boolean deleteComment(int comment_id, int user_id);
+
+    /**
+     * 评论搜索相关
+     * @param commentSeachVo
+     * @return
+     */
+    List<CommentSeachDto>searchCommentByLike(CommentSeachVo commentSeachVo);
 }

@@ -1,6 +1,8 @@
 package com.qf.comment.mapper;
 
+import com.qf.comment.dto.CommentSeachDto;
 import com.qf.comment.pojo.Comment;
+import com.qf.comment.vo.CommentSeachVo;
 import com.qf.comment.vo.CommentVo;
 import org.apache.ibatis.annotations.Param;
 
@@ -15,4 +17,6 @@ public interface CommentMapper {
     List<Comment> getNpCommentByUserId(@Param("np_id")int np_id, @Param("user_id")int user_id);
 
     int deleteCommentByUser(@Param("comment_id")int comment_id, @Param("user_id")int user_id);
+
+    List<CommentSeachDto>searchCommentByLike(CommentSeachVo commentSeachVo);
 }
