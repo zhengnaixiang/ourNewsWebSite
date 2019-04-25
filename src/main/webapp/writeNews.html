@@ -103,30 +103,55 @@
 
     /*用户写的新闻，提交后通过ajax写到后端，存入数据库*/
     function publishNews() {
-        debugger;
+        var content = editor.txt.html();
+        alert(editor.txt.html());
         $.ajax({
-            type: 'POST',
-            url:  "publishNewsByUser",
-            contentType: "application/json; charset=utf-8",
-            data:JSON.stringify({
-                "user_id":1,
-                "np_title":$("#headLine").val(),
-                "np_image":null,
-                "np_content":$("#editor").html(),
-                "classes":$("#classNews").val()
-            }) ,
-            success: function(response){
-                if (response==true){
-                    window.location.href="userMenu.html"
-                } else{
-                    alert("发布失败")
+            type:'POST',
+            url:'FindRepetitiveNews?content='+content,
+            contentType:"application/json; charset=utf-8",
+            success: function (data) {
+                // console.log("进入查重");
+                if (data == "true") {
+                    // console.log("通过查重");
+                    $("#theAlerts").html("敏感词审核中，请稍等");
+                    $.ajax({
+                        type: 'POST',
+                        url: "publishNewsByUser",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            "user_id": 1,
+                            "np_title": $("#headLine").val(),
+                            "np_image": null,
+                            "np_content": editor.txt.html(),
+                            "classes": $("#classNews").val()
+                        }),
+                        success: function (responseText) {
+                            $("#theAlerts").html("");
+                            console.log("得到的结果" + responseText)
+                            if (responseText == true) {
+                                window.location.href = "userMenu.html"
+                            } else if (responseText == false) {
+                                alert("发布失败");
+                            } else {
+                                alert("含有敏感词" + responseText);
+                            }
+                        },
+                        error: function (message) {
+                            console.log(message);
+                        },
+                        dataType: 'json'
+                    });
+                } else {
+                    // console.log("查重没通过");
+                    alert("内容重复，请进行修改！")
                 }
-            } ,
-            error:function (message) {
-                console.log(message);
             },
-            dataType: 'json'
-        });
+            error:function (data) {
+                // console.log("查重失败")
+                console.log(data);
+            },
+            dataType:'json'
+        })
     }
 </script>
 </html>
