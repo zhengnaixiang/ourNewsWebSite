@@ -91,4 +91,9 @@
     <update id="deleteSingleNews" parameterType="int">
         UPDATE newpaper SET np_status=0 where np_id=#{np_id}
     </update>
+
+    <!--查询所有的新闻文章文本，用于文章的查重-->
+    <select id="FindRepetitiveNews" resultType="String">
+        select np_content from newpaper
+    </select>
 </mapper>

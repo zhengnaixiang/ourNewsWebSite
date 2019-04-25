@@ -7,6 +7,7 @@ import com.qf.newsPaper.service.NewsPaperService;
 import com.qf.tools.Sensitive;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
+import com.qf.tools.checkingNews;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -130,5 +131,20 @@ public class NewsPaperServiceImpl implements NewsPaperService {
     @Override
     public Boolean deleteSingleNews(int np_id) {
         return newsMapper.deleteSingleNews(np_id)>0?true:false;
+    }
+
+    /**
+     * 获取所有新闻文章文本，用于添加新新闻时的文章查重
+     * @return
+     */
+    public Boolean FindRepetitiveNews(String content) {
+        List <String> newsContents = newsMapper.FindRepetitiveNews();
+        for (String newContent : newsContents) {
+            System.out.println(checkingNews.checkingNews(content, newContent));
+            if (checkingNews.checkingNews(content, newContent)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
