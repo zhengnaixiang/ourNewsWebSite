@@ -68,4 +68,11 @@ public interface NewsMapper {
      * @return
      */
     public List<NewsPaperAndCategory> theHotNewsByUser(int user_id);
+
+    /**
+     * 进行单个新闻的删除
+     * @param np_id
+     * @return
+     */
+    public int deleteSingleNews(int np_id);
 }
