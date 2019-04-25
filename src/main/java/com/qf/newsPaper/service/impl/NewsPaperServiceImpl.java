@@ -20,6 +20,9 @@ public class NewsPaperServiceImpl implements NewsPaperService {
     @Autowired
     NewsMapper newsMapper;
 
+    @Autowired
+    private Sensitive sensitive;
+
     /**
      * 根据新闻的id，获取到新闻的相关信息和新闻作者的相关信息
      * @param np_id 新闻的id
@@ -62,21 +65,32 @@ public class NewsPaperServiceImpl implements NewsPaperService {
      * @return 是否添加成功的状态值
      */
     public String publishNewsByUser(NewsAndOwner newsAndOwner) {
-        try {
-            Set<String> set = Sensitive.SensiteWord.readSensitivateWord();
-            HashMap map = Sensitive.SensiteWord.initSensitivateWord(set);
-            String content=newsAndOwner.getNp_content();
-            Set<String>set1=Sensitive.SensiteWord.getSensitivateWord(content);
-            if (set1.size()!=0){
-                    return set1.toString();
-                }
-            String np_title = newsAndOwner.getNp_title();
-            Set<String>set2=Sensitive.SensiteWord.getSensitivateWord(np_title);
-             if (set2.size()!=0){
-               return set2.toString();
+
+//        try {
+//            Set<String> set = Sensitive.SensiteWord.readSensitivateWord();
+//            HashMap map = Sensitive.SensiteWord.initSensitivateWord(set);
+//            String content=newsAndOwner.getNp_content();
+//            Set<String>set1=Sensitive.SensiteWord.getSensitivateWord(content);
+//            if (set1.size()!=0){
+//                    return set1.toString();
+//                }
+//            String np_title = newsAndOwner.getNp_title();
+//            Set<String>set2=Sensitive.SensiteWord.getSensitivateWord(np_title);
+//             if (set2.size()!=0){
+//               return set2.toString();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        Set<String> swSet = sensitive.getSensitivateWord(newsAndOwner.getNp_content());
+        if (swSet != null && !swSet.isEmpty()) {
+            return swSet.toString();
+        } else {
+            swSet = sensitive.getSensitivateWord(newsAndOwner.getNp_title());
+            if (swSet != null && !swSet.isEmpty()) {
+                return swSet.toString();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return newsMapper.publishNewsByUser(newsAndOwner)>0?"true":"false";
     }
