@@ -63,15 +63,15 @@ public class NewsPaperServiceImpl implements NewsPaperService {
      */
     public String publishNewsByUser(NewsAndOwner newsAndOwner) {
         try {
-            Set<String> set = Sensitive.SensiteWord.readSensitivateWord();
-            HashMap map = Sensitive.SensiteWord.initSensitivateWord(set);
+            Set<String> set = Sensitive.readSensitivateWord();
+            HashMap map = Sensitive.initSensitivateWord(set);
             String content=newsAndOwner.getNp_content();
-            Set<String>set1=Sensitive.SensiteWord.getSensitivateWord(content);
+            Set<String>set1=Sensitive.getSensitivateWord(content);
             if (set1.size()!=0){
                     return set1.toString();
                 }
             String np_title = newsAndOwner.getNp_title();
-            Set<String>set2=Sensitive.SensiteWord.getSensitivateWord(np_title);
+            Set<String>set2=Sensitive.getSensitivateWord(np_title);
              if (set2.size()!=0){
                return set2.toString();
             }
