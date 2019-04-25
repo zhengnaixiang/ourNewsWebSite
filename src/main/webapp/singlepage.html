@@ -24,11 +24,6 @@
             $(".header").load("header.html");
             // 热门
             $(".col-md-3").load("popular.html");
-
-            // 刷新激活码
-            $(".coment-form img").click(function () {
-                this.src = 'tryCaptcha.jpg';
-            })
         });
 
         var np_id=window.location.search.split("=")[1];
@@ -49,12 +44,63 @@
                         "<div class=\"b-bottom\">" +
                         "<!--<h5 class=\"top\">What turn out consetetur sadipscing elit</h5>-->" +
                         "<p class=\"sub\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+response.np_content+"</p>" +
-                        "<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-comment\"></span><span id=\"newsLiking\">"+response.np_likes+"</span></a><a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\">"+response.np_reading+"</span></a></p>" +
-                        "<div style=\"float: right\"><a href='authorHomepage.html?user_id="+response.user_id+"'><img src='"+response.user_imageUrl+"' class=\"img-circle\" width=\"35px\" href=\"35px\"/></a><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></div>" +
+                        "<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href=\"#\" onclick='addNewsLikes()'><span class=\"glyphicon glyphicon-comment\"></span><span id=\"newsLiking\" value="+response.np_likes+">"+response.np_likes+"</span></a><a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\" value="+response.np_reading+">"+response.np_reading+"</span></a></p>" +
+                        "<div style=\"float: right\"><a href='authorHomepage.html?user_id="+response.user_id+"'><img src='"+response.user_imageUrl+"' class=\"img-circle\" width=\"35px\" href=\"35px\"/><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></a></div>" +
                         "</div>" +
                         "</div>");
                     // 完成新闻内容加载后继而加载用户状态
                     giveStatus();
+
+                    /*阅读量+1的操作*/
+                    $.ajax({
+                        type: 'POST',
+                        url:  'updateNewsData',
+                        contentType: "application/json; charset=utf-8",
+                        data:JSON.stringify({
+                            "np_reading":response.np_reading*1+1,
+                            "np_id":response.np_id
+                        }) ,
+                        success: function(responseText){
+                            $("#newsReading").val(response.np_reading*1+1);
+                            $("#newsReading").html(response.np_reading*1+1);
+                        } ,
+                        error:function (message) {
+                            console.log(message);
+                        },
+                        dataType: 'json'
+                    });
+                } ,
+                error:function (message) {
+                    console.log(message);
+                },
+                dataType: 'json'
+
+            });
+        }
+
+        /*编写点赞的点击事件*/
+        function addNewsLikes() {
+            debugger;
+            var likes;
+            /*点赞+1*/
+            if ($("#theHidden").val()%2==0){
+                likes=$("#newsLiking")*1+1;
+            }
+            /*点赞数-1*/
+            else{
+                likes=$("#newsLiking")*1-1;
+            }
+            $.ajax({
+                type: 'POST',
+                url:  'updateNewsData',
+                contentType: "application/json; charset=utf-8",
+                data:JSON.stringify({
+                    "np_likes":likes,
+                    "np_id":$("#np_id").val()
+                }) ,
+                success: function(responseText){
+                    $("#theHidden").val()*1+1;
+                    $("#newsLiking").html(likes);
                 } ,
                 error:function (message) {
                     console.log(message);
@@ -166,7 +212,7 @@
                     for (var i = 0; i < t.length/4; i++) {
                         var gap = i*4;
                         t[gap+1].style.display = 'none';
-                        // t[gap+2].style.display = 'inline';
+                        t[gap+2].style.display = 'inline';
                         t[gap+3].style.display = 'inline'
                     }
                     // t[0].hide();
@@ -207,17 +253,13 @@
                         }),
                         // dataType: 'json',
                         success: function (Response) {
-                            console.log(Response);
                             if (Response === 'yzm_error') {
                                 alert("验证码错误！")
-                            } else if (Response === "true") {
+                            } else if (Response) {
                                 // getCommentList();
                                 window.location.reload()
-                            } else if (Response === "false") {
-                                alert("评论发送失败");
                             } else {
-                                // alert("存在敏感词，请修改");
-                                $("#content").val(Response)
+                                alert("评论发送失败");
                             }
                         },
                         error: function (response) {
@@ -362,5 +404,6 @@
         <!-- technology-right -->
     </div>
 </div>
+<input type="hidden" value="2" id="theHidden" />
 </body>
 </html>
