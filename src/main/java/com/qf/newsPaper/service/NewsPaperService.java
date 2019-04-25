@@ -43,7 +43,7 @@ public interface NewsPaperService {
      * @param newsAndOwner 用户id，和一些新闻的内容
      * @return 是否添加成功的状态值
      */
-    public Boolean publishNewsByUser(NewsAndOwner newsAndOwner);
+    public String publishNewsByUser(NewsAndOwner newsAndOwner);
 
 
     /**
@@ -67,4 +67,11 @@ public interface NewsPaperService {
      * @return
      */
     public List<NewsPaperAndCategory> theHotNewsByUser(int user_id);
+
+    /**
+     * 进行单个新闻的删除
+     * @param np_id
+     * @return
+     */
+    public Boolean deleteSingleNews(int np_id);
 }

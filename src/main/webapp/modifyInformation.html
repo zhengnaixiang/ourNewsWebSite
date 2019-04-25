@@ -142,7 +142,7 @@
         param.userId = userId;
         $.ajax({
             type: "POST",
-            url: "/user/watchUser",
+            url: "user/watchUser",
             contentType: "application/json; charset=utf-8",
             cache: false,  //禁用缓存
             data: JSON.stringify(param),  //传入组装的参数
@@ -189,7 +189,7 @@
         param.userId = userId;
         $.ajax({
             type: "POST",
-            url: "/user/editUser",
+            url: "user/editUser",
             contentType: "application/json; charset=utf-8",
             cache: false,  //禁用缓存
             data: JSON.stringify(param),  //传入组装的参数

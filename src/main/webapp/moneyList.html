@@ -13,8 +13,8 @@
     <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="script/docs.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/page.js"></script>
-    <script src="/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="/js/dataTables.bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="js/dataTables.bootstrap.min.js" type="text/javascript"></script>
     <style>
         #myCarousel{
             margin-top: 10px;
@@ -68,8 +68,8 @@
                                     </div>
                                     <button type="button" id="button" name="button" class="btn btn-warning"><i class="glyphicon glyphicon-search"></i> 查询</button>
                                 </form>-->
-                                <!--<button type="button" id="deleteNews" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>
-                                <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='writeNews.html'"><i class="glyphicon glyphicon-plus"></i> 新增</button>-->
+                                <!--<button type="button" id="deleteNews" class="btn btn-danger" style="float:right;margin-left:10px;"><i class=" glyphicon glyphicon-remove"></i> 删除</button>-->
+                                <button type="button" class="btn btn-primary" style="float:right;" onclick="window.location.href='writeNews.html'"><i class="glyphicon glyphicon-plus"></i>提现 </button>
                                 <br>
                                 <hr style="clear:both;">
                                 <div class="dgvone">
@@ -83,7 +83,7 @@
                                             <th>收入\支出状态(1收入/0支出)</th>
                                             <th>收入\支出数额</th>
                                             <th>时间</th>
-                                            <!--<th>余额</th>-->
+                                            <th>余额</th>
                                             <!--<th width="200">操作</th>-->
                                         </tr>
                                         </thead>
@@ -190,7 +190,7 @@
                 //ajax请求数据
                 $.ajax({
                     type: "POST",
-                    url: "/money/list",
+                    url: "money/list",
                     contentType: "application/json; charset=utf-8",
                     cache: false,  //禁用缓存
                     data: JSON.stringify(param),   //修改提交数据注意
@@ -239,7 +239,7 @@
                 { "data": "state" },
                 { "data": "amount" },
                 { "data": "time" },
-                // { "data": "haveMoney" }
+                { "data": "haveMoney" }
             ]
         }).api();
         //此处需调用api()方法,否则返回的是JQuery对象而不是DataTables的API对象

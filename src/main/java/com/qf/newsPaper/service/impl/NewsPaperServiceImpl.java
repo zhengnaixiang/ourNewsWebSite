@@ -4,12 +4,15 @@ import com.qf.newsPaper.dto.NewsPaperAndAuthor;
 import com.qf.newsPaper.dto.NewsPaperAndCategory;
 import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.newsPaper.service.NewsPaperService;
+import com.qf.tools.Sensitive;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class NewsPaperServiceImpl implements NewsPaperService {
@@ -58,8 +61,24 @@ public class NewsPaperServiceImpl implements NewsPaperService {
      * @param newsAndOwner 用户id，和一些新闻的内容
      * @return 是否添加成功的状态值
      */
-    public Boolean publishNewsByUser(NewsAndOwner newsAndOwner) {
-        return newsMapper.publishNewsByUser(newsAndOwner)>0?true:false;
+    public String publishNewsByUser(NewsAndOwner newsAndOwner) {
+        try {
+            Set<String> set = Sensitive.SensiteWord.readSensitivateWord();
+            HashMap map = Sensitive.SensiteWord.initSensitivateWord(set);
+            String content=newsAndOwner.getNp_content();
+            Set<String>set1=Sensitive.SensiteWord.getSensitivateWord(content);
+            if (set1.size()!=0){
+                    return set1.toString();
+                }
+            String np_title = newsAndOwner.getNp_title();
+            Set<String>set2=Sensitive.SensiteWord.getSensitivateWord(np_title);
+             if (set2.size()!=0){
+               return set2.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newsMapper.publishNewsByUser(newsAndOwner)>0?"true":"false";
     }
 
     /**
@@ -87,5 +106,15 @@ public class NewsPaperServiceImpl implements NewsPaperService {
      */
     public List<NewsPaperAndCategory> theHotNewsByUser(int user_id) {
         return newsMapper.theHotNewsByUser(user_id);
+    }
+
+    /**
+     * 进行新闻的单个删除
+     * @param np_id
+     * @return
+     */
+    @Override
+    public Boolean deleteSingleNews(int np_id) {
+        return newsMapper.deleteSingleNews(np_id)>0?true:false;
     }
 }

@@ -54,6 +54,7 @@ public class UploadController {
         }
 
         // 获取服务端路径
+        /**/
         String serverPath = String.format("%s://%s:%s%s%s", request.getScheme(), ia.getHostAddress(), request.getServerPort(), request.getContextPath(), UPLOAD_PATH);
 
         // 返回给 wangEditor 的数据格式

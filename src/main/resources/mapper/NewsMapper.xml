@@ -86,4 +86,9 @@
             </foreach>
         </where>
     </update>
+
+    <!--用户点击删除新闻按钮，将用户的所属新闻进行删除-->
+    <update id="deleteSingleNews" parameterType="int">
+        UPDATE newpaper SET np_status=0 where np_id=#{np_id}
+    </update>
 </mapper>

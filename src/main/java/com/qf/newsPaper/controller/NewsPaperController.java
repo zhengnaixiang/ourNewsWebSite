@@ -8,9 +8,13 @@ import com.qf.newsPaper.service.NewsPaperService;
 import com.qf.newsPaper.vo.AuthorNews;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
+import com.qf.userInfo.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -75,8 +79,13 @@ public class NewsPaperController {
    * @return
    */
     @RequestMapping(value = "publishNewsByUser",method = RequestMethod.POST)
-    public String publishNewsByUser(@RequestBody NewsAndOwner newsAndOwner){
-      return newsPaperService.publishNewsByUser(newsAndOwner).toString();
+    public String publishNewsByUser(HttpSession httpSession, @RequestBody NewsAndOwner newsAndOwner){
+        UserInfo userInfo = (UserInfo)httpSession.getAttribute("userInfo");
+        newsAndOwner.setUser_id(userInfo.getUser_id());
+        System.out.println("获取到的标题"+newsAndOwner.getNp_title());
+        System.out.println("获取到的内容"+newsAndOwner.getNp_content());
+        System.out.println("处理的结果"+newsPaperService.publishNewsByUser(newsAndOwner));
+        return newsPaperService.publishNewsByUser(newsAndOwner);
     }
 
   /**
@@ -85,7 +94,9 @@ public class NewsPaperController {
    * @return 返回新闻的集合
    */
     @RequestMapping(value = "getAuthorNewsByUserId",method = RequestMethod.POST)
-    public Object getAuthorNewsByUserId(@RequestBody AuthorNews authorNews){
+    public Object getAuthorNewsByUserId(HttpSession session, @RequestBody AuthorNews authorNews){
+        UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+        authorNews.setUser_id(userInfo.getUser_id());
       PageHelper.startPage(authorNews.getCurrentPage(), authorNews.getPageSize());
       List<NewsPaperAndCategory> list = newsPaperService.getAuthorNewsByUserId(authorNews.getUser_id());
       PageInfo<NewsPaperAndCategory> commentDtoPageInfo = new PageInfo<NewsPaperAndCategory>(list);
@@ -113,5 +124,15 @@ public class NewsPaperController {
     List<NewsPaperAndCategory> list = newsPaperService.theHotNewsByUser(authorNews.getUser_id());
     PageInfo<NewsPaperAndCategory> commentDtoPageInfo = new PageInfo<NewsPaperAndCategory>(list);
     return commentDtoPageInfo;
+    }
+
+    /**
+     * 根据新闻的id进行单个删除的操作
+     * @param newsPaperData
+     * @return
+     */
+    @RequestMapping(value = "deleteSingleNews",method = RequestMethod.POST)
+    public String deleteSingleNews(@RequestBody NewsPaperData newsPaperData){
+      return newsPaperService.deleteSingleNews(newsPaperData.getNp_id()).toString();
     }
 }
