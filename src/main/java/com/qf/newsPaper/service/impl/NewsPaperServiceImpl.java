@@ -8,6 +8,7 @@ import com.qf.tools.Sensitive;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,8 +21,8 @@ public class NewsPaperServiceImpl implements NewsPaperService {
     @Autowired
     NewsMapper newsMapper;
 
-    @Autowired
-    private Sensitive sensitive;
+
+    private Sensitive sensitive = new Sensitive();
 
     /**
      * 根据新闻的id，获取到新闻的相关信息和新闻作者的相关信息
@@ -82,7 +83,6 @@ public class NewsPaperServiceImpl implements NewsPaperService {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-
         Set<String> swSet = sensitive.getSensitivateWord(newsAndOwner.getNp_content());
         if (swSet != null && !swSet.isEmpty()) {
             return swSet.toString();

@@ -1,6 +1,7 @@
 package com.qf.tools;
 
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.util.*;
@@ -14,8 +15,9 @@ import java.util.*;
  * @Authod Grey Wolf
  */
 
-@Component
 public class Sensitive {
+
+    private final Map sensitiveMap = initSensitivateWord(readSensitivateWord());
     /**
      * 获取内容的敏感词
      * @param txt
@@ -69,26 +71,31 @@ public class Sensitive {
      * 读入本地敏感字典至Set表
      * @return
      */
-    private Set<String> readSensitivateWord() throws Exception {
+    private Set<String> readSensitivateWord() {
         Set<String>set = null;
-        String url = System.getProperty("evan.webapp");
-        url=url+"SensitiveWord.txt";
-        File file=new File(url);
-
-        InputStreamReader inputStreamReader=new InputStreamReader(new FileInputStream(file),"utf-8");
-        if(file.exists()&&file.isFile()){
-            // 设定表容量提高存入速度
-            set=new HashSet<String>((int)(file.length()/0.75f+1.0f));
-            BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
-            String word=null;
-            // 敏感词汇以行为单位载入
-            while ((word=bufferedReader.readLine())!=null){
-                set.add(word);
+//        String url = System.getProperty("evan.webapp");
+//        url=url+"SensitiveWord.txt";
+        String url = getClass().getResource("/").getPath();
+        File file=new File(url+"SensitiveWord.txt");
+        InputStreamReader inputStreamReader= null;
+        try {
+            inputStreamReader = new InputStreamReader(new FileInputStream(file),"utf-8");
+            if(file.exists() && file.isFile()){
+                // 设定表容量提高存入速度
+                set=new HashSet<String>((int)(file.length()/0.75f+1.0f));
+                BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
+                String word=null;
+                // 敏感词汇以行为单位载入
+                while ((word=bufferedReader.readLine())!=null){
+                    set.add(word);
+                }
+            }else {
+                throw new Exception("敏感词库文件不存在");
             }
-        }else {
-            throw new Exception("敏感词库文件不存在");
+            inputStreamReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        inputStreamReader.close();
         return set;
     }
 
@@ -140,13 +147,13 @@ public class Sensitive {
      * @param begin
      * @return 如果存在，则返回敏感词字符的长度，不存在返回0
      */
-    private int checkSensitiveWord(String txt, int begin) throws Exception {
+    private int checkSensitiveWord(String txt, int begin) {
         // 敏感词结束标识符
         boolean flag = false;
         // 匹配长度
         int matchFlag=0;
         char word=0;
-        Map nowMap=initSensitivateWord(readSensitivateWord());
+        Map nowMap = sensitiveMap;
         int i;
         for (i=begin;i<txt.length();i++){
             word=txt.charAt(i);

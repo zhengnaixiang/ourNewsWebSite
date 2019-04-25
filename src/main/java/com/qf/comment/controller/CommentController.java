@@ -8,6 +8,7 @@ import com.qf.comment.vo.CommentVo;
 import com.qf.tools.Sensitive;
 import com.qf.userInfo.pojo.UserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,8 +22,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @Autowired
-    private Sensitive sensitive;
+    private Sensitive sensitive = new Sensitive();
 
     private List<Comment> commentList;
 
@@ -47,9 +47,11 @@ public class CommentController {
                 return "user_error";
             } else {
                 // 3.检查内容
-                Set<String> swSet = sensitive.getSensitivateWord(commentVo.getComment_content());
-                if (swSet != null && !swSet.isEmpty()) {
-                    return sensitive.replaceSensitiveWord(commentVo.getComment_content(),"*");
+                String voContent = commentVo.getComment_content();
+                String newContent = sensitive.replaceSensitiveWord(voContent, "*");
+                System.out.println("替换后"+newContent);
+                if (!voContent.equals(newContent)) {
+                    return newContent;
                 } else {
                     // 4. 发表评论
                     commentVo.setUser_id(userInfo.getUser_id());
