@@ -1,7 +1,9 @@
 package com.qf.newsPaper.service;
 
+import com.qf.newsPaper.dto.CommentDto;
 import com.qf.newsPaper.dto.NewsPaperAndAuthor;
 import com.qf.newsPaper.dto.NewsPaperAndCategory;
+import com.qf.newsPaper.vo.AuthorNews;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
 
@@ -81,4 +83,18 @@ public interface NewsPaperService {
      * @return
      */
     public Boolean FindRepetitiveNews(String content);
+
+    /**
+     * 新增新闻的查询功能
+     * @param authorNews
+     * @return 返回相应的结果集
+     */
+    public List<NewsPaperAndAuthor> getNewsByBlurCondition(AuthorNews authorNews);
+
+    /**
+     * 通过用户id获取该用户的所有评论
+     * @param user_id
+     * @return
+     */
+    public List<CommentDto> getCommentByUserId(int user_id);
 }

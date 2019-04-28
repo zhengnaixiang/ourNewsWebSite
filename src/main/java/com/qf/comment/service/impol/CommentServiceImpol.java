@@ -6,14 +6,7 @@ import com.qf.comment.pojo.Comment;
 import com.qf.comment.service.CommentService;
 import com.qf.comment.vo.CommentSeachVo;
 import com.qf.comment.vo.CommentVo;
-import com.qf.newsPaper.mapper.NewsMapper;
-import com.qf.newsPaper.service.NewsPaperService;
-import com.qf.userInfo.mapper.UserInfoMapper;
-import com.qf.userInfo.pojo.UserInfo;
-import com.qf.userInfo.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

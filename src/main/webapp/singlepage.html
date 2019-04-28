@@ -2,6 +2,10 @@
 <html>
 <head>
     <title>正文</title>
+    <style>
+        .like{ font-size:66px;  color:#ccc; cursor:pointer;}
+        .cs{color:#f00;}
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="keywords" content="" />
@@ -14,25 +18,97 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="script/docs.min.js"></script>
     <script type="text/javascript">
+
+
+
+
+
+
+        $(function () {
+
+
+            var ordinary = $("#ordinary");
+            var ordinaryImg = $("#ordinaryImg");
+            $.ajax({
+                type: "POST",
+                url: "advertising/ordinary",
+                contentType: "application/json; charset=utf-8",
+                cache: false,  //禁用缓存
+                success: function (result) {
+                    console.log(result);
+                    ordinary.attr("href",result.links);
+                    ordinaryImg.attr("src",result.picture);
+                    document.getElementById("sinaadToolkitBoxl").style.display = 'block';
+                }
+            })
+
+            var pp1 = $("#pp1");
+            var pp2 = $("#pp2");
+            var pp3 = $("#pp3");
+            var pp4 = $("#pp4");
+            var a1 = $("#a1");
+            var a2 = $("#a2");
+            var a3 = $("#a3");
+            var a4 = $("#a4");
+            var img1 = $("#img1");
+            var img2 = $("#img2");
+            var img3 = $("#img3");
+            var img4 = $("#img4");
+            $.ajax({
+                type: "POST",
+                url: "advertising/sliding",
+                contentType: "application/json; charset=utf-8",
+                cache: false,  //禁用缓存
+                success: function (result) {
+                    console.log(result);
+
+
+                    pp1.text(result.list[0].title);
+                    pp2.text(result.list[1].title);
+                    pp3.text(result.list[2].title);
+                    pp4.text(result.list[3].title);
+                    // alert(pp1.outerText + ":" + pp2.outerText + ":" + pp3.outerText + ":")
+                    a1.attr("href",result.list[0].links);
+                    a2.attr("href",result.list[1].links);
+                    a3.attr("href",result.list[2].links);
+                    a4.attr("href",result.list[3].links);
+                    img1.attr("src",result.list[0].picture)
+                    img2.attr("src",result.list[1].picture)
+                    img3.attr("src",result.list[2].picture)
+                    img4.attr("src",result.list[3].picture)
+                    /*           alert(111)*/
+                    document.getElementById("sinaadToolkitBoxl1").style.display = 'block';
+                }
+            })
+        })
+
+        function closeGG(num){
+            if (num == 1){
+                document.getElementById("sinaadToolkitBoxl").style.display = 'none';
+                // alert(111)
+                // $("#sinaadToolkitBoxl").style.display = 'none';
+            }
+            else if (num == 2){
+                document.getElementById("sinaadToolkitBoxl1").style.display = 'none';
+            }
+        }
+
+
         $(function () {
             //最先加载新闻内容,用户及评论自动加载
             acquireNews();
             // giveStatus();
             //getCommentList()
-
             // 页眉
             $(".header").load("header.html");
             // 热门
             $(".col-md-3").load("popular.html");
-
             // 激活码更新
             $(".coment-form img").click(function () {
                 this.src = 'tryCaptcha.jpg';
             })
         });
-
         var np_id=window.location.search.split("=")[1];
-
         /*通过ajax获取数据内容给予前端的展示*/
         function acquireNews() {
             $.ajax({
@@ -49,13 +125,13 @@
                         "<div class=\"b-bottom\">" +
                         "<!--<h5 class=\"top\">What turn out consetetur sadipscing elit</h5>-->" +
                         "<p class=\"sub\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+response.np_content+"</p>" +
-                        "<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href=\"#\" onclick='addNewsLikes()'><span class=\"glyphicon glyphicon-comment\"></span><span id=\"newsLiking\" value="+response.np_likes+">"+response.np_likes+"</span></a><a class=\"span_link\" href=\"#\"><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\" value="+response.np_reading+">"+response.np_reading+"</span></a></p>" +
+                        "<p id=\"newsDate\">"+response.np_date+"<a class=\"span_link\" href='javascript:void(0)' onclick='addNewsLikes()'><span class=\"glyphicon glyphicon-comment\" id='dianzan' value="+response.np_likes+">点赞</span id=\"newsLiking\" ><button value="+response.np_likes+" id='dianzan2' >点赞</button></a><a class=\"span_link\" href='javascript:void(0)'><span class=\"glyphicon glyphicon-eye-open\"></span><span id=\"newsReading\" value="+response.np_reading+">"+response.np_reading+"</span></a></p>" +
+
                         "<div style=\"float: right\"><a href='authorHomepage.html?user_id="+response.user_id+"'><img src='"+response.user_imageUrl+"' class=\"img-circle\" width=\"35px\" href=\"35px\"/><span style=\"font-size: initial\">"+response.user_alias+"</span><span class=\"caret\"></span></a></div>" +
                         "</div>" +
                         "</div>");
                     // 完成新闻内容加载后继而加载用户状态
                     giveStatus();
-
                     /*阅读量+1的操作*/
                     $.ajax({
                         type: 'POST',
@@ -79,33 +155,38 @@
                     console.log(message);
                 },
                 dataType: 'json'
-
             });
         }
 
+
         /*编写点赞的点击事件*/
+        var likes="";
         function addNewsLikes() {
-            debugger;
-            var likes;
+            /*      debugger;*/
+            likes=$("#dianzan2").val();
+            alert(likes);
+            alert($("#np_id").val());
+
             /*点赞+1*/
-            if ($("#theHidden").val()%2==0){
-                likes=$("#newsLiking")*1+1;
+            if($("#dianzan2").text()=="点赞"){
+                $("#dianzan2").text("取消点赞");
+            }else {
+                $("#dianzan2").text("点赞");
             }
-            /*点赞数-1*/
-            else{
-                likes=$("#newsLiking")*1-1;
-            }
+
+
             $.ajax({
                 type: 'POST',
                 url:  'updateNewsData',
                 contentType: "application/json; charset=utf-8",
                 data:JSON.stringify({
-                    "np_likes":likes,
+                    "np_likes":$("#dianzan2").text()+"="+$("#dianzan2").val(),
                     "np_id":$("#np_id").val()
                 }) ,
                 success: function(responseText){
-                    $("#theHidden").val()*1+1;
+                    /* $("#theHidden").val()*1+1;*/
                     $("#newsLiking").html(likes);
+                    /* window.location.href="singlepage.html?np_id="+$("#np_id").val();*/
                 } ,
                 error:function (message) {
                     console.log(message);
@@ -113,7 +194,6 @@
                 dataType: 'json'
             });
         }
-
         //从session获取用户信息
         function giveStatus() {
             $.ajax({
@@ -135,7 +215,6 @@
                 }
             });
         }
-
         /* 根 */
         //获取评论内容
         function getCommentList() {
@@ -208,7 +287,6 @@
                                 );
                             })
                         }
-
                     });
                     var t = $(".commentUser"+user_id+" li");
                     // 前账号的评论进行定制化接口
@@ -227,7 +305,6 @@
                 }
             });
         }
-
         //发送评论
         function sendComment() {
             var emailText = $("#email").val().trim();
@@ -239,10 +316,10 @@
                 }
             } else {
                 var np_idText = $("#np_id").val();
-                var targetText = $("#target").val().split(":")[1];
+                var targetText = $("#target").val();
                 var contentText = $("#content").val();
                 var captchaText = $("#captcha").val().trim();
-
+                alert(contentText);
                 //确定评论合规开始发送
                 if (true) {
                     $.ajax({
@@ -279,7 +356,6 @@
                 }
             }
         }
-
         //获取权限
         function getUserPower(emailText) {
             $.ajax({
@@ -304,7 +380,6 @@
                 }
             });
         }
-
         //得到邮箱对应的账号id
         function commentByGuess(emailText) {
             $.ajax({
@@ -328,14 +403,12 @@
                 }
             })
         }
-
         // 回复
         function target(t) {
             $("#targetAlias").show();
             $("#target").val(t.value);
             $("#targetAlias").val("正在回复："+t.innerText.split("：")[1]);
         }
-
         // 删除
         function del(comment_id) {
             // console.log("删除评论"+comment_id)
@@ -356,7 +429,6 @@
                 }
             })
         }
-
         // 修改
         function rewrite(commentId) {
             console.log(commentId);
@@ -382,6 +454,42 @@
                     <div class="media response-info" id="commentShow">
                         <!--评论内容-->
                         <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div id="sinaadToolkitBoxl" class="sinnaads-float sinaads-float-right"style="position: fixed;width: 120px; height: 288px; z-index: 10500;display: none; left: 10px;top: 166px;">
+                    <div style="width: 120px; height: 270px;position: absolute; left: 0px;top: 0px;">
+                        <a id="ordinary" style="display: block; line-height: 0;" href="http://saxn.sina.com.cn/dsp/click?t=MjAxOS0wNC0yMyAwOTo0MTozOC42MDQJNjEuMTQ0Ljk2LjEyMAkyMTguMjAuMzMuNjdfMTUxNTIwMzM4MC45NTA2NTgJYzUwMjY0NjItNzk2Ni00YmFjLWFjZmItNmI3NWFkZmE2YTZjCTM0Njg4ODkJNzAzNjk1NTA3OV9QSU5QQUktQ1BDCTMyMDcyMzYJNTMyNTMJOS40OTk5OTI2RS00CTEJdHJ1ZQlQRFBTMDAwMDAwMDU4MDk3CTQwMjY2ODQJUEMJaW1hZ2UJLQkwfDZ2WmE2bTRGNHJsM3NOYlFsak13QWV8bnVsbHxudWxsfGJqfDM0Njg4ODl8Nk53T1g4ODlYckgyOWlnMUJpZ2E4M3wwfHx8fEN8fDB8fHwwfC0xfDB8CQkxCS0JLQktCTAJMjE4LjIwLjMzLjY3XzE1MTUyMDMzODAuOTUwNjU4CVBDX0lNQUdFCS0Jbm9ybWFsfHV2Zm0tcnQJCXVzZXJfdGFnOjIwMjEyOjAuMHx1c2VyX2FnZTo2MDI6MC4wfHVzZXJfZ2VuZGVyOjUwMTowLjB8dl96b25lOjMwNjAwMTowLjB8Y3Jvd2RzOnxfY3Jvd2RzOgk0CTU2MDAwCTUwMDAwCS0JCTAJCTAxMGQxNWU1LTI0MTAtM2IyYS1hNGMxLWZlNmExY2JiNWNjMgkw&userid=218.20.33.67_1515203380.950658&auth=b4e5bf53822d3633&p=7JLSDLc4M8a%2F5LaRuoRP56ogokJS8iK2OJbTiw%3D%3D&url=http%3A%2F%2Fsaxn.sina.com.cn%2Fclick%3Fid%3D17%26t%3DZWM5MmQyMGMtYjczOC0zM2M2LWJmZTQtYjY5MWJhODQ0ZmU3CTE3CVBEUFMwMDAwMDAwNTgwOTcJNDAyNjY4NAkxCVJUQgktCVY1LjAuMF9fX0JYXzEwLjEzLjIyNC4xMzQJCQlwcm92aW5jZTozMDYwMDB8Y2l0eTozMDYwMDF8aXA6NjEuMTQ0Ljk2LjEyMHxkZXZpY2VpZDp8Y29va2llOjIxOC4yMC4zMy42N18xNTE1MjAzMzgwLjk1MDY1OHxkaWQ6fHBsYXQ6cGN8dHM6MTU1NTk4MzY5OHx0ZjowfGFidGVzdDp8b3JpZ2luaXA6MTAuMTMuMjI0LjEzNHx0cmFmZmljOnBvcnRhbHxkeW5hbWljYWQ6fGNyZTp8YmFja2FkaW5kZXg6fGFjdGlvbjotMXx1cDotMXxkb3duOi0xfGNudG51bTotMXxwZGNvbnRyYWN0Oi18cGRkZXRhaWxpZDotfHByb2R1Y3RpZDotfHBkcGFja2FnZWlkOi0JMDEwZDE1ZTUtMjQxMC0zYjJhLWE0YzEtZmU2YTFjYmI1Y2My%26type%3D2%26url%3Dhttp%253A%252F%252Fh4.ylzfb.cn%252Fhtml%252F201904%252F20190422105645.html%26sina_sign%3D8c52240a212f0cec&sign=ce053e028139142f"
+                           target="_blank" data-ss="f241931820e350ec=ngis&cec0f212a04225c8D3%ngis_anis62%lmth.54650122409102F252%409102F252%lmthF252%nc.bfzly.4hF252%F252%A352%ptthD3%lru62%2D3%epyt62%yM2Y1ImYjFTY2UmZtEzY0EWLhJjYz0CMxQjMtUTZ1EDZwEDMJ0iOklWZnF2ajFGckBHftoDZpR3Y1R2byBHftoDZpxWahRXZkRGc81iO0NWYyRnbvNGZwxXMtoTb15GduNGfx0iOud3bkxXMtoDc1xXMtojbvlGdjFGf6gXZk5WakF2ajFmY8pTZyNGf6QWYjlWbh5WekxHbhRncvBnOjlmZmFmc0xHNzEjL0IjMuMTMuATM6AXaul2ZpJ3b8pDdzVGdiFGfwojZ0xHO5YzM4kTN1UTM6MHd8NGc6QXYsBHf6QWakxHO1YDM1kjLwgzMzAjM1ETNx81N24yMz4CMy4COxIjOll2av92Y8pDZpV2YpZXZkxHMyEjL2kjL0QTMuEjN6AXa8FDMwYDMzoTe0l2Y8BDMwYDMzoTZj5Wa29mcwlQCJQzMx4CNyIjLzEjLwEzXYJ0Xf9FMuAjL1YVCtkgQUJVCxkAN4YjNyADNJcTOwgTNwADMwADMwMFUEBVC3ETC3UmZ0QDOhJWM5YjYtQTZmJWL2M2Mz0COzcjYtMGMyQmM5MWZD3%t62%71D3%diF3%kcilcF2%nc.moc.anis.nxasF2%F2%A3%ptth=lru&D3%D3%wiTbJO2Ki8SJkogo65PRouRaL5F2%a8M4cLDSLJ7=p&3363d22835fb5e4b=htua&856059.0833025151_76.33.02.812=diresu&wkgMjNWNiJ2YxEmNlZWLxMGNh1SYyI2MtATM0ITL1UWNxQGMxATCJATCJ0SCwADMwUTCwADM2UTC0kgOzR2dvJ3YfxnOzR2dvJ3Y8BjLwoTMwAjNwMjOl52b69ld8BjLwoTMwUjOyVGZuV2ZfJXZzVHfw4CM6IDM2oTZnF2XyV2c1xHMuAjOyEjMwIjOnFGdfJXZzVXCJQnct0mZ2VHfsFWby9mbJ0SCFdUQNl0XDBVC4UjNwUTOuADOzMDMyUTM1EzX3YjLzMjLwIjL4EjMJATCtkQLJ0SCxkQC8BDfx0CfwwHf8BDf8NEf8xHfww3M4E2ZpJUMnlWOygkcYlDO4g1T35kN8lDO4gjN0MDfqJGfsxWduxHbsVnb8VWQ31kasFlYON3MsJHNGRTb2EmW2ZDfwkQLJU2Zh1WaJMEUJQDO2YjMwQTC3kDM4UDMwADMwADMTBFRQlQZ1JHdJETC00SR2ITO5kTO04SOJMTNyMTNJYzMycDMyMTCDB1QtkUQQ5USQ9VO3ATN1kjNzAzNJkDO4gjN0MTCjZTY2EmZkFWN3ImNtImZjFWLjFmY00iN2kzNtIjN0YjMwUzYJgTN2ATN54CM4MzMwITNxUTMfdjNuMzMuAjMugTMykAMyEjL2kjL0QTMuEjNJQDM24COzoTM0oTOwAyMy0CNw0SOxAjM=t?kcilc/psd/nc.moc.anis.nxas//:ptth"
+                           onmousedown="return sinaadToolkit.url.fortp(this, event);">
+                            <img id="ordinaryImg" border="0" src="//s3.pfp.sina.net/ea/ad/15/3/d617a4a8313f7956299f6a98011ee6d6.jpg" style="width:120px;height:270px;border:0" alt="广告">
+                        </a>
+                    </div>
+                    <div class="float-close" onmousedown="closeGG(1)" style="width: 120px; height: 18px; position: absolute; left: 0px; top: 270px; background: url('//d2.sina.com.cn/litong/zhitou/sinaads/60x18_1_close.gif') left center no-repeat rgb(235, 235, 235); cursor: pointer;">
+
+                    </div>
+                </div>
+
+                <div id="sinaadToolkitBoxl1" class="sinnaads-float sinaads-float-right" style="position: fixed;width: 120px; height: 288px; z-index: 10500;display: block; left: 1450px;top: 206px;">
+                    <div style="width: 120px; height: 270px;position: absolute; left: 0px;top: 0px;">
+                        <div id="butong_net_right" style="overflow:hidden;width:500%;right: 300%;" >
+                            <table cellpadding="0" cellspacing="0" border="0">
+                                <tr><td id="butong_net_right1" valign="top" align="center">
+                                    <table cellpadding="2" cellspacing="0" border="0">
+                                        <tr align="center">
+                                            <td id="td1"><a id="a1" target="_blank" href="#"><img id="img1" src="" ></a><pp id="pp1"></pp></td>
+                                            <td id="td2"><a id="a2" target="_blank" href="https://www.baidu.com/s?wd=%E5%B0%91%E5%84%BF%E8%A5%BF%E8%AF%AD%E5%9F%B9%E8%AE%AD&rsv_spt=1&rsv_iqid=0xddfe3f8b0000162f&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_n=2&rsv_sug3=1"><img id="img2" src="https://t11.baidu.com/it/u=3712640704,3883689213&fm=76"></a><pp id="pp2"></pp></td>
+                                            <td id="td3"><a id="a3" target="_blank" href="https://www.baidu.com/s?wd=%E8%A5%BF%E7%82%B9%E7%83%98%E7%84%99%E5%9F%B9%E8%AE%AD&rsv_spt=1&rsv_iqid=0xf531edd100001dae&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_n=2&rsv_sug3=1"><img id="img3" src="https://t10.baidu.com/it/u=3515584158,592273397&fm=76"></a><pp id="pp3"></pp></td>
+                                            <td id="td4"><a id="a4" target="_blank" href="https://www.baidu.com/s?wd=%E7%A7%8D%E6%A4%8D%E6%BB%A1%E5%8F%A3%E7%89%99%E8%B4%B9%E7%94%A8&rsv_spt=1&rsv_iqid=0xe321d06600000e1f&issp=1&f=8&rsv_bp=1&rsv_idx=2&ie=utf-8&tn=baiduhome_pg&rsv_enter=1&rsv_sug3=1"><img id="img4" src="https://t10.baidu.com/it/u=2915562681,4275921395&fm=76"></a><pp id="pp4"></pp></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                    <td id="butong_net_right2" valign="top"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="float-close" onmousedown="closeGG(2)" style="width: 120px; height: 18px; position: absolute; left: 0px; top: 255px; background: url('//d2.sina.com.cn/litong/zhitou/sinaads/60x18_1_close.gif') left center no-repeat rgb(235, 235, 235); cursor: pointer;">
+
                     </div>
                 </div>
                 <div class="coment-form">
@@ -416,4 +524,24 @@
 </div>
 <input type="hidden" value="2" id="theHidden" />
 </body>
+
+<script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+
+<script src="jquery/jquery-2.1.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="script/docs.min.js"></script>
+<script>
+    var speed=30//速度数值越大速度越慢
+    butong_net_right2.innerHTML=butong_net_right1.innerHTML
+    function Marquee4(){
+        if(butong_net_right.scrollLeft<=0)
+            butong_net_right.scrollLeft+=butong_net_right2.offsetWidth
+        else{
+            butong_net_right.scrollLeft--
+        }
+    }
+    var MyMar4=setInterval(Marquee4,speed)
+    butong_net_right.onmouseover=function() {clearInterval(MyMar4)}
+    butong_net_right.onmouseout=function() {MyMar4=setInterval(Marquee4,speed)}
+</script>
 </html>

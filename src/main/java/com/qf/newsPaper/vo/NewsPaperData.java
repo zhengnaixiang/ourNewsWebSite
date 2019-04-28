@@ -11,6 +11,7 @@ import java.util.List;
 public class NewsPaperData {
     int np_id;
     int np_reading;
-    int np_likes;
+    String np_likes;
+    double np_like;
     List<Integer> newsId;
 }

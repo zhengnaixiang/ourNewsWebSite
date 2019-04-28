@@ -35,17 +35,18 @@
         select count(*) from userinfo
         <where>
             <choose>
-                <when test="#{user_alias} != null and #{user_alias} != ''">
+                <when test="user_alias != null and user_alias != ''">
                     user_alias = #{user_alias}
                 </when>
-                <when test="#{username} != null and #{username} != ''">
+                <when test="username != null and username != ''">
                     username = #{username}
                 </when>
-                <when test="#{user_tel} != null and #{user_tel} != ''">
+                <when test="user_tel != null and user_tel != ''">
                     user_tel = #{user_tel}
                 </when>
             </choose>
         </where>
+        and user_power != 1
     </select>
 
 
@@ -95,7 +96,7 @@
     </insert>
 
     <select id="checklogin" resultMap="userInfoMap" parameterType="com.qf.userInfo.pojo.UserInfo">
-        select * from userinfo where username = #{username} and `password` = #{password} and user_power>1
+        select * from userinfo where username = #{username} and `password` = #{password}
     </select>
 
     <update id="updateUserInfo" parameterType="com.qf.userInfo.pojo.UserInfo">
@@ -116,7 +117,7 @@
                 </if>
                 <if test="user_power != null and user_power != 0">
                     user_power = #{user_power},
-            </if>
+                </if>
             </trim>
             where user_id = #{user_id}
         </if>
@@ -138,7 +139,7 @@
         SELECT * from userinfo where user_power != 0 and username = #{username} and password = #{password}
     </select>
 
-   <select id="getFocus" parameterType="int" resultMap="userInfoDto">
+    <select id="getFocus" parameterType="int" resultMap="userInfoDto">
         select u.*,f1.to_user_id fo_id from (select * from userInfo,(select count(*) num from newpaper where user_id = #{user_id}) as c where user_id = #{user_id} )as u left join follow f1 on  f1.from_user_id = #{user_id}
     </select>
     <select id="getFans" parameterType="int" resultMap="userInfoDto">

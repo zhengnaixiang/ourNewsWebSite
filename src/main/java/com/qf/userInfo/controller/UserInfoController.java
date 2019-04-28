@@ -6,6 +6,7 @@ import com.qf.userInfo.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class UserInfoController {
     @RequestMapping(value = "loginTo",method = RequestMethod.POST)
     public String loginTo(@RequestBody UserInfo userInfo, HttpSession httpSession){
         userInfo = userInfoService.checklogin(userInfo);
-        if (userInfo != null && userInfo.getUser_power()>1) {
+        if (userInfo != null ) {
             httpSession.setAttribute("userInfo",userInfo);
             return "true";
         } else {
@@ -126,5 +127,12 @@ public class UserInfoController {
         map.put("to_user_id", to_user_id);
         Boolean i = userInfoService.follow(map)>0;
         return i.toString();
+    }
+
+    @RequestMapping(value = "loginOut",method = RequestMethod.POST)
+    public String loginOut(HttpServletRequest request){
+        HttpSession httpSession = request.getSession();
+        httpSession.removeAttribute("userInfo");
+        return "true";
     }
 }

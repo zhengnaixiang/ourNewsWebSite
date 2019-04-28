@@ -6,7 +6,9 @@ import com.qf.money.dto.UserMoneyListDto;
 import com.qf.money.service.MoneyService;
 import com.qf.money.vo.RemainingVo;
 import com.qf.money.vo.UserMoneyVo;
+import com.qf.personalInformation.pojo.TbUserinfo;
 import com.qf.personalInformation.tools.ValidatorCheck;
+import com.qf.userInfo.pojo.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +51,12 @@ public class MoneyController {
     @ResponseBody
     // @ResponseBody封包，@RequestBody 解包
     public UserMoneyListDto<UserMoneyDto> getReceiveList
-            (HttpServletRequest request, @Valid @RequestBody UserMoneyVo userMoneyVo) {
-        System.out.println(userMoneyVo);
+            (HttpServletRequest request, @Valid @RequestBody UserMoneyVo userMoneyVo, HttpSession httpSession) {
+
+
+        UserInfo userInfo = (UserInfo) httpSession.getAttribute("userInfo");
+        userMoneyVo.setUserId(userInfo.getUser_id());
+
         //service返回的数据集
         PageInfo<UserMoneyDto> list = moneyService.pageFuzzyselect(userMoneyVo);
 
@@ -86,6 +93,14 @@ public class MoneyController {
         userMoneyListDto.setTotalPage(totalPage);
         System.out.println(":" + userMoneyListDto);
         /*System.out.println(newPaperVo);*/
+        /*for (int i = 0; i < userMoneyListDto.getResult().size(); i++){
+            if (userMoneyListDto.getResult().get(i).getState() == 1){
+                userMoneyListDto.getResult().get(i).setPost("收入");
+            }else {
+                userMoneyListDto.getResult().get(i).setPost("支出");
+            }
+        }*/
+
         return userMoneyListDto;
     }
 }

@@ -1,9 +1,11 @@
 package com.qf.newsPaper.service.impl;
 
+import com.qf.newsPaper.dto.CommentDto;
 import com.qf.newsPaper.dto.NewsPaperAndAuthor;
 import com.qf.newsPaper.dto.NewsPaperAndCategory;
 import com.qf.newsPaper.mapper.NewsMapper;
 import com.qf.newsPaper.service.NewsPaperService;
+import com.qf.newsPaper.vo.AuthorNews;
 import com.qf.tools.Sensitive;
 import com.qf.newsPaper.vo.NewsAndOwner;
 import com.qf.newsPaper.vo.NewsPaperData;
@@ -146,5 +148,25 @@ public class NewsPaperServiceImpl implements NewsPaperService {
             }
         }
         return true;
+    }
+
+    /**
+     * 新增新闻的查询功能
+     * @param authorNews
+     * @return 返回相应的结果集
+     */
+    @Override
+    public List<NewsPaperAndAuthor> getNewsByBlurCondition(AuthorNews authorNews) {
+        return newsMapper.getNewsByBlurCondition(authorNews);
+    }
+
+    /**
+     * 通过用户id获取该用户的所有评论
+     * @param user_id
+     * @return
+     */
+    @Override
+    public List<CommentDto> getCommentByUserId(int user_id) {
+        return newsMapper.getCommentByUserId(user_id);
     }
 }

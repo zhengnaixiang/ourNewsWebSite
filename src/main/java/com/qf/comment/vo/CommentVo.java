@@ -50,7 +50,7 @@ public class CommentVo {
 
     @Override
     public String toString() {
-        return "CommentVo{" +
+        return "CommentVos{" +
                 "user_id=" + user_id +
                 ", np_id=" + np_id +
                 ", parent_id=" + parent_id +

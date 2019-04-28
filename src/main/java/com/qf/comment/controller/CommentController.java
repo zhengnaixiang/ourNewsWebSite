@@ -24,7 +24,7 @@ public class CommentController {
 
     private Sensitive sensitive = new Sensitive();
 
-    private List<Comment> commentList;
+//    private List<Comment> commentList;
 
     /**
      * 发表评论
@@ -37,6 +37,7 @@ public class CommentController {
     @RequestMapping(value = "addComment",method = RequestMethod.POST)
     public String addComment(@RequestBody CommentVo commentVo, HttpSession httpSession){
         // 1. 检查验证码
+        System.out.println(commentVo);
         String yzmServer = (String)httpSession.getAttribute("yzm");
         if (yzmServer == null || !yzmServer.equals(commentVo.getYzm())) {
             return "yzm_error";
@@ -68,8 +69,7 @@ public class CommentController {
      */
     @RequestMapping(value = "getCommentByNpId",method = RequestMethod.GET)
     public Object getCommentByNpId(@RequestParam int np_id){
-        commentList = commentService.getCommentByNpId(np_id);
-        return commentList;
+        return commentService.getCommentByNpId(np_id);
     }
 
     /**
@@ -80,8 +80,8 @@ public class CommentController {
      */
     @RequestMapping(value = "getNpCommentByUserId",method = RequestMethod.GET)
     public Object getNpCommentByUserId(@RequestParam int np_id, int user_id){
-        commentList = commentService.getNpCommentByUserId(np_id,user_id);
-        return commentList;
+        System.out.println("进来的np_id"+np_id+":"+user_id);
+        return commentService.getNpCommentByUserId(np_id,user_id);
     }
 
     /**
