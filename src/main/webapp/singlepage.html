@@ -317,9 +317,9 @@
             } else {
                 var np_idText = $("#np_id").val();
                 var targetText = $("#target").val();
-                var contentText = $("#content").val();
+                var contentText = $("#contentText").val();
                 var captchaText = $("#captcha").val().trim();
-                alert(contentText);
+                // alert("发表评论内容"+contentText);
                 //确定评论合规开始发送
                 if (true) {
                     $.ajax({
@@ -346,7 +346,7 @@
                                 alert("评论发送失败");
                             } else {
                                 alert("评论存在敏感词!");
-                                $("#content").val(Response)
+                                $("#contentText").val(Response)
                             }
                         },
                         error: function (response) {
@@ -499,7 +499,7 @@
                         <input type="hidden" id="target" value="" readonly="readonly" >
                         <input type="email" value="邮箱(*必填)" id="email" onfocus="if (this.value == '邮箱(*必填)') {this.value = '';}" onblur="if (this.value == '') {this.value = '邮箱(*必填)';}" required="">
                         <input style="display: none;" type="text" id="targetAlias" value="" readonly="readonly" >
-                        <textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="content">说点什么...</textarea>
+                        <textarea onfocus="if (this.value == '说点什么...') {this.value = '';}" onblur="if (this.value == '') {this.value = '说点什么...';}" required="" id="contentText">说点什么...</textarea>
 
                         <input type="text" id="captcha" style="width: 150px; height: 30px">
                         <img alt="验证码找不到" src="tryCaptcha.jpg" style="width: 150px; height: 30px" />

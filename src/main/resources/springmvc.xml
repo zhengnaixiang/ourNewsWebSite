@@ -11,7 +11,7 @@
       http://www.springframework.org/schema/context/spring-context-4.3.xsd">
     <!-- 1、配置自定控制器扫描路径 -->
     <!--这里配置的是controller的路径-->
-    <context:component-scan base-package="com.qf.*.controller,com.qf.tools"></context:component-scan>
+    <context:component-scan base-package="com.qf.*.controller,com.qf.tools,com.qf.filter"></context:component-scan>
     <!-- 2、配置静态资源处理 -->
     <mvc:default-servlet-handler />
     <!-- 3、配置注解驱动 -->
@@ -31,6 +31,8 @@
         <property name="prefix" value="/"></property>
         <property name="suffix" value=".html"></property>
     </bean>
+
+    <!--<mvc:resources location="/" mapping="/*.html"/>-->
 
     <!--&lt;!&ndash; 使用thymeleaf解析 &ndash;&gt;-->
     <!--<bean id="templateResolver"-->

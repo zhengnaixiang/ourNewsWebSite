@@ -37,7 +37,7 @@ public class CommentController {
     @RequestMapping(value = "addComment",method = RequestMethod.POST)
     public String addComment(@RequestBody CommentVo commentVo, HttpSession httpSession){
         // 1. 检查验证码
-        System.out.println(commentVo);
+//        System.out.println("接收到评论信息"+commentVo);
         String yzmServer = (String)httpSession.getAttribute("yzm");
         if (yzmServer == null || !yzmServer.equals(commentVo.getYzm())) {
             return "yzm_error";
@@ -50,7 +50,7 @@ public class CommentController {
                 // 3.检查内容
                 String voContent = commentVo.getComment_content();
                 String newContent = sensitive.replaceSensitiveWord(voContent, "*");
-                System.out.println("替换后"+newContent);
+//                System.out.println("替换后"+newContent);
                 if (!voContent.equals(newContent)) {
                     return newContent;
                 } else {
